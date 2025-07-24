@@ -18,6 +18,7 @@ class User(db.Model):
 
     #relationships
     lists: Mapped[list["List"]] = relationship(back_populates="user")
+    pinned_lists: Mapped[list["Pinned"]] = relationship(back_populates="user")
 
     def serialize(self):
         return {
@@ -29,6 +30,27 @@ class User(db.Model):
             "updated_at": self.updated_at
             # do not serialize the password, its a security breach
         }
+    
+class Pinned(db.Model):
+    __tablename__ = 'Pinneds'
+    list_id: Mapped[int] = mapped_column(ForeignKey('lists.id'), primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    
+    # relationships
+    user: Mapped["User"] = relationship(back_populates="pinned_lists")
+    list: Mapped["List"] = relationship(back_populates="pinned")
+
+    def serialize(self):
+        return {
+            "list_id": self.list_id,
+            "user_id": self.user_id,
+            "title": self.list.title,
+            "status": self.list.status.value,
+            "description": self.list.description,
+            "created_at": self.created_at
+        }
+
     
 class ListStatus(enum.Enum): 
     pending = "pending"
@@ -47,8 +69,10 @@ class List(db.Model):
     #relationships
     user: Mapped["User"] = relationship(back_populates="lists")
     tasks: Mapped[list["Task"]] = relationship(back_populates="list")
+    pinned: Mapped[list["Pinned"]] = relationship(back_populates="list")
 
     def serialize(self):
+            
         return {
             "id": self.id,
             "title": self.title,
@@ -69,9 +93,11 @@ class Task(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     list_id: Mapped[int] = mapped_column(ForeignKey('lists.id'), nullable=False)
     task: Mapped[str] = mapped_column(String(255), nullable=False)
-    set_date: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True)
-    set_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True)
+    due_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True) #time limit to complete task
+    schedule_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True) # time which is scheduled to be done
+    reminder_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True) # time to remind user about task
     location: Mapped[str] = mapped_column(String(255), nullable=True)
+    comment: Mapped[str] = mapped_column(String(255), nullable=True)
     status: Mapped[TaskStatus] = mapped_column(Enum(TaskStatus), default=TaskStatus.pending, nullable=False)
     urgent: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
@@ -81,13 +107,16 @@ class Task(db.Model):
     list: Mapped["List"] = relationship(back_populates="tasks")
 
     def serialize(self):
+
         return {
             "id": self.id,
             "list_id": self.list_id,
             "task": self.task,
-            "set_date": self.set_date,
-            "set_time": self.set_time,
-            "locations": self.locations,
+            "due_at": self.due_at,
+            "schedule_at": self.schedule_at,
+            "reminder_at": self.reminder_at,
+            "location": self.location,
+            "comment": self.comment,
             "urgent": self.urgent,
             "status": self.status.value,
             "created_at": self.created_at,
