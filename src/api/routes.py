@@ -275,6 +275,82 @@ def add_list():
         
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+# PUT to update list details
+@api.route("/user/list/<int:list_id>", methods=["PUT"])
+@jwt_required() 
+def update_list(list_id):
+
+    try:
+        data = request.json
+        user_id = get_jwt_identity()
+        stm = select(List).where((List.user_id == user_id) & (List.id == list_id))
+        list = db.session.execute(stm).scalar_one_or_none()
+
+        if list is None:
+            return jsonify({"error": "List not found or you do not have permission"}), 403
+ 
+
+        if "title" in data:
+            list.title = data["title"]
+        if "description" in data:
+            list.description = data["description"]
+
+        list.updated_at = datetime.now(timezone.utc)
+        
+        db.session.commit()
+
+        return jsonify({"success": True, "list": list.serialize()}), 200
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+# DELETE list
+@api.route("/user/list/<int:list_id>", methods=["DELETE"])
+@jwt_required()
+def delete_list(list_id):
+
+    user_id = get_jwt_identity()
+    stm = select(List).where((List.user_id == user_id) & (List.id == list_id))
+    list = db.session.execute(stm).scalar_one_or_none()
+
+    if list is None:
+        return jsonify({"error": "List not found or you do not have permission"}), 403
+
+    # Delete tasks and pinned items related to the list
+    db.session.execute(delete(Pinned).where(Pinned.list_id == list.id))
+    db.session.execute(delete(Task).where(Task.list_id == list.id))
+
+    # Finally delete the list
+    db.session.delete(list)
+    db.session.commit()
+
+    return jsonify({"message": "List deleted", "success": True}), 200
+
+# DELETE all lists of a user
+@api.route("/user/lists", methods=["DELETE"])
+@jwt_required()
+def delete_all_lists():
+
+    user_id = get_jwt_identity()
+
+    stm = select(List).where(List.user_id == user_id)
+    lists = db.session.execute(stm).scalars().all()
+    
+    if not lists:
+        return jsonify({"success": False, "error": "No lists found"}), 403
+
+    # Delete tasks of the lists, then pinned items, then the lists
+    list_ids = [lst.id for lst in lists]
+    
+    db.session.execute(delete(Pinned).where(Pinned.list_id.in_(list_ids)))
+    db.session.execute(delete(Task).where(Task.list_id.in_(list_ids)))
+    db.session.execute(delete(List).where(List.user_id == user_id))
+    
+    db.session.commit()
+
+    return jsonify({"message": "All listed where deleted", "success": True}), 200
+
     
 # GET all tasks of a list 
 @api.route('/user/list/<int:list_id>/tasks', methods=['GET'])
@@ -327,7 +403,9 @@ def add_task(list_id):
 
     user_id = get_jwt_identity()
 
-    list= db.session.execute(select(List).where(List.id == list_id, List.user_id == user_id)).scalar_one_or_none()
+    list= db.session.execute(select(List).where(
+        List.id == list_id, 
+        List.user_id == user_id)).scalar_one_or_none()
 
     if list is None:
         return jsonify({"error": "List not found or you do not have permission"}), 403
@@ -359,3 +437,183 @@ def add_task(list_id):
         
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+# PUT to update task details
+@api.route("/user/list/<int:list_id>/task/<int:task_id>", methods=["PUT"])
+@jwt_required() 
+def update_task(list_id, task_id):
+
+    try:
+        data = request.json
+        user_id = get_jwt_identity()
+
+        stm = select(List).where((List.user_id == user_id) & (List.id == list_id))
+        list = db.session.execute(stm).scalar_one_or_none()
+        
+        if not list:
+            return jsonify({"success": False, "error": "List not found or no permission"}), 403
+        
+        stm_task = select(Task).where((Task.list_id == list_id) & (Task.id == task_id))
+        task = db.session.execute(stm_task).scalar_one_or_none()
+
+        if not task:
+            return jsonify({"success": False, "error": "Task not found"}), 404
+
+        if "task" in data:
+            task.task = data["task"]
+        if "due_at" in data:
+            task.due_at = data["due_at"]
+        if "schedule_at" in data:
+            task.schedule_at = data["schedule_at"]
+        if "reminder_at" in data:
+            task.reminder_at = data["reminder_at"]
+        if "location" in data:
+            task.location = data["location"]
+        if "comment" in data:
+            task.comment = data["comment"]
+
+        task.updated_at = datetime.now(timezone.utc)
+        
+        db.session.commit()
+
+        return jsonify({"success": True, "task": task.serialize()}), 200
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+# PUT to update task urgent status
+@api.route("/user/list/<int:list_id>/task/<int:task_id>/urgent", methods=["PUT"])
+@jwt_required() 
+def update_task_urgency(list_id, task_id):
+
+    try:
+        data = request.json
+        user_id = get_jwt_identity()
+
+        stm = select(List).where((List.user_id == user_id) & (List.id == list_id))
+        list = db.session.execute(stm).scalar_one_or_none()
+        
+        if not list:
+            return jsonify({"success": False, "error": "List not found or no permission"}), 403
+        
+        stm_task = select(Task).where((Task.list_id == list_id) & (Task.id == task_id))
+        task = db.session.execute(stm_task).scalar_one_or_none()
+
+        if not task:
+            return jsonify({"success": False, "error": "Task not found"}), 404
+
+        if "urgent" in data:
+            task.urgent = bool(data["urgent"])
+            print("Urgent updated to:", task.urgent)
+
+        task.updated_at = datetime.now(timezone.utc)
+        
+        db.session.commit()
+
+        return jsonify({"success": True, "task": task.serialize()}), 200
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+# PUT to update task status
+@api.route("/user/list/<int:list_id>/task/<int:task_id>/status", methods=["PUT"])
+@jwt_required() 
+def update_task_status(list_id, task_id):
+
+    try:
+        data = request.json
+
+        user_id = get_jwt_identity()
+
+        stm = select(List).where((List.user_id == user_id) & (List.id == list_id))
+        list = db.session.execute(stm).scalar_one_or_none()
+        
+        if not list:
+            return jsonify({"success": False, "error": "List not found or no permission"}), 403
+        
+        stm_task = select(Task).where((Task.list_id == list_id) & (Task.id == task_id))
+        task = db.session.execute(stm_task).scalar_one_or_none()
+
+        if not task:
+            return jsonify({"success": False, "error": "Task not found"}), 404
+
+        if "status" in data:
+            task.status = TaskStatus(data["status"])
+
+        task.updated_at = datetime.now(timezone.utc)
+
+        db.session.flush()
+
+        # Will check status of the task on the list to update the list status to completed or pending
+        # If all tasks are completed then the list is completed, otherwise it is pending
+        pending_count = db.session.execute(
+            select(func.count(Task.id)).where(Task.list_id == list_id, Task.status == TaskStatus.pending)
+        ).scalar_one()
+
+        list = db.session.execute(select(List).where(List.id == list_id)).scalar_one()
+
+        if pending_count == 0:
+            list.status = ListStatus.completed
+        else:
+            list.status = ListStatus.pending
+
+        list.updated_at = datetime.now(timezone.utc)
+
+        db.session.commit()
+
+        return jsonify({"success": True, "task": task.serialize()}), 200
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+# DELETE one task of a list
+@api.route("/user/list/<int:list_id>/task/<int:task_id>", methods=["DELETE"])
+@jwt_required()
+def delete_one_task(list_id, task_id):
+
+    user_id = get_jwt_identity()
+
+    stm = select(List).where((List.user_id == user_id) & (List.id == list_id))
+    list = db.session.execute(stm).scalar_one_or_none()
+    
+    if not list:
+        return jsonify({"success": False, "error": "List not found or no permission"}), 403
+    
+    stm_task = select(Task).where((Task.list_id == list_id) & (Task.id == task_id))
+    task = db.session.execute(stm_task).scalar_one_or_none()
+
+    if task is None:
+        return jsonify({"error": "Task not found or you do not have permission"}), 403
+
+    # Delete tasks from list
+    db.session.delete(task)
+
+    db.session.commit()
+
+    return jsonify({"message": "Task deleted", "success": True}), 200
+    
+# DELETE all task of a list
+@api.route("/user/list/<int:list_id>/tasks", methods=["DELETE"])
+@jwt_required()
+def delete_all_tasks(list_id):
+
+    user_id = get_jwt_identity()
+
+    stm = select(List).where((List.user_id == user_id) & (List.id == list_id))
+    list = db.session.execute(stm).scalar_one_or_none()
+    
+    if not list:
+        return jsonify({"success": False, "error": "List not found or no permission"}), 403
+    
+    stm_task = select(Task).where((Task.list_id == list_id))
+    task = db.session.execute(stm_task).scalars().all()
+
+    if not task:
+        return jsonify({"error": "No tasks found"}), 403
+
+    # Delete tasks from list
+    db.session.execute(delete(Task).where(Task.list_id == list_id))
+    
+    db.session.commit()
+
+    return jsonify({"message": "Tasks deleted", "success": True}), 200
