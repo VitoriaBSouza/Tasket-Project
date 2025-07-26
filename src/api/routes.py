@@ -223,12 +223,12 @@ def get_all_lists():
 @jwt_required() 
 def get_lists():
 
-    id = get_jwt_identity()
-    stm = select(List).where(List.user_id == id)
+    user_id = get_jwt_identity()
+    stm = select(List).where(List.user_id == user_id)
     lists = db.session.execute(stm).scalars().all()
     
     if not lists:
-        return jsonify({"success": False, "error": "You have no lists yet, create one!"})
+        return jsonify({"success": False, "error": "You have no lists yet, create one!"}), 404
 
     return jsonify({"success": True, "lists": [l.serialize() for l in lists]}), 200
 
@@ -242,7 +242,7 @@ def get_one_list(list_id):
     list = db.session.execute(stm).scalar_one_or_none()
     
     if not list:
-        return jsonify({"success": False, "error": "List not found or no permission"})
+        return jsonify({"success": False, "error": "List not found or no permission"}), 404
 
     return jsonify({"success": True, "list": list.serialize()}), 200
 
@@ -617,3 +617,101 @@ def delete_all_tasks(list_id):
     db.session.commit()
 
     return jsonify({"message": "Tasks deleted", "success": True}), 200
+
+# GET all pinned lists of all users (for test purposes)
+@api.route('/lists/pinned', methods=['GET'])
+def get_all_lists_pinned():
+
+    stm = select(Pinned)
+    pinned = db.session.execute(stm).scalars().all()
+    
+    if not pinned:
+        return jsonify({"success": False, "error": "No pinned lists found"}), 404
+
+    return jsonify({"success": True, "pinned": [p.serialize() for p in pinned]}), 200
+
+# GET all lists pinned by user
+@api.route('/user/lists/pinned', methods=['GET'])
+@jwt_required() 
+def get_user_lists_pinned():
+
+    user_id = get_jwt_identity()
+    stm = select(Pinned).where(Pinned.user_id == user_id)
+    pinned = db.session.execute(stm).scalars().all()
+    
+    if not pinned:
+        return jsonify({"success": False, "error": "You have no pinned list yet, add one!"}), 404
+
+    return jsonify({"success": True, "pinned": [p.serialize() for p in pinned]}), 200
+
+# GET one lists pinned by user
+@api.route('/user/list/<int:list_id>/pinned', methods=['GET'])
+@jwt_required()
+def get_one_list_pinned(list_id):
+
+    user_id = get_jwt_identity()
+    stm = select(Pinned).where((Pinned.user_id == user_id) & (Pinned.list_id == list_id))
+    pinned = db.session.execute(stm).scalar_one_or_none()
+    
+    if not pinned:
+        return jsonify({"success": False, "error": "Pinned list not found or no permission"}), 404
+
+    return jsonify({"success": True, "pinned": pinned.serialize()}), 200
+
+# POST to pin a list
+@api.route('/user/list/<int:list_id>/pinned', methods=['POST'])
+@jwt_required() 
+def pin_list(list_id):
+
+    user_id = get_jwt_identity()
+
+    # Check if user can access the list
+    list_stm = select(List).where((List.id == list_id) & (List.user_id == user_id))
+    list = db.session.execute(list_stm).scalar_one_or_none()
+
+    if not list:
+        return jsonify({"success": False, "error": "List not found or no permission"}), 404
+    
+    # Check if list is already pinned
+    stm = select(Pinned).where((Pinned.user_id == user_id) & (Pinned.list_id == list_id))
+    pinned = db.session.execute(stm).scalar_one_or_none()
+
+    if pinned:
+        return jsonify({"success": False, "error": "List already pinned"}), 409       
+
+    try:
+
+        # We add on frontend the control of blank space and lower cases
+        new_pin = Pinned(
+            user_id=user_id,
+            list_id=list_id,
+            created_at=datetime.now(timezone.utc),
+        )
+        db.session.add(new_pin)
+        db.session.commit()
+
+        return jsonify({"success": True, "pinned": new_pin.serialize()}), 201
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# DELETE list from pinned table
+@api.route("/user/list/<int:list_id>/pinned", methods=["DELETE"])
+@jwt_required()
+def unpin_list(list_id):
+
+    user_id = get_jwt_identity()
+    
+    # Check if list is pinned
+    stm = select(Pinned).where((Pinned.user_id == user_id) & (Pinned.list_id == list_id))
+    pinned = db.session.execute(stm).scalar_one_or_none()
+
+    if pinned is None:
+        return jsonify({"success": False, "error": "List not pinned or no permission"}), 404
+
+    # Delete pinned list from table
+    db.session.delete(pinned)
+
+    db.session.commit()
+
+    return jsonify({"message": "Unpinned list", "success": True}), 200
