@@ -8,7 +8,7 @@ from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from werkzeug.security import generate_password_hash, check_password_hash
-from api.user_utils import generate_placeholder
+from api.user_utils import get_serializer, build_reset_url, send_email
 from datetime import datetime, timezone
 
 api = Blueprint('api', __name__)
@@ -109,6 +109,91 @@ def login():
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
+    
+@api.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    
+    try:
+        email = request.json.get('email')
+
+        if not email:
+            return jsonify({"error": "Email is required"}), 400
+
+        user = db.session.query(User).filter_by(email=email).first()
+
+        # Evitar revelar si el correo existe
+        if not user:
+            return jsonify({"message": "If that email exists, a reset link was sent."}), 200
+
+        # Create token for limited time
+        serializer = get_serializer()
+        token = serializer.dumps(user.email, salt='password-reset')
+
+        # Generates link to reset password
+        reset_url = build_reset_url(token)
+
+        # Personalize email
+        app_name = "Tasket"  # Customize this
+        subject = f"{app_name} - Password Reset Request"
+        body = f"""
+            Hi {user.username},
+
+            We received a request to reset your password for your {app_name} account.
+
+            If you made this request, please reset your password by clicking the link below:
+
+            {reset_url}
+
+            This link will expire in 1 hour. If you didn’t request a password reset, you can ignore this email.
+
+            Best,
+            The {app_name} Team
+            """
+
+        #Sends email with reset link to user
+        send_email(
+            to=user.email,
+            subject=subject,
+            body=body
+        )
+
+        return jsonify({"message": f"If that email exists, a reset link was sent.", 
+                        "success" : True, "user":user.email }), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({"error": str(e)}), 500
+    
+@api.route('/reset-password/<token>', methods=['POST'])
+def reset_password(token):
+    try:
+        serializer = get_serializer()
+
+        try:
+            email = serializer.loads(token, salt='password-reset', max_age=3600)
+        except Exception as e:
+            return jsonify({"error": "Invalid or expired token"}), 400
+
+        data = request.get_json()
+        new_password = data.get("password")
+
+        if not new_password:
+            return jsonify({"error": "Add your new password"}), 400
+
+        user = db.session.query(User).filter_by(email=email).first()
+
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
+        user.password = generate_password_hash(new_password)
+        user.updated_at = datetime.now(timezone.utc)
+        db.session.commit()
+
+        return jsonify({"message": "Password updated successfully", "success": True}), 200
+
+    except Exception as e:
+        print("Reset password error:", e)
+        return jsonify({"error": "Something went wrong"}), 500
     
 # GET one user profile
 # Requires to request the token from the frontend
