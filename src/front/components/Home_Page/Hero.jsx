@@ -14,11 +14,11 @@ export const Hero = () => {
             />
 
             <div className="position-absolute top-50 start-50 translate-middle text-overlay">
-                <h1 className="display-5 title_hero mb-3">
-                    Welcome to <span>Tasket</span>
+                <h1 className="display-5 title_hero mb-3 d-flex">
+                    Welcome to <span className="ms-3"> Tasket</span>
                 </h1>
                 <p className="fs-3 fw-semibold mb-4">
-                    Manage tasks smarter, not harder
+                    Your rhythm. Your priorities. Tasked to perfection.
                 </p>
                 <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
                     <button type="button"

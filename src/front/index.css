@@ -25,7 +25,7 @@ body {
   height: 100%;
   object-fit: cover;
   filter: brightness(0.85);
-  opacity: 0.35;
+  opacity: 0.3;
 }
 
 .text-overlay {
@@ -58,6 +58,7 @@ body {
 .btn_signUp_hero{
     color: #D55601;
     border-color: #D55601;
+    background-color: rgba(245, 243, 243, 0.219);
 }
 
 .btn_signUp_hero:hover{
