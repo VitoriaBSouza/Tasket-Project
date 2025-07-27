@@ -2,8 +2,10 @@ import React, { useEffect } from "react"
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
-//Components
+//components
 import { Hero } from "../components/Home_Page/Hero.jsx";
+import { Demonstration } from "../components/Home_Page/Demonstration.jsx";
+import { Features } from "../components/Home_Page/Features.jsx";
 
 export const Home = () => {
 
@@ -36,8 +38,10 @@ export const Home = () => {
 	}, [])
 
 	return (
-		<div className="container-fluid">
+		<div className="container-fluid p-0">
 			<Hero />
+			<Demonstration />
+			<Features />
 		</div>
 	);
 }; 

@@ -1,0 +1,115 @@
+/* This is to check errors on the frontend uncomment to use it */
+/* * {
+  outline: 1px solid rgba(255, 0, 0, 0.2);
+}
+html, body {
+  border: 2px solid blue;
+} */
+
+/* If you uncomment above, comment this body class */
+body {
+  line-height: 2;
+  font-family: "Nunito", sans-serif;
+}
+
+
+/* Hero component */
+.hero-container {
+  height: 60vh;
+  min-height: 400px;
+  max-height: 700px;
+  overflow: hidden;
+}
+
+.hero-image {
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.85);
+  opacity: 0.35;
+}
+
+.text-overlay {
+  width: 90%;
+  max-width: 700px;
+  padding: 0 1rem;
+}
+
+.title_hero{
+    font-size: 4rem;
+    font-weight: 900;
+    color: #D55601;
+    z-index: 7;
+}
+
+.title_hero span {
+    color: #228E7C;
+}
+
+.btn_logIn_hero{
+    background-color: #228E7C;
+    color: orange;
+}
+
+.btn_logIn_hero:hover{
+    background-color: #D55601;
+    color: black;
+}
+
+.btn_signUp_hero{
+    color: #D55601;
+    border-color: #D55601;
+}
+
+.btn_signUp_hero:hover{
+    color: black;
+    background-color: #D55601;
+}
+
+/* End of Hero component clases */
+
+/* Demonstration component */
+.scroll-container {
+  overflow: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.tasket_cards{
+    min-width: 300px;
+    min-height: 150px;
+    border: 0;
+    box-shadow: none;
+}
+
+/* End of Demonstration component clases */
+
+/* Features component */
+.title_features{
+    color: #2A8C89;
+    font-weight: 700;
+}
+
+.card_title_features {
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    background-color: rgba(221, 221, 221, 0.7);
+}
+
+.tasket_cards_features{
+    min-width: 385px;
+    height: 250px;
+    border: 0;
+    box-shadow: none;
+    overflow: hidden;
+    background-color: white;
+}
+
+.img_features {
+    filter: brightness(0.7);
+    opacity: 0.85;
+}
+
+/* End of Features component clases */
