@@ -30,7 +30,7 @@ export const router = createBrowserRouter(
       <Route path="/login" element={<LogInPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/forgot-password" element={<ForgotPage />} />
-      <Route path="/reset-password" element={<ResetPage />} />
+      <Route path="/reset-password/:token" element={<ResetPage />} />
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
       <Route path="/demo" element={<Demo />} />
     </Route>
