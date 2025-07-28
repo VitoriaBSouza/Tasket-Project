@@ -36,7 +36,7 @@ userServices.signup = async (formData) => {
 };
 
 //POST method to call log in
-userServices.login = async (formData) => {
+userServices.login = async (formData, rememberMe) => {
   try {
     const resp = await fetch(url + "/api/login", {
       method: "POST",
@@ -51,9 +51,16 @@ userServices.login = async (formData) => {
     if (!resp.ok){
       return {error: data.error || "Login failed" };
     }
-   
-    localStorage.setItem("token", data.token)
-    localStorage.setItem("user", JSON.stringify(data.user))
+
+    //If rememberMe is true, we store the token and user data in localStorage for 7 days
+    //If false, we store them in sessionStorage for the current session
+    if (rememberMe) {
+      localStorage.setItem("token", data.token)
+      localStorage.setItem("user", JSON.stringify(data.user))
+    } else {
+      sessionStorage.setItem("token", data.token)
+      sessionStorage.setItem("user", JSON.stringify(data.user))
+    }
 
     return data;
 
@@ -62,6 +69,7 @@ userServices.login = async (formData) => {
     return error;
   }
 };
+
 
 //GET user information, could be profile page
 userServices.getUser = async () => {

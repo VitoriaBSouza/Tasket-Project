@@ -12,7 +12,6 @@ body {
   font-family: "Nunito", sans-serif;
 }
 
-
 /* Hero component */
 .hero-container {
   height: 60vh;
@@ -34,36 +33,36 @@ body {
   padding: 0 1rem;
 }
 
-.title_hero{
-    font-size: 4rem;
-    font-weight: 900;
-    color: #D55601;
-    z-index: 7;
+.title_hero {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #d55601;
+  z-index: 7;
 }
 
 .title_hero span {
-    color: #228E7C;
+  color: #228e7c;
 }
 
-.btn_logIn_hero{
-    background-color: #228E7C;
-    color: orange;
+.btn_logIn_hero {
+  background-color: #228e7c;
+  color: orange;
 }
 
-.btn_logIn_hero:hover{
-    background-color: #D55601;
-    color: black;
+.btn_logIn_hero:hover {
+  background-color: #d55601;
+  color: black;
 }
 
-.btn_signUp_hero{
-    color: #D55601;
-    border-color: #D55601;
-    background-color: rgba(245, 243, 243, 0.219);
+.btn_signUp_hero {
+  color: #d55601;
+  border-color: #d55601;
+  background-color: rgba(245, 243, 243, 0.219);
 }
 
-.btn_signUp_hero:hover{
-    color: black;
-    background-color: #D55601;
+.btn_signUp_hero:hover {
+  color: black;
+  background-color: #d55601;
 }
 
 /* End of Hero component clases */
@@ -73,44 +72,150 @@ body {
   overflow: auto;
   white-space: nowrap;
   scrollbar-width: none;
+
 }
 
-.tasket_cards{
-    min-width: 300px;
-    min-height: 150px;
-    border: 0;
-    box-shadow: none;
+.tasket_cards {
+  min-width: 300px;
+  min-height: 150px;
+  border: 0;
+  box-shadow: none;
 }
 
 /* End of Demonstration component clases */
 
 /* Features component */
-.title_features{
-    color: #2A8C89;
-    font-weight: 700;
+.title_features {
+  color: #2a8c89;
+  font-weight: 700;
 }
 
 .card_title_features {
-    height: 20%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: black;
-    background-color: rgba(221, 221, 221, 0.7);
+  height: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  background-color: rgba(221, 221, 221, 0.7);
 }
 
-.tasket_cards_features{
-    min-width: 385px;
-    height: 250px;
-    border: 0;
-    box-shadow: none;
-    overflow: hidden;
-    background-color: white;
+.tasket_cards_features {
+  min-width: 385px;
+  min-height: 200px;
+  max-height: 250px;
+  border: 0;
+  box-shadow: none;
+  overflow: hidden;
+  background-color: white;
 }
 
 .img_features {
-    filter: brightness(0.7);
-    opacity: 0.85;
+  filter: brightness(0.7);
+  opacity: 0.85;
 }
 
 /* End of Features component clases */
+
+/* LogIn component */
+
+.welcome_logIn {
+  color:#d55601;
+  font-weight: 700;
+  font-size: 4rem;
+  font-family: "Fredoka", sans-serif;
+}
+
+.welcome_logIn span {
+  color:#2A8C89;
+  font-weight: 900;
+  font-size: 4rem;
+}
+
+.logIn_title{
+  color: #2A8C89;
+  font-weight: 700;
+}
+
+.logIn_btn {
+  background-color: #4bc6bf;
+  font-weight: 700;
+  font-family: "Quicksand", sans-serif;
+  color: white;
+}
+
+.logIn_btn:hover {
+  background-color: #d55601;
+  font-weight: 700;
+  color: white;
+}
+
+.form_checkbox{
+  background-color: none;
+}
+
+.form_checkbox:checked{
+  background-color: #F45C27;
+  border: none;
+}
+
+.logInPage_signUp {
+  color: black;
+  font-weight: 700;
+}
+
+.logInPage_signUp span {
+  color: #F45C27;
+  font-weight: 700;
+}
+
+/* End of LogIn component clases */
+
+/* SignUp component */
+
+.signUp_btn {
+  background-color: #CC1925;
+  font-weight: 700;
+  font-family: "Quicksand", sans-serif;
+  color: white;
+}
+
+.signUp_btn:hover {
+  background-color: #2A8C89;
+  font-weight: 700;
+  color: white;
+}
+
+.signUpPage_logIn {
+  color: #CC1925;
+  font-weight: 700;
+}
+
+.signUpPage_reset {
+  color: #d55601;
+  font-weight: 700;
+}
+
+/* End of SignUp component clases */
+
+/* Contact component */
+
+.contact_btn{
+  background-color: #F45C27;
+  color: black;
+  font-weight: 900;
+  font-size: 2rem;
+  font-family: "Quicksand", sans-serif;
+  min-width: 35%;
+}
+
+/* End of Contact component clases */
+
+/* ForgotPassw component */
+
+.forgot_title{
+  color: #2A8C89;
+  font-weight: 700;
+  font-family: "Nunito", sans-serif;
+}
+
+/* End of ForgotPassw component clases */

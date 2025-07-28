@@ -38,7 +38,7 @@ export const Home = () => {
 	}, [])
 
 	return (
-		<div className="container-fluid p-0">
+		<div className="container-fluid p-0 mx-auto">
 			<Hero />
 			<Demonstration />
 			<Features />

@@ -8,8 +8,8 @@ from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from werkzeug.security import generate_password_hash, check_password_hash
-from api.user_utils import get_serializer, build_reset_url, send_email
-from datetime import datetime, timezone
+from api.user_utils import get_serializer, build_reset_url, send_email, generate_placeholder
+from datetime import datetime, timezone, timedelta
 
 api = Blueprint('api', __name__)
 
@@ -101,9 +101,13 @@ def login():
         if not user or not check_password_hash(user.password, data["password"]):
             return jsonify({"error": "Email or password not valid"}), 401
 
-       #Generate str token as it's not possible to be a number
-        token = create_access_token(identity=str(user.id))
-  
+        # Controls token expiration time if tagged rememberMe is true
+        remember = data.get("rememberMe", False)
+        expires = timedelta(days=7) if remember else timedelta(hours=1)
+
+        #Generate str token as it's not possible to be a number
+        token = create_access_token(identity=str(user.id), expires_delta=expires)  
+        
         return jsonify({"success": True, "token": token, "user": user.serialize()}), 200
     
     except Exception as e:

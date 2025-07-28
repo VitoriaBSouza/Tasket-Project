@@ -7,11 +7,11 @@ import Tasket_img_3 from "../../assets/img/Tasket_img_3.png";
 export const Features = () => {
 
     return (
-        <div className="container-fluid">
+        <div className="container-fluid mx-auto">
             <div className="row mx-auto">
                 <div className="col-12">
-                    <h2 className="ms-5 title_features">Features</h2>
-                    <div className="scroll-container d-flex p-3 position-relative">
+                    <h2 className="ms-2 my-4 title_features">Features</h2>
+                    <div className="scroll-container d-flex p-3 ps-4 gap-2 overflow-auto">
                         
                         <div className="card text-white m-2 tasket_cards_features position-relative">
                             <img
