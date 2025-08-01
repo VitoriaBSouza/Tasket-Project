@@ -74,7 +74,7 @@ body {
 }
 
 .footer_links {
-  color: #f45c27;
+  color: #f45c27 !important;
   font-weight: 700;
   font-size: 1.4rem;
 }
