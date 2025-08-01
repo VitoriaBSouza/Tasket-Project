@@ -77,8 +77,8 @@ export const LogIn = () => {
                         <label className="form-check-label fs-5" htmlFor="check1">Remember me</label>
                     </div>
 
-                    <div class="d-grid gap-2 mb-4">
-                        <button class="btn fs-5 logIn_btn border-0 py-3" type="submit">Log In</button>
+                    <div className="d-grid gap-2 mb-4">
+                        <button className="btn fs-5 logIn_btn border-0 py-3" type="submit">Log In</button>
                     </div>
                     <Link className="fs-5 text-dark fw-bold" 
                     to={"/forgot-password"}>

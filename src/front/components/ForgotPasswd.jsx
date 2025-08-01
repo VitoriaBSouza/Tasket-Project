@@ -63,11 +63,11 @@ export const ForgotPasswd = () => {
                             onChange={handleChange} />
                     </div>
 
-                    <div class="d-grid gap-2 d-md-flex justify-content-center mt-4">
-                        <button class="btn fs-4 border-0 py-3 m-2" type="button">
+                    <div className="d-grid gap-2 d-md-flex justify-content-center mt-4">
+                        <button className="btn fs-4 border-0 py-3 m-2" type="button">
                             <Link to={"/"} className="text-decoration-none fw-bold text-dark">Cancel</Link>
                         </button>
-                        <button class="btn btn-danger fs-4 border-0 py-2 m-2" type="sumit">Reset Password</button>
+                        <button className="btn btn-danger fs-4 border-0 py-2 m-2" type="sumit">Reset Password</button>
                     </div>
 
                 </form>

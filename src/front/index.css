@@ -12,22 +12,71 @@ body {
   font-family: "Nunito", sans-serif;
 }
 
+/* Navbar component */
+.logo_navbar {
+  width: 6rem;
+  height: 6rem;
+  padding: none;
+}
+
+.navbar_color {
+  background-color: #c7e2e2;
+}
+
+.text_tabs {
+  font-size: 1.2rem;
+  font-weight: 500;
+  border-bottom: #4f8f8f solid 1.4px;
+  color: #4f8f8f !important;
+}
+
+.text_tabs:hover {
+  font-weight: 500;
+  border-bottom: #ff895e solid 1.4px;
+  color: #ff895e !important;
+}
+
+.text_tabs_active {
+  font-size: 1.2rem;
+  font-weight: 800;
+  border-bottom: #f45c27 solid 1.8px;
+  color: #f45c27 !important;
+}
+
+.logout_btn{
+  color: #f45c27;
+  font-weight: 900;
+}
+
+@media (max-width: 48rem) {
+  .text_tabs_active {
+    font-size: 1.3rem;
+    border-bottom: 2.5px solid;
+  }
+  .text_tabs {
+    font-size: 1.3rem;
+    border-bottom: 2px solid;
+  }
+}
+
+/* End of Navbar component clases */
+
 /* Hero component */
-.hero-container {
+.hero_container {
   height: 60vh;
   min-height: 400px;
   max-height: 700px;
   overflow: hidden;
 }
 
-.hero-image {
+.hero_image {
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.85);
-  opacity: 0.3;
+  filter: brightness(0.9);
+  opacity: 0.2;
 }
 
-.text-overlay {
+.text_overlay {
   width: 90%;
   max-width: 700px;
   padding: 0 1rem;
@@ -45,6 +94,7 @@ body {
 }
 
 .btn_logIn_hero {
+  font-size: 1.2rem;
   background-color: #228e7c;
   color: orange;
 }
@@ -55,6 +105,7 @@ body {
 }
 
 .btn_signUp_hero {
+  font-size: 1.2rem;
   color: #d55601;
   border-color: #d55601;
   background-color: rgba(245, 243, 243, 0.219);
@@ -65,6 +116,30 @@ body {
   background-color: #d55601;
 }
 
+.icon_faq {
+  font-size: 3rem;
+  color: #228E7C;
+}
+
+.user_img {
+  border-radius: 50%;
+  min-width: 3rem;
+  max-width: 5rem;
+  min-height: 3rem;
+  max-height: 5rem;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 48rem) {
+  .btn_logIn_hero {
+    font-size: 1.5rem;
+  }
+  .btn_signUp_hero {
+    font-size: 1.5rem;
+  }
+}
+
 /* End of Hero component clases */
 
 /* Demonstration component */
@@ -72,7 +147,6 @@ body {
   overflow: auto;
   white-space: nowrap;
   scrollbar-width: none;
-
 }
 
 .tasket_cards {
@@ -119,20 +193,20 @@ body {
 /* LogIn component */
 
 .welcome_logIn {
-  color:#d55601;
+  color: #d55601;
   font-weight: 700;
   font-size: 4rem;
   font-family: "Fredoka", sans-serif;
 }
 
 .welcome_logIn span {
-  color:#2A8C89;
+  color: #2a8c89;
   font-weight: 900;
   font-size: 4rem;
 }
 
-.logIn_title{
-  color: #2A8C89;
+.logIn_title {
+  color: #2a8c89;
   font-weight: 700;
 }
 
@@ -149,12 +223,12 @@ body {
   color: white;
 }
 
-.form_checkbox{
+.form_checkbox {
   background-color: none;
 }
 
-.form_checkbox:checked{
-  background-color: #F45C27;
+.form_checkbox:checked {
+  background-color: #f45c27;
   border: none;
 }
 
@@ -164,7 +238,7 @@ body {
 }
 
 .logInPage_signUp span {
-  color: #F45C27;
+  color: #f45c27;
   font-weight: 700;
 }
 
@@ -173,20 +247,20 @@ body {
 /* SignUp component */
 
 .signUp_btn {
-  background-color: #CC1925;
+  background-color: #cc1925;
   font-weight: 700;
   font-family: "Quicksand", sans-serif;
   color: white;
 }
 
 .signUp_btn:hover {
-  background-color: #2A8C89;
+  background-color: #2a8c89;
   font-weight: 700;
   color: white;
 }
 
 .signUpPage_logIn {
-  color: #CC1925;
+  color: #cc1925;
   font-weight: 700;
 }
 
@@ -199,21 +273,22 @@ body {
 
 /* Contact component */
 
-.contact_btn{
-  background-color: #F45C27;
+.contact_btn {
+  background-color: #f45c27;
   color: black;
   font-weight: 900;
-  font-size: 2rem;
   font-family: "Quicksand", sans-serif;
-  min-width: 35%;
+  min-width: 200px;
+  max-width: 250px;
+  white-space: nowrap;
 }
 
 /* End of Contact component clases */
 
 /* ForgotPassw component */
 
-.forgot_title{
-  color: #2A8C89;
+.forgot_title {
+  color: #2a8c89;
   font-weight: 700;
   font-family: "Nunito", sans-serif;
 }

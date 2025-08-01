@@ -107,8 +107,8 @@ export const SignUp = () => {
                         </label>
                     </div>
 
-                    <div class="d-grid gap-2">
-                        <button class="btn fs-5 border-0 signUp_btn py-3" type="submit">Register</button>
+                    <div className="d-grid gap-2">
+                        <button className="btn fs-5 border-0 signUp_btn py-3" type="submit">Register</button>
                     </div>
                 </form>
             </div>

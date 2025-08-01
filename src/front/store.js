@@ -36,6 +36,17 @@ export default function storeReducer(store, action = {}) {
         user: action.payload.user,
       };
 
+    case "logout":
+      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
+      localStorage.removeItem("user");
+      sessionStorage.removeItem("user");
+      return {
+        ...store,
+        user: {}, // reset user to empty object
+        token: null, // reset token to null
+      };
+
     case "forgotPasswd":
       return {
         ...store,

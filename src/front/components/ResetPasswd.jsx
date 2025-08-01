@@ -80,8 +80,8 @@ export const ResetPasswd = () => {
                             onChange={(e) => setRepeatPasswd(e.target.value)} />
                     </div>
 
-                    <div class="d-grid gap-2 d-md-flex justify-content-center mt-4">
-                        <button class="btn btn-danger fs-4 border-0 p-3 m-2" type="submit">
+                    <div className="d-grid gap-2 d-md-flex justify-content-center mt-4">
+                        <button className="btn btn-danger fs-4 border-0 p-3 m-2" type="submit">
                             Update Password
                         </button>
                     </div>
