@@ -21,7 +21,7 @@ export const Features = () => {
                             />
 
                             <div className="position-absolute bottom-0 w-100 card_title_features mb-4">
-                                <h5 className="card-title mb-0 text-truncate px-2">
+                                <h5 className="card-title mb-0 text-truncate px-2 fw-bold">
                                     Easy task creation
                                 </h5>
                             </div>
@@ -35,7 +35,7 @@ export const Features = () => {
                             />
 
                             <div className="position-absolute bottom-0 w-100 card_title_features mb-4">
-                                <h5 className="card-title mb-0 text-truncate px-2">
+                                <h5 className="card-title mb-0 text-truncate px-2 fw-bold">
                                     Track your progress
                                 </h5>
                             </div>
@@ -49,7 +49,7 @@ export const Features = () => {
                             />
 
                             <div className="position-absolute bottom-0 w-100 card_title_features mb-4">
-                                <h5 className="card-title mb-0 text-truncate px-2">
+                                <h5 className="card-title mb-0 text-truncate px-2 fw-bold">
                                     Organize with priorities
                                 </h5>
                             </div>
