@@ -1,11 +1,25 @@
+import { Link, useLocation } from "react-router-dom";
+
+//assets
+import TasketLogo from "../assets/img/TasketLogo.png";
+
 export const Footer = () => (
-	<footer className="footer mt-auto py-3 text-center">
-		<p>
-			Check the <a target="_blank" href="https://4geeks.com/docs/start/react-flask-template">template documentation</a> <i className="fa-solid fa-file"></i> for help.
-		</p>
-		<p>
-			Made with <i className="fa fa-heart text-danger" /> by{" "}
-			<a href="http://www.4geeksacademy.com">4Geeks Academy</a>
-		</p>
+	<footer className="footer py-3 footer_container py-5">
+		<div className="row mx-5 ps-5 ps-md-0">
+			<div className="col-12 col-md-8 d-block d-md-flex footer_links 
+			align-items-center text-center text-md-start lh-1">
+				<p className="ms-md-1">Contact</p>
+				<span className="footer_divider">|</span>
+				<p className="ps-2">Privacy Policy</p>
+				<span className="footer_divider">|</span>
+				<p className="ps-2">Terms and Conditions</p>
+			</div>
+			<div className="col-12 col-md-4 d-block fs-4 text-center align-items-center">
+				<Link to="/">
+					<img src={TasketLogo} alt="Logo" className="logo_navbar p-2" />
+				</Link>
+				<p className="fs-5 lh-1">© 2025 Tasket. All rights reserved.</p>
+			</div>
+		</div>
 	</footer>
 );

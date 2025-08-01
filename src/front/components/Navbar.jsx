@@ -27,7 +27,7 @@ export const Navbar = () => {
 		<nav className="navbar navbar-light navbar_color">
 			<div className="container-fluid">
 				<Link to="/">
-					<img src={TasketLogo} alt="Logo" className="logo_navbar ms-2" />
+					<img src={TasketLogo} alt="Logo" className="logo_navbar ms-2 p-2" />
 				</Link>
 				{location.pathname === "/reset-password/:token" ||
 					location.pathname === "/forgot-password" ||
