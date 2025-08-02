@@ -13,6 +13,9 @@ import { LogInPage } from "./pages/LogInPage";
 import { SignUpPage } from "./pages/SignUpPage";
 import { ForgotPage } from "./pages/ForgotPage";
 import { ResetPage } from "./pages/ResetPage";
+import { PrivacyPolicy } from "./pages/PrivacyPolicy";
+import { TermServices } from "./pages/TermServices";
+import { FaqPage } from "./pages/FaqPage";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,6 +34,9 @@ export const router = createBrowserRouter(
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/forgot-password" element={<ForgotPage />} />
       <Route path="/reset-password/:token" element={<ResetPage />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/term-services" element={<TermServices />} />
+      <Route path="/faq" element={<FaqPage />} />
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
       <Route path="/demo" element={<Demo />} />
     </Route>

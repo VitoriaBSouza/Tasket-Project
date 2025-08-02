@@ -99,6 +99,16 @@ body {
 
 /* End of Footer component clases */
 
+/* Privacy component */
+
+.title_policy{
+  font-size: 4rem;
+  font-weight: 900;
+  color: #f45c27;
+}
+
+/* End of Privacy component clases */
+
 /* Hero component */
 .hero_container {
   height: 60vh;
@@ -321,7 +331,42 @@ body {
   white-space: nowrap;
 }
 
+.contact_btn:hover {
+  background-color: #d94f20; 
+}
+
+.contact_btn:active {
+  background-color: #228e7c; 
+  color: white;
+}
+
 /* End of Contact component clases */
+
+/* FAQ component */
+
+.faq_card_btn{
+  background-color: #C7E2E2;
+  font-size: 1.3rem;
+}
+
+.faq_card_btn:hover{
+  background-color: #4f8f8f;
+}
+
+.faq_card_btn:active{
+  background-color: #4f8f8f;
+}
+
+.faq_card_title{
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.faq_card{
+  background-color: #c7e2e223;
+}
+
+/* End of FAQ component clases */
 
 /* ForgotPassw component */
 

@@ -8,7 +8,7 @@ import { SignUp } from "../components/SignUp";
 export const SignUpPage = () => {
 
     return(
-        <div className="container-fluid py-4">
+        <div className="container-fluid py-5">
             <h1 className="text-center welcome_logIn my-3"> Welcome to <span className="me-3">Tasket</span>!</h1>
             <h1 className="text-center my-4 logIn_title">Sign Up</h1>
             <p className="text-center fs-4 my-3 fw-bold lh-sm my-5">
@@ -23,8 +23,12 @@ export const SignUpPage = () => {
                 </Link>.
             </p>
             <SignUp />
-            <p className="text-center fs-3 fw-bold fst-italic mt-5">Need our help?</p>
-            <ContactButton />
+            <div className='d-flex flex-column align-items-center mx-auto mb-5'>
+                <p className="text-center fs-3 fw-bold fst-italic mt-3  p-2 pt-5">
+                    Need our help?
+                </p>
+                <ContactButton />
+            </div>
         </div>
     );
 }

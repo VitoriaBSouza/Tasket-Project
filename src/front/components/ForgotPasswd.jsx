@@ -46,9 +46,9 @@ export const ForgotPasswd = () => {
     }
 
     return (
-        <div className="row mt-5">
-            <div className="col-9 ms-auto">
-                <h1 className="ms-4 my-5 forgot_title">Forgot Your Password?</h1>
+        <div className="row my-5">
+            <div className="col-12 ps-md-5 text-center text-md-start">
+                <h1 className="my-5 ms-md-5 forgot_title">Forgot Your Password?</h1>
             </div>
             <div className="col-11 col-sm-9 col-md-7 col-lg-5 border border-2 rounded p-2 my-2 mx-auto">
                 <p className="m-4 mb-1 fw-bold fs-5 lh-1">
@@ -64,10 +64,10 @@ export const ForgotPasswd = () => {
                     </div>
 
                     <div className="d-grid gap-2 d-md-flex justify-content-center mt-4">
-                        <button className="btn fs-4 border-0 py-3 m-2" type="button">
+                        <button className="btn fs-4 border-0 py-md-3 m-md-2 order-2 order-md-1" type="button">
                             <Link to={"/"} className="text-decoration-none fw-bold text-dark">Cancel</Link>
                         </button>
-                        <button className="btn btn-danger fs-4 border-0 py-2 m-2" type="sumit">Reset Password</button>
+                        <button className="btn btn-danger fs-4 border-0 py-2 m-2 order-1 order-md-2" type="sumit">Reset Password</button>
                     </div>
 
                 </form>
