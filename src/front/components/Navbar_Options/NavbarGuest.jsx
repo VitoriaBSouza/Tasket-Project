@@ -9,9 +9,9 @@ export const NavbarGuest = () => {
 
 
     return (
-        <div className="d-flex">
+        <div className="d-flex order-sm-2 order-3 mx-auto mx-sm-0 ms-sm-auto">
             {location.pathname === "/reset-password/:token" || location.pathname === "/forgot-password" ?
-                (<ul className="nav justify-content-center align-self-end mx-auto px-1">
+                (<ul className="nav justify-content-center align-self-end px-1">
                     <li className="nav-item">
                         <a className={`nav-link pb-0 me-3 ${location.pathname === "/signup" ?
                             "active text_tabs_active"
@@ -31,7 +31,7 @@ export const NavbarGuest = () => {
                 </ul>)
                 :
 
-                (<ul className="nav justify-content-center align-self-end mx-auto px-1">
+                (<ul className="nav justify-content-center align-self-end px-1">
                     <li className="nav-item">
                         <a className={`nav-link pb-0 me-3 ${location.pathname === "/" ?
                             "active text_tabs_active"
@@ -62,12 +62,6 @@ export const NavbarGuest = () => {
 
                 </ul>)
             }
-
-            <button type="button"
-                className="btn"
-                onClick={() => navigate("/contact-us")}>
-                <FontAwesomeIcon icon={faCircleQuestion} className="icon_faq" />
-            </button>
         </div>
     );
 };

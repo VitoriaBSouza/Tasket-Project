@@ -24,6 +24,10 @@ body {
   background-color: #c7e2e2;
 }
 
+.navbar_tabs {
+  width: 30rem;
+}
+
 .text_tabs {
   font-size: 1.2rem;
   font-weight: 500;
@@ -66,6 +70,22 @@ body {
   }
 }
 
+.navbar_guest {
+  width: 55%;
+}
+
+@media (max-width: 47rem) {
+  .navbar_guest {
+    width: 100%;
+  }
+}
+
+@media (min-width: 48.001rem) and (max-width: 52rem) {
+  .navbar_guest {
+    width: auto;
+  }
+}
+
 /* End of Navbar component clases */
 
 /* Footer component */
@@ -89,7 +109,7 @@ body {
 
 @media (max-width: 57rem) {
   .footer_links {
-    display: block !important; 
+    display: block !important;
   }
 
   .footer_divider {
@@ -101,7 +121,7 @@ body {
 
 /* Privacy component */
 
-.title_policy{
+.title_policy {
   font-size: 4rem;
   font-weight: 900;
   color: #f45c27;
@@ -332,11 +352,11 @@ body {
 }
 
 .contact_btn:hover {
-  background-color: #d94f20; 
+  background-color: #d94f20;
 }
 
 .contact_btn:active {
-  background-color: #228e7c; 
+  background-color: #228e7c;
   color: white;
 }
 
@@ -344,25 +364,25 @@ body {
 
 /* FAQ component */
 
-.faq_card_btn{
-  background-color: #C7E2E2;
+.faq_card_btn {
+  background-color: #c7e2e2;
   font-size: 1.3rem;
 }
 
-.faq_card_btn:hover{
+.faq_card_btn:hover {
   background-color: #4f8f8f;
 }
 
-.faq_card_btn:active{
+.faq_card_btn:active {
   background-color: #4f8f8f;
 }
 
-.faq_card_title{
+.faq_card_title {
   font-size: 2rem;
   font-weight: 800;
 }
 
-.faq_card{
+.faq_card {
   background-color: #c7e2e223;
 }
 
