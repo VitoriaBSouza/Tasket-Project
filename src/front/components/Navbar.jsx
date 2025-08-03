@@ -26,9 +26,10 @@ export const Navbar = () => {
 	return (
 		<nav className="navbar navbar-light navbar_color">
 			<div className="container-fluid">
-				<div className="order-1 m-2 d-flex justify-content-between navbar_guest">
+				{location.pathname === "/" ? 
+				<div className="order-1 m-2 d-flex justify-content-between navbar_tabs">
 					<Link to="/">
-						<img src={TasketLogo} alt="Logo" className="logo_navbar ms-2 p-2 order-1" />
+						<img src={TasketLogo} alt="Logo" className="logo_navbar m-2 p-2 order-1" />
 					</Link>
 					<button type="button"
 						className="btn d-sm-none order-2"
@@ -36,6 +37,17 @@ export const Navbar = () => {
 						<FontAwesomeIcon icon={faCircleQuestion} className="icon_faq" />
 					</button>
 				</div>
+				:
+				<div className="order-1 m-2 d-flex justify-content-between navbar_guest">
+					<Link to="/">
+						<img src={TasketLogo} alt="Logo" className="logo_navbar m-2 p-2 order-1" />
+					</Link>
+					<button type="button"
+						className="btn d-sm-none order-2"
+						onClick={() => navigate("/contact-us")}>
+						<FontAwesomeIcon icon={faCircleQuestion} className="icon_faq" />
+					</button>
+				</div>}
 				{location.pathname === "/reset-password/:token" ||
 					location.pathname === "/forgot-password" ||
 					location.pathname === "/signup" ||
@@ -75,7 +87,7 @@ export const Navbar = () => {
 				{store.token ? <NavbarUser /> :
 					(location.pathname === "/" ?
 						<button type="button"
-							className="btn order-sm-3 order-2"
+							className="btn d-none d-sm-block order-sm-3 order-2"
 							onClick={() => navigate("/contact-us")}>
 							<FontAwesomeIcon icon={faCircleQuestion} className="icon_faq" />
 						</button>

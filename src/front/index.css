@@ -24,10 +24,6 @@ body {
   background-color: #c7e2e2;
 }
 
-.navbar_tabs {
-  width: 30rem;
-}
-
 .text_tabs {
   font-size: 1.2rem;
   font-weight: 500;
@@ -74,15 +70,19 @@ body {
   width: 55%;
 }
 
+.navbar_tabs {
+  width: 1%;
+}
+
 @media (max-width: 47rem) {
   .navbar_guest {
     width: 100%;
   }
 }
 
-@media (min-width: 48.001rem) and (max-width: 52rem) {
-  .navbar_guest {
-    width: auto;
+@media (max-width: 40rem) {
+  .navbar_tabs {
+    width: 100%;
   }
 }
 
