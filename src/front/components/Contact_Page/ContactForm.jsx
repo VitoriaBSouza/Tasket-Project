@@ -49,9 +49,10 @@ export const ContactForm = () => {
     };
 
     return (
-        <div className="row mb-5 mt-3">
+        <div className="row mt-3">
             <div className="col-11 col-md-7 col-lg-6 border border-2 rounded p-4 mb-5 mx-auto">
                 <form onSubmit={handleSubmit} className="p-4">
+                    <h3 className="pb-4 text-center">Send Us a Message!</h3>
                     <select
                         className="form-select mb-3 fs-6 border-2"
                         name="reason"
