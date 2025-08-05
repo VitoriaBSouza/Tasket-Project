@@ -25,67 +25,68 @@ export const Navbar = () => {
 
 	return (
 		<nav className="navbar navbar-light navbar_color">
-			<div className="container-fluid">
-				{location.pathname === "/" ? 
-				<div className="order-1 m-2 d-flex justify-content-between navbar_tabs">
-					<Link to="/">
-						<img src={TasketLogo} alt="Logo" className="logo_navbar m-2 p-2 order-1" />
-					</Link>
-					<button type="button"
-						className="btn d-sm-none order-2"
-						onClick={() => navigate("/contact-us")}>
-						<FontAwesomeIcon icon={faCircleQuestion} className="icon_faq" />
-					</button>
-				</div>
+			{store.token ? <NavbarUser />
 				:
-				<div className="order-1 m-2 d-flex justify-content-between navbar_guest">
-					<Link to="/">
-						<img src={TasketLogo} alt="Logo" className="logo_navbar m-2 p-2 order-1" />
-					</Link>
-					<button type="button"
-						className="btn d-sm-none order-2"
-						onClick={() => navigate("/contact-us")}>
-						<FontAwesomeIcon icon={faCircleQuestion} className="icon_faq" />
-					</button>
-				</div>}
-				{location.pathname === "/reset-password/:token" ||
-					location.pathname === "/forgot-password" ||
-					location.pathname === "/signup" ||
-					location.pathname === "/login" ?
-					(null)
-					:
-					(<ul className="nav justify-content-center align-self-end mx-auto px-1 order-sm-2 order-3">
-						<li className="nav-item">
-							<a className={`nav-link pb-0 ${location.pathname === "/" ?
-								"active text_tabs_active"
-								:
-								"text_tabs"}`}
-								aria-current="page"
-								href="/">Home</a>
-						</li>
-						<li className="nav-item">
-							<a className={`nav-link pb-0 ${location.pathname === "/my-lists" ?
-								"active text_tabs_active"
-								:
-								"text_tabs"}`}
-								aria-current="page"
-								href="/my-lists">My Lists</a>
-						</li>
-						<PopOver>
+				<div className="container-fluid">
+					{location.pathname === "/" ?
+						<div className="order-1 m-2 d-flex justify-content-between navbar_tabs">
+							<Link to="/">
+								<img src={TasketLogo} alt="Logo" className="logo_navbar m-2 p-2 order-1" />
+							</Link>
+							<button type="button"
+								className="btn d-sm-none order-2"
+								onClick={() => navigate("/contact-us")}>
+								<FontAwesomeIcon icon={faCircleQuestion} className="icon_faq" />
+							</button>
+						</div>
+						:
+						<div className="order-1 m-2 d-flex justify-content-between navbar_guest">
+							<Link to="/">
+								<img src={TasketLogo} alt="Logo" className="logo_navbar m-2 p-2 order-1" />
+							</Link>
+							<button type="button"
+								className="btn d-sm-none order-2"
+								onClick={() => navigate("/contact-us")}>
+								<FontAwesomeIcon icon={faCircleQuestion} className="icon_faq" />
+							</button>
+						</div>}
+					{location.pathname === "/reset-password/:token" ||
+						location.pathname === "/forgot-password" ||
+						location.pathname === "/signup" ||
+						location.pathname === "/login" ?
+						(null)
+						:
+						(<ul className="nav justify-content-center align-self-end mx-auto px-1 order-sm-2 order-3">
 							<li className="nav-item">
-								<a className={`nav-link pb-0 ${location.pathname === "/my-budget" ?
+								<a className={`nav-link pb-0 ${location.pathname === "/" ?
 									"active text_tabs_active"
 									:
-									"disabled text_tabs"}`}
+									"text_tabs"}`}
 									aria-current="page"
-									tabIndex="-1"
-									aria-disabled="true">Budget</a>
+									href="/">Home</a>
 							</li>
-						</PopOver>
+							<li className="nav-item">
+								<a className={`nav-link pb-0 ${location.pathname === "/my-lists" ?
+									"active text_tabs_active"
+									:
+									"text_tabs"}`}
+									aria-current="page"
+									href="/my-lists">My Lists</a>
+							</li>
+							<PopOver>
+								<li className="nav-item">
+									<a className={`nav-link pb-0 ${location.pathname === "/my-budget" ?
+										"active text_tabs_active"
+										:
+										"disabled text_tabs"}`}
+										aria-current="page"
+										tabIndex="-1"
+										aria-disabled="true">Budget</a>
+								</li>
+							</PopOver>
 
-					</ul>)}
-				{store.token ? <NavbarUser /> :
-					(location.pathname === "/" ?
+						</ul>)}
+					{location.pathname === "/" ?
 						<button type="button"
 							className="btn d-none d-sm-block order-sm-3 order-2"
 							onClick={() => navigate("/contact-us")}>
@@ -99,10 +100,8 @@ export const Navbar = () => {
 								onClick={() => navigate("/contact-us")}>
 								<FontAwesomeIcon icon={faCircleQuestion} className="icon_faq" />
 							</button>
-						</>)
-				}
-
-			</div>
+						</>}
+				</div>}
 		</nav >
 	);
 };

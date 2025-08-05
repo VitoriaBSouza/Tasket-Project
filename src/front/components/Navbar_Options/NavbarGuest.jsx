@@ -1,12 +1,5 @@
-import { Link } from "react-router-dom";
-
-//icons
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons';
 
 export const NavbarGuest = () => {
-
-
 
     return (
         <div className="d-flex order-sm-2 order-3 mx-auto mx-sm-0 ms-sm-auto">
