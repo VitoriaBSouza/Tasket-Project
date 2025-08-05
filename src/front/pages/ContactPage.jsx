@@ -23,7 +23,7 @@ export const ContactPage = () => {
             <ContactForm />
 
             <p className="text-center fs-5">
-                If the contact form doesn’t work use the <span className="fw-bold">Report</span> button
+                If the contact form doesn’t work use the <span className="fw-bold">Report</span> button.
             </p>
 
             <div className="row">

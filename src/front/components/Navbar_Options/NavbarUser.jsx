@@ -47,7 +47,7 @@ export const NavbarUser = () => {
                 </ul>
 
                 <div className="d-flex order-2 order-sm-2 mx-auto mx-sm-0">
-                    <button type="button" className="btn" onClick={() => navigate("/contact-us")}>
+                    <button type="button" className="btn" onClick={() => navigate("/faq")}>
                         <FontAwesomeIcon icon={faCircleQuestion} className="icon_faq" />
                     </button>
                     <div className="btn-group border-0">
