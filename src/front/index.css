@@ -360,6 +360,13 @@ body {
   color: white;
 }
 
+.contact_form_title {
+  color: #f45c27;
+  font-weight: 800;
+  font-size: 2.5rem;
+  font-family: "Nunito", sans-serif;
+}
+
 /* End of Contact component clases */
 
 /* FAQ component */
