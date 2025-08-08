@@ -33,7 +33,7 @@ export const Navbar = () => {
 
 	return (
 		<nav className="navbar navbar-expand-md navbar-light bg-light p-0">
-			<div className="container-fluid">
+			<div className="container-fluid navbar_color">
 				<Link to="/">
 					<img src={TasketLogo} alt="Logo" className="logo_navbar order-1" />
 				</Link>
@@ -67,7 +67,7 @@ export const Navbar = () => {
 						)
 						:
 						(<div className="d-flex flex-grow-1 justify-content-center align-self-start">
-							<ul className="navbar-nav flex-row pt-3 pt-md-0">
+							<ul className="navbar-nav flex-row py-3 py-md-0">
 								<li className="nav-item">
 									<a className={`nav-link mb-0 pb-0 ${location.pathname === "/" ?
 										"active text_tabs_active"
