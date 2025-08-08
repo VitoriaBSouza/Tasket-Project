@@ -1,11 +1,14 @@
 import React, { useEffect } from "react"
-import rigoImageUrl from "../assets/img/rigo-baby.jpg";
+
+//hooks
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
 //components
 import { Hero } from "../components/Home_Page/Hero.jsx";
 import { Demonstration } from "../components/Home_Page/Demonstration.jsx";
 import { Features } from "../components/Home_Page/Features.jsx";
+import { UserPage } from "./UserPage.jsx";
+import { GuestPage } from "./GuestPage.jsx";
 
 export const Home = () => {
 
@@ -38,10 +41,8 @@ export const Home = () => {
 	}, [])
 
 	return (
-		<div className="container-fluid p-0 mx-auto">
-			<Hero />
-			<Demonstration />
-			<Features />
-		</div>
+		<>
+		{store.token ? <UserPage /> : <GuestPage />}
+		</>
 	);
 }; 

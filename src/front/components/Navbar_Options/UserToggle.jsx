@@ -40,9 +40,9 @@ export const UserToggle = () => {
                 />
             </a>
             <ul className="dropdown-menu dropdown-menu-end user_menu" aria-labelledby="navbarDropdownMenuLink">
-                <li><a className="dropdown-item" href="#">My Profile</a></li>
+                <li><a className="dropdown-item user_menu_items" href="#">My Profile</a></li>
                 <li><hr className="dropdown-divider" /></li>
-                <li><a className="dropdown-item" onClick={handleLogout}>Log Out</a></li>
+                <li><a className="dropdown-item logout_btn" onClick={handleLogout}>Log Out</a></li>
             </ul>
         </li>
 

@@ -10,6 +10,7 @@ export const initialStore = () => {
         localStorage.getItem("user") || sessionStorage.getItem("user");
       return user && user !== "undefined" ? JSON.parse(user) : {};
     })(),
+    lists:[],
 
     message: null,
     todos: [

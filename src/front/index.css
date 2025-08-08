@@ -47,6 +47,13 @@ body {
 .logout_btn {
   color: #f45c27;
   font-weight: 900;
+  font-size: 1.1rem;
+}
+
+.user_menu_items {
+  color: #2a8c89;
+  font-weight: 700;
+  font-size: 1.1rem;
 }
 
 .no_outline:focus,
@@ -64,26 +71,6 @@ body {
   .text_tabs {
     font-size: 1.3rem;
     border-bottom: 2px solid;
-  }
-}
-
-.navbar_guest {
-  width: 55%;
-}
-
-.navbar_tabs {
-  width: 1%;
-}
-
-@media (max-width: 47rem) {
-  .navbar_guest {
-    width: 100%;
-  }
-}
-
-@media (max-width: 40rem) {
-  .navbar_tabs {
-    width: 100%;
   }
 }
 
