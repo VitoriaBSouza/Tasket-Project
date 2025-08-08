@@ -17,7 +17,7 @@ export const Hero = () => {
             />
 
             <div className="position-absolute top-50 start-50 translate-middle text_overlay">
-                <h1 className="display-5 title_hero mb-3 d-md-flex">
+                <h1 className="display-5 title_hero mb-3">
                     Welcome to <span className="ms-2"> Tasket</span>
                 </h1>
                 <p className="fs-3 fw-bold mb-4 lh-sm">
