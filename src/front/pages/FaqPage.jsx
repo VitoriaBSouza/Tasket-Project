@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 //Components
 import { ContactButton } from "../components/Contact_Page/contactButton";
-import { FaqButton } from "../components/Contact_Page/faqButton";
 
 //icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -56,7 +55,7 @@ export const FaqPage = () => {
                 </div>
                 <div id="cardContent2" className="collapse">
                     <div className="card-body fs-4">
-                        <p className='my-3 m-1 lh-sm'>You can browse some parts of the app without an account, 
+                        <p className='my-3 m-1 lh-sm'>You can browse some parts of the app without an account,
                             but to create and save tasks, you’ll need to register.
                         </p>
                     </div>
@@ -91,7 +90,7 @@ export const FaqPage = () => {
                 <div id="cardContent4" className="collapse">
                     <div className="card-body fs-4">
                         <p className='my-3 m-1 lh-sm'>
-                            Go to your profile settings and click “Delete Account.” 
+                            Go to your profile settings and click “Delete Account.”
                             This will permanently remove your data.
                         </p>
                     </div>
@@ -172,7 +171,7 @@ export const FaqPage = () => {
                 </p>
                 <ContactButton />
             </div>
-            
+
         </div>
     );
 }

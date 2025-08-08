@@ -7,101 +7,100 @@ import TasketLogo from "../assets/img/TasketLogo.png";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
 //icons
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+
 
 //components
-import { NavbarGuest } from "./Navbar_Options/NavbarGuest";
-import { NavbarUser } from "./Navbar_Options/NavbarUser.jsx";
+import { UserToggle } from "./Navbar_Options/UserToggle.jsx";
 import { PopOver } from "./popOver.jsx";
+import { GuestTabs } from "./Navbar_Options/GuestTabs.jsx";
+import { FaqButton } from "./Navbar_Options/faqButton.jsx";
 
 export const Navbar = () => {
 
-	const { store, dispatch } = useGlobalReducer();
+	const { store } = useGlobalReducer();
 	const location = useLocation();
+
+	const showTabs =
+		location.pathname === "/signup" ||
+		location.pathname === "/login" ||
+		location.pathname === "/forgot-password" ||
+		location.pathname.startsWith("/reset-password/");
 
 	console.log(store.token);
 
 
 	return (
-		<nav className="navbar navbar-light navbar_color">
-			{store.token ? <NavbarUser />
-				:
-				<div className="container-fluid">
-					{location.pathname === "/" ?
-						<div className="order-1 m-2 d-flex justify-content-between navbar_tabs">
-							<Link to="/">
-								<img src={TasketLogo} alt="Logo" className="logo_navbar m-2 p-2 order-1" />
-							</Link>
-							<button type="button"
-								className="btn d-sm-none order-2"
-								onClick={() => navigate("/contact-us")}>
-								<FontAwesomeIcon icon={faCircleQuestion} className="icon_faq" />
-							</button>
-						</div>
+		<nav className="navbar navbar-expand-md navbar-light bg-light p-0">
+			<div className="container-fluid">
+				<Link to="/">
+					<img src={TasketLogo} alt="Logo" className="logo_navbar order-1" />
+				</Link>
+				
+				<ul className="navbar-nav flex-row d-flex align-items-end ms-auto me-3 me-md-0 order-2 order-md-3">
+					{showTabs ? null : (
+						<>
+							{location.pathname === "/faq" ?
+								null : <FaqButton />}
+							{store.token && <UserToggle />}
+						</>
+					)}
+				</ul>
+
+				<button className="navbar-toggler m-0 order-3 order-md-2 border-0 no_outline" 
+				type="button" 
+				data-bs-toggle="collapse" 
+				data-bs-target="#navbarNavDropdown" 
+				aria-controls="navbarNavDropdown" 
+				aria-expanded="false" 
+				aria-label="Toggle navigation">
+					<FontAwesomeIcon icon={faBars} className="fs-1"/>
+				</button>
+
+				<div className="collapse navbar-collapse order-3 order-md-2" id="navbarNavDropdown">
+					{showTabs ?
+						(store.token ?
+							<UserToggle />
+							:
+							<GuestTabs />
+						)
 						:
-						<div className="order-1 m-2 d-flex justify-content-between navbar_guest">
-							<Link to="/">
-								<img src={TasketLogo} alt="Logo" className="logo_navbar m-2 p-2 order-1" />
-							</Link>
-							<button type="button"
-								className="btn d-sm-none order-2"
-								onClick={() => navigate("/contact-us")}>
-								<FontAwesomeIcon icon={faCircleQuestion} className="icon_faq" />
-							</button>
-						</div>}
-					{location.pathname === "/reset-password/:token" ||
-						location.pathname === "/forgot-password" ||
-						location.pathname === "/signup" ||
-						location.pathname === "/login" ?
-						(null)
-						:
-						(<ul className="nav justify-content-center align-self-end mx-auto px-1 order-sm-2 order-3">
-							<li className="nav-item">
-								<a className={`nav-link pb-0 ${location.pathname === "/" ?
-									"active text_tabs_active"
-									:
-									"text_tabs"}`}
-									aria-current="page"
-									href="/">Home</a>
-							</li>
-							<li className="nav-item">
-								<a className={`nav-link pb-0 ${location.pathname === "/my-lists" ?
-									"active text_tabs_active"
-									:
-									"text_tabs"}`}
-									aria-current="page"
-									href="/my-lists">My Lists</a>
-							</li>
-							<PopOver>
+						(<div className="d-flex flex-grow-1 justify-content-center align-self-start">
+							<ul className="navbar-nav flex-row pt-3 pt-md-0">
 								<li className="nav-item">
-									<a className={`nav-link pb-0 ${location.pathname === "/my-budget" ?
+									<a className={`nav-link mb-0 pb-0 ${location.pathname === "/" ?
 										"active text_tabs_active"
 										:
-										"disabled text_tabs"}`}
+										"text_tabs"}`}
 										aria-current="page"
-										tabIndex="-1"
-										aria-disabled="true">Budget</a>
+										href="/">Home</a>
 								</li>
-							</PopOver>
+								<li className="nav-item">
+									<a className={`nav-link mb-0 pb-0 mx-3 mx-md-2 ${location.pathname === "/my-lists" ?
+										"active text_tabs_active"
+										:
+										"text_tabs"}`}
+										aria-current="page"
+										href="/my-lists">My Lists</a>
+								</li>
+								<PopOver>
+									<li className="nav-item">
+										<a className={`nav-link mb-0 pb-0 ${location.pathname === "/my-budget" ?
+											"active text_tabs_active"
+											:
+											"disabled text_tabs"}`}
+											aria-current="page"
+											tabIndex="-1"
+											aria-disabled="true">Budget</a>
+									</li>
+								</PopOver>
+							</ul>
+						</div>)}
 
-						</ul>)}
-					{location.pathname === "/" ?
-						<button type="button"
-							className="btn d-none d-sm-block order-sm-3 order-2"
-							onClick={() => navigate("/contact-us")}>
-							<FontAwesomeIcon icon={faCircleQuestion} className="icon_faq" />
-						</button>
-						:
-						<>
-							<NavbarGuest />
-							<button type="button"
-								className="btn d-none d-sm-block order-sm-3 order-2"
-								onClick={() => navigate("/contact-us")}>
-								<FontAwesomeIcon icon={faCircleQuestion} className="icon_faq" />
-							</button>
-						</>}
-				</div>}
-		</nav >
+				</div>
+				
+			</div>
+		</nav>
 	);
 };

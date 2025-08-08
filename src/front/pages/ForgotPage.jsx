@@ -2,7 +2,7 @@
 //Components
 import { ForgotPasswd } from "../components/ForgotPasswd";
 import { ContactButton } from "../components/Contact_Page/contactButton";
-import { FaqButton } from "../components/Contact_Page/faqButton";
+import { FaqCard } from "../components/Contact_Page/faqCard";
 
 
 export const ForgotPage = () => {
@@ -17,7 +17,7 @@ export const ForgotPage = () => {
                 <ContactButton />
             </div>
             <div className='my-5 pb-5 w-75 mx-auto'>
-                <FaqButton />
+                <FaqCard />
             </div>
         </div>
     );

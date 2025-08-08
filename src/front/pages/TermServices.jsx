@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 //Components
 import { ContactButton } from "../components/Contact_Page/contactButton";
-import { FaqButton } from "../components/Contact_Page/faqButton";
+import { FaqCard } from "../components/Contact_Page/faqCard";
 
 //icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -33,7 +33,7 @@ export const TermServices = () => {
                 <div id="cardContent1" className="collapse">
                     <div className="card-body fs-4">
                         <p className='my-3 m-1 lh-sm'>
-                            By using this app, you agree to these Terms of Service. 
+                            By using this app, you agree to these Terms of Service.
                             If you do not agree, please do not make use of this app.
                         </p>
                     </div>
@@ -141,9 +141,9 @@ export const TermServices = () => {
                 <ContactButton />
             </div>
             <div className='mt-5 w-75 mx-auto'>
-                <FaqButton />
+                <FaqCard />
             </div>
-            
+
         </div>
     );
 }

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 //Components
 import { ContactButton } from "../components/Contact_Page/contactButton";
-import { FaqButton } from "../components/Contact_Page/faqButton";
+import { FaqCard } from "../components/Contact_Page/faqCard";
 
 //icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -119,7 +119,7 @@ export const PrivacyPolicy = () => {
                 <ContactButton />
             </div>
             <div className='mt-5 w-75 mx-auto'>
-                <FaqButton />
+                <FaqCard />
             </div>
 
         </div>

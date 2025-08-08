@@ -14,7 +14,7 @@ export const Footer = () => (
 				</Link>
 				<span className="footer_divider">|</span>
 				<Link to={"/privacy-policy"} className="text-decoration-none footer_links">
-					<p className="ps-2">Privacy Policy</p>
+					<p className="me-2 ps-2">Privacy Policy</p>
 				</Link>
 				<span className="footer_divider">|</span>
 				<Link to={"/term-services"} className="text-decoration-none footer_links">

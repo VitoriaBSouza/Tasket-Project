@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const FaqButton = () => {
+export const FaqCard = () => {
 
     return (
         <div className="card faq_card">

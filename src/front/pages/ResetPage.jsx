@@ -2,7 +2,7 @@
 //Components
 import { ResetPasswd } from "../components/ResetPasswd";
 import { ContactButton } from "../components/Contact_Page/contactButton";
-import { FaqButton } from "../components/Contact_Page/faqButton";
+import { FaqCard } from "../components/Contact_Page/faqCard";
 
 
 export const ResetPage = () => {
@@ -17,7 +17,7 @@ export const ResetPage = () => {
                 <ContactButton />
             </div>
             <div className='mt-5 w-75 mx-auto'>
-                <FaqButton />
+                <FaqCard />
             </div>
         </div>
     );

@@ -15,8 +15,8 @@ body {
 
 /* Navbar component */
 .logo_navbar {
-  width: 5.5rem;
-  height: 5.5rem;
+  width: 4rem;
+  height: 4rem;
   padding: none;
 }
 
@@ -25,7 +25,7 @@ body {
 }
 
 .text_tabs {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 500;
   border-bottom: #4f8f8f solid 1.4px;
   color: #4f8f8f !important;
@@ -38,7 +38,7 @@ body {
 }
 
 .text_tabs_active {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 800;
   border-bottom: #f45c27 solid 1.8px;
   color: #f45c27 !important;
@@ -49,6 +49,13 @@ body {
   font-weight: 900;
 }
 
+.no_outline:focus,
+.no_outline:active {
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+
 @media (max-width: 48rem) {
   .text_tabs_active {
     font-size: 1.3rem;
@@ -57,12 +64,6 @@ body {
   .text_tabs {
     font-size: 1.3rem;
     border-bottom: 2px solid;
-  }
-
-  .logo_navbar {
-    width: 7rem;
-    height: 7rem;
-    padding: none;
   }
 }
 
@@ -122,7 +123,7 @@ body {
 /* Privacy component */
 
 .title_policy {
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: 900;
   color: #f45c27;
 }
@@ -199,12 +200,37 @@ body {
   display: block;
 }
 
+.user_menu {
+  position: absolute !important;
+  top: 100%;
+  left: auto;
+  right: 0;
+  z-index: 1050;
+  width: 12rem;
+}
+
 @media (max-width: 48rem) {
+  .title_hero {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #d55601;
+    z-index: 7;
+  }
   .btn_logIn_hero {
     font-size: 1.5rem;
   }
   .btn_signUp_hero {
     font-size: 1.5rem;
+  }
+
+  .user_img {
+    border-radius: 50%;
+    min-width: 2rem;
+    max-width: 4rem;
+    min-height: 2rem;
+    max-height: 4rem;
+    object-fit: cover;
+    display: block;
   }
 }
 
@@ -360,16 +386,39 @@ body {
   color: white;
 }
 
-.contact_form_title {
+.contact_title {
   color: #f45c27;
   font-weight: 800;
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-family: "Nunito", sans-serif;
+}
+
+.contact_form_title {
+  color: #228e7c;
+  font-weight: 800;
+  font-size: 2rem;
+  font-family: "Nunito", sans-serif;
+}
+
+.report_btn {
+  background-color: #e4202d;
+  color: black;
+  font-weight: 900;
+  font-family: "Quicksand", sans-serif;
+  min-width: 100px;
+  max-width: 150px;
+  white-space: nowrap;
 }
 
 /* End of Contact component clases */
 
 /* FAQ component */
+
+.faq_btn {
+  color: #4f8f8f;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
 
 .faq_card_btn {
   background-color: #c7e2e2;
