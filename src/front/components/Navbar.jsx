@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 //assets
 import TasketLogo from "../assets/img/TasketLogo.png";
@@ -28,13 +29,29 @@ export const Navbar = () => {
 		location.pathname === "/forgot-password" ||
 		location.pathname.startsWith("/reset-password/");
 
+	//will make the toggle collapse close when not on focus
+	useEffect(() => {
+		const handleClick = (e) => {
+			const menu = document.getElementById("navbarNavDropdown");
+			const btn = document.querySelector(".navbar-toggler");
+			const bsCollapse = bootstrap.Collapse.getInstance(menu);
+			if (!bsCollapse) return;
+			if (!menu.contains(e.target) && !btn.contains(e.target)) {
+				bsCollapse.hide();
+			}
+		};
+
+		document.addEventListener("click", handleClick);
+		return () => document.removeEventListener("click", handleClick);
+	}, []);
+
 	return (
 		<nav className="navbar navbar-expand-md navbar-light bg-light p-0">
 			<div className="container-fluid navbar_color">
 				<Link to="/">
 					<img src={TasketLogo} alt="Logo" className="logo_navbar order-1" />
 				</Link>
-				
+
 				<ul className="navbar-nav flex-row d-flex align-items-end ms-auto me-3 me-md-0 order-2 order-md-3">
 					{showTabs ? null : (
 						<>
@@ -45,14 +62,14 @@ export const Navbar = () => {
 					)}
 				</ul>
 
-				<button className="navbar-toggler m-0 order-3 order-md-2 border-0 no_outline" 
-				type="button" 
-				data-bs-toggle="collapse" 
-				data-bs-target="#navbarNavDropdown" 
-				aria-controls="navbarNavDropdown" 
-				aria-expanded="false" 
-				aria-label="Toggle navigation">
-					<FontAwesomeIcon icon={faBars} className="fs-1"/>
+				<button className="navbar-toggler m-0 order-3 order-md-2 border-0 no_outline"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#navbarNavDropdown"
+					aria-controls="navbarNavDropdown"
+					aria-expanded="false"
+					aria-label="Toggle navigation">
+					<FontAwesomeIcon icon={faBars} className="fs-1" />
 				</button>
 
 				<div className="collapse navbar-collapse order-3 order-md-2" id="navbarNavDropdown">
@@ -96,7 +113,7 @@ export const Navbar = () => {
 						</div>)}
 
 				</div>
-				
+
 			</div>
 		</nav>
 	);
