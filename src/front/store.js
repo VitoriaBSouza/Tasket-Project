@@ -78,6 +78,12 @@ export default function storeReducer(store, action = {}) {
         ...store,
         lists: action.payload,
       };
+
+    case "add_list":
+      return {
+        ...store,
+        lists: action.payload,
+      };
     
     case "get_urgent_tasks":
       return {
