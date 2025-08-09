@@ -1,5 +1,3 @@
-//assets
-import TaskCard from "../../assets/img/Task_card.png";
 
 export const UrgentCards = (props) => {
 

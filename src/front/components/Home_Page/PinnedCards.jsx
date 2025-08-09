@@ -1,5 +1,3 @@
-//assets
-import PinnedCard from "../../assets/img/Pinned_card.png";
 
 export const PinnedCards = (props) => {
 

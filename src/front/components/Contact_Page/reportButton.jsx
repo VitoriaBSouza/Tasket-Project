@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 //hooks
 import useGlobalReducer from "../../hooks/useGlobalReducer.jsx";
 
+//services
+import { showError, showSuccess } from "../services/toastService.js";
+
 //Defined guestEmail function here to only render once not every change of status.
 //This also helps to save memory and process space
 //The funtion assigns an email to the guests so we can track if a report is duplicate or sent by different people
@@ -60,13 +63,13 @@ export const ReportButton = () => {
 
         emailjs.send(serviceId, templateId, templateParams, publicKey)
             .then(() => {
-                alert("Bug has been reported. Please wait for us to solve it.");
+                showSuccess("Bug has been reported. Please wait for us to solve it.");
                 localStorage.setItem("guest_last_report_time", Date.now().toString());
                 setIsDisabled(true);
                 setTimeout(() => setIsDisabled(false), 60000); // 60 sec wait before they can report again
             })
             .catch(() => {
-                alert("Error sending report. Please try again.");
+                showError("Error sending report. Please try again.");
             });
     };
 

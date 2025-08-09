@@ -58,6 +58,12 @@ export default function storeReducer(store, action = {}) {
         user: action.payload,
       };
 
+    case "edit_profile":
+      return {
+        ...store,
+        user: action.payload,
+      };
+
     case "logout":
       localStorage.removeItem("token");
       localStorage.removeItem("user");

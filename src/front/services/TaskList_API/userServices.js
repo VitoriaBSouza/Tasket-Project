@@ -100,13 +100,16 @@ userServices.getUser = async () => {
 };
 
 // PUT edit user info
-userServices.editUser = async (userData) => {
+userServices.editUser = async (formData) => {
   try {
     const resp = await fetchWithAuth("/api/user", {
       method: "PUT",
-      body: JSON.stringify(userData),
+      body: JSON.stringify(formData),
     });
-    if (!resp) return;
+
+    if (!resp) {
+      return { error: "No response from server" };
+    }
 
     const data = await resp.json();
 
@@ -114,7 +117,9 @@ userServices.editUser = async (userData) => {
       return { error: data.error || "Profile not updated" };
     }
 
-    localStorage.setItem("token", data.token);
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+    }
     localStorage.setItem("user", JSON.stringify(data.user));
 
     return data;

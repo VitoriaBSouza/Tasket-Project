@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 //hooks
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { showError, showSuccess } from "../services/toastService.js";
 
 //services
 import userServices from "../services/TaskList_API/userServices.js"
@@ -32,16 +33,16 @@ export const ForgotPasswd = () => {
                 // Dispatch user data including token if needed
                 dispatch({ type: "forgotPasswd", payload: data.user });
 
-                alert(data.message)
+                showSuccess(data.message)
                 navigate("/")
 
             } else {
                 //we can set another page here or change to a banner
-                window.alert(data.error)
+                showError(data.error)
             }
 
         } catch (error) {
-            window.alert(error)
+            showError(error)
         }
     }
 

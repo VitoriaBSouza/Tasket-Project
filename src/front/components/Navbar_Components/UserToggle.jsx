@@ -1,17 +1,8 @@
-import { useNavigate, Link } from "react-router-dom";
-
-//assets
-import TasketLogo from "../../assets/img/TasketLogo.png";
+import { useNavigate } from "react-router-dom";
 
 //hooks
 import useGlobalReducer from "../../hooks/useGlobalReducer.jsx";
 
-//icons
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons';
-
-//components
-import { PopOver } from "../popOver.jsx";
 
 export const UserToggle = () => {
 
@@ -40,7 +31,7 @@ export const UserToggle = () => {
                 />
             </a>
             <ul className="dropdown-menu dropdown-menu-end user_menu" aria-labelledby="navbarDropdownMenuLink">
-                <li><a className="dropdown-item user_menu_items" href="#">My Profile</a></li>
+                <li><a className="dropdown-item user_menu_items" href="/my-profile">My Profile</a></li>
                 <li><hr className="dropdown-divider" /></li>
                 <li><a className="dropdown-item logout_btn" onClick={handleLogout}>Log Out</a></li>
             </ul>

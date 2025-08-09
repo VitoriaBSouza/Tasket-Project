@@ -1,6 +1,10 @@
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 
+//services
+import { showError, showSuccess } from "../services/toastService.js";
+
+
 export const ContactForm = () => {
 
     const [formData, setFormData] = useState({
@@ -40,11 +44,10 @@ export const ContactForm = () => {
                 payload,
                 "xB0dYsu5WUS_RKsmb"
             );
-            alert("Message sent!");
+            showSuccess("Message sent!");
             setFormData({ reason: "", fullName: "", email: "", message: "" });
         } catch (err) {
-            console.error("Error sending email:", err);
-            alert("Error sending message. Try again later.");
+            showError("Error sending message. Try again later.");
         }
     };
 

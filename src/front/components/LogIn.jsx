@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 //hooks
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { showError } from "../services/toastService.js";
 
 //services
 import userServices from "../services/TaskList_API/userServices.js"
@@ -41,18 +42,17 @@ export const LogIn = () => {
 
             } else {
                 //we can set another page here or change to a banner
-                window.alert(data.error)
+                showError(data.error)
             }
 
         } catch (error) {
-            console.log("Login error:", error);
-            window.alert(error)
+            showError(error)
         }
     }
 
     return (
         <div className="row">
-            <div className="col-11 col-sm-9 col-md-6 col-lg-4 border border-2 rounded p-4 my-1 mx-auto">
+            <div className="col-11 col-sm-9 col-md-6 col-lg-5 border border-2 rounded p-4 my-1 mx-auto">
                 <form onSubmit={handleSubmit} className="p-4">
                     <div className="mb-3">
                         <label htmlFor="Email1" className="form-label fs-5">Email</label>

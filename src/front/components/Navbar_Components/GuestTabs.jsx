@@ -1,7 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
-
-//hooks
-import useGlobalReducer from "../../hooks/useGlobalReducer.jsx";
+import { useLocation } from "react-router-dom";
 
 //components
 import { LogInTab } from "./LogInTab.jsx";
@@ -10,7 +7,6 @@ import { FaqButton } from "./faqButton.jsx";
 
 export const GuestTabs = () => {
 
-    const { store, dispatch } = useGlobalReducer();
     const location = useLocation();
 
     const showTabs =
@@ -35,8 +31,5 @@ export const GuestTabs = () => {
                     <FaqButton />
                 </ul>}
         </>
-
-
-
     );
 }

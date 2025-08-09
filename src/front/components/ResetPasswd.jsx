@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 //hooks
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { showError, showSuccess } from "../services/toastService.js";
 
 //services
 import userServices from "../services/TaskList_API/userServices.js"
 
 export const ResetPasswd = () => {
 
-    const { store, dispatch } = useGlobalReducer();
+    const { dispatch } = useGlobalReducer();
     const navigate = useNavigate();
     const { token } = useParams();
 
@@ -37,19 +38,21 @@ export const ResetPasswd = () => {
 
                     // Dispatch user data including token if needed
                     dispatch({ type: "resetPasswd" });
+                    showSuccess("Your password has been updated.")
                     navigate("/login");
+
 
                 } else {
                     //we can set another page here or change to a banner
-                    window.alert(data.error)
+                    showError(data.error)
                 }
 
             } else {
-                window.alert("Your passwords do not match.")
+                showError("Your passwords do not match.")
             }
 
         } catch (error) {
-            window.alert(error)
+            showError(error)
         }
     }
 

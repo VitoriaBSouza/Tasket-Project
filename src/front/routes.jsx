@@ -17,6 +17,7 @@ import { PrivacyPolicy } from "./pages/PrivacyPolicy";
 import { TermServices } from "./pages/TermServices";
 import { FaqPage } from "./pages/FaqPage";
 import { ContactPage } from "./pages/ContactPage";
+import { ProfilePage } from "./pages/ProfilePage";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +36,7 @@ export const router = createBrowserRouter(
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/forgot-password" element={<ForgotPage />} />
       <Route path="/reset-password/:token" element={<ResetPage />} />
+      <Route path="/my-profile" element={<ProfilePage />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/term-services" element={<TermServices />} />
       <Route path="/faq" element={<FaqPage />} />

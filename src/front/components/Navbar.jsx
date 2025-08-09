@@ -28,9 +28,6 @@ export const Navbar = () => {
 		location.pathname === "/forgot-password" ||
 		location.pathname.startsWith("/reset-password/");
 
-	console.log(store.token);
-
-
 	return (
 		<nav className="navbar navbar-expand-md navbar-light bg-light p-0">
 			<div className="container-fluid navbar_color">
