@@ -2,18 +2,37 @@ const url = import.meta.env.VITE_BACKEND_URL;
 
 const pinnedListServices = {};
 
-const authHeaders = () => ({
-  'Authorization': 'Bearer ' + localStorage.getItem('token'),
-  'Content-Type': 'application/json'
-});
+const fetchWithAuth = async (endpoint, options = {}) => {
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+  const headers = {
+    "Content-Type": "application/json",
+    ...(options.headers || {}),
+  };
+
+  if (token) headers["Authorization"] = "Bearer " + token;
+
+  const resp = await fetch(url + endpoint, { ...options, headers });
+
+  if (resp.status === 401 || resp.status === 422) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
+    window.location.href = "/";
+    return null;
+  }
+
+  return resp;
+};
 
 // GET all pinned lists of the user
 pinnedListServices.getAllPinned = async () => {
   try {
-    const resp = await fetch(url + "/api/user/lists/pinned", {
+    const resp = await fetchWithAuth("/api/user/lists/pinned", {
       method: "GET",
-      headers: authHeaders()
     });
+    if (!resp) return;
 
     const data = await resp.json();
 
@@ -22,7 +41,6 @@ pinnedListServices.getAllPinned = async () => {
     }
 
     return data;
-
   } catch (error) {
     console.log(error);
     return error;
@@ -32,10 +50,10 @@ pinnedListServices.getAllPinned = async () => {
 // GET one pinned list
 pinnedListServices.getOnePinned = async (listId) => {
   try {
-    const resp = await fetch(url + "/api/user/list/" + listId + "/pinned", {
+    const resp = await fetchWithAuth("/api/user/list/" + listId + "/pinned", {
       method: "GET",
-      headers: authHeaders()
     });
+    if (!resp) return;
 
     const data = await resp.json();
 
@@ -44,7 +62,6 @@ pinnedListServices.getOnePinned = async (listId) => {
     }
 
     return data;
-
   } catch (error) {
     console.log(error);
     return error;
@@ -54,10 +71,10 @@ pinnedListServices.getOnePinned = async (listId) => {
 // POST to pin a list
 pinnedListServices.pinList = async (listId) => {
   try {
-    const resp = await fetch(url + "/api/user/list/" + listId + "/pinned", {
+    const resp = await fetchWithAuth("/api/user/list/" + listId + "/pinned", {
       method: "POST",
-      headers: authHeaders()
     });
+    if (!resp) return;
 
     const data = await resp.json();
 
@@ -66,7 +83,6 @@ pinnedListServices.pinList = async (listId) => {
     }
 
     return data;
-
   } catch (error) {
     console.log(error);
     return error;
@@ -76,10 +92,10 @@ pinnedListServices.pinList = async (listId) => {
 // DELETE a pinned list
 pinnedListServices.unpinList = async (listId) => {
   try {
-    const resp = await fetch(url + "/api/user/list/" + listId + "/pinned", {
+    const resp = await fetchWithAuth("/api/user/list/" + listId + "/pinned", {
       method: "DELETE",
-      headers: authHeaders()
     });
+    if (!resp) return;
 
     const data = await resp.json();
 
@@ -88,7 +104,6 @@ pinnedListServices.unpinList = async (listId) => {
     }
 
     return data;
-
   } catch (error) {
     console.log(error);
     return error;

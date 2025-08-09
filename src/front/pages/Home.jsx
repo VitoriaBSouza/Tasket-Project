@@ -4,9 +4,6 @@ import React, { useEffect } from "react"
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
 //components
-import { Hero } from "../components/Home_Page/Hero.jsx";
-import { Demonstration } from "../components/Home_Page/Demonstration.jsx";
-import { Features } from "../components/Home_Page/Features.jsx";
 import { UserPage } from "./UserPage.jsx";
 import { GuestPage } from "./GuestPage.jsx";
 

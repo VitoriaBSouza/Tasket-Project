@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from sqlalchemy import select, delete, func
+from sqlalchemy import select, delete, func, and_
 from api.models import db, User, List, Pinned, Task, ListStatus, TaskStatus
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
@@ -485,6 +485,53 @@ def get_one_task(list_id, task_id):
 
     return jsonify({"success": True, "task": task.serialize()}), 200
 
+# GET all tasks based on status (for statistics)
+@api.route('/user/tasks/status', methods=['GET'])
+@jwt_required() 
+def get_status_tasks():
+
+    user_id = get_jwt_identity()
+
+    #Will check for the status of each task
+    #Then will join with List table to relate the tasks and their lists
+    #All lists will be filtered based on user_id
+    #Finally groups the tasks based on their status: "pending" or "completed"
+    result = (
+        db.session.query(Task.status, func.count(Task.id))
+        .join(List, Task.list_id == List.id)
+        .filter(List.user_id == user_id)
+        .group_by(Task.status)
+        .all()
+    )
+    stats = {status.value: count for status, count in result}
+
+    return jsonify({"success": True, "stats": stats}), 200
+
+# GET all tasks based on status of one specific list (for statistics)
+@api.route('/user/list/<int:list_id>/tasks/status', methods=['GET'])
+@jwt_required() 
+def get_tasks_status_of_list(list_id):
+
+    user_id = get_jwt_identity()
+
+    #Will check if the list owner is the user
+    lst = List.query.filter_by(id=list_id, user_id=user_id).first()
+    if not lst:
+        return jsonify({"success": False, "error": "List not found"}), 404
+
+    #Will check for the status of each task of said list
+    #Finally groups the tasks based on their status: "pending" or "completed"
+    result = (
+        db.session.query(Task.status, func.count(Task.id))
+        .filter(Task.list_id == list_id)
+        .group_by(Task.status)
+        .all()
+    )
+
+    stats = {status.value: count for status, count in result}
+
+    return jsonify({"success": True, "stats": stats}), 200
+
 # POST a new task
 @api.route('/user/list/<int:list_id>/task', methods=['POST'])
 @jwt_required() 
@@ -569,6 +616,58 @@ def update_task(list_id, task_id):
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+# GET all urgent tasks of all users (for test purposes)
+@api.route('/lists/tasks/urgent', methods=['GET'])
+def get_all_tasks_urgent():
+
+    #Check all urgent lists with urgent tasks
+    stm = (select(List).join(Task).where(Task.urgent.is_(True)).distinct())
+    urgent = db.session.execute(stm).scalars().all()
+    
+    if not urgent:
+        return jsonify({"success": False, "error": "No lists with urgent tasks found"}), 404
+    
+    result = []
+
+    #From each list will filter the urgent tasks and serialize it
+    for lst in urgent:
+        urgent_tasks = [task.serialize() for task in lst.tasks if task.urgent]
+        result.append({
+            **lst.serialize(),
+            "urgent_tasks": urgent_tasks
+        })
+
+
+    return jsonify({"success": True, "lists": result}), 200
+
+# GET all lists with urgent task of one user
+@api.route('/user/lists/tasks/urgent', methods=['GET'])
+@jwt_required() 
+def get_user_lists_with_urgent_tasks():
+
+    user_id = get_jwt_identity()
+    #Check all urgent lists with urgent tasks
+    stm = stm = stm = (select(List).join(Task)
+                       .where(Task.urgent.is_(True))
+                       .where(List.user_id == user_id).distinct())
+    
+    urgent = db.session.execute(stm).scalars().all()
+    
+    if not urgent:
+        return jsonify({"success": False, "error": "No lists with urgent tasks found"}), 404
+    
+    result = []
+
+    #From each list will filter the urgent tasks and serialize it
+    for lst in urgent:
+        urgent_tasks = [task.serialize() for task in lst.tasks if task.urgent]
+        result.append({
+            **lst.serialize(),
+            "urgent_tasks": urgent_tasks
+        })
+
+    return jsonify({"success": True, "urgent": result}), 200
     
 # PUT to update task urgent status
 @api.route("/user/list/<int:list_id>/task/<int:task_id>/urgent", methods=["PUT"])
@@ -729,7 +828,7 @@ def get_user_lists_pinned():
     pinned = db.session.execute(stm).scalars().all()
     
     if not pinned:
-        return jsonify({"success": False, "error": "You have no pinned list yet, add one!"}), 404
+        return jsonify({"success": True, "message": "You have no pinned list yet, add one!", "pinned":[]}), 200
 
     return jsonify({"success": True, "pinned": [p.serialize() for p in pinned]}), 200
 

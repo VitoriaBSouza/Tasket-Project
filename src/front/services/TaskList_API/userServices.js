@@ -1,214 +1,194 @@
-// This will set the url to the same we added to the env file
 const url = import.meta.env.VITE_BACKEND_URL;
 
 const userServices = {};
 
-// Utility: Add JWT token
-const authHeaders = () => ({
-  'Authorization': 'Bearer ' + localStorage.getItem('token'),
-  'Content-Type': 'application/json'
-});
+// fetchWithAuth reutilizable con manejo de token y redirección
+const fetchWithAuth = async (endpoint, options = {}) => {
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+  const headers = {
+    "Content-Type": "application/json",
+    ...(options.headers || {}),
+  };
 
-//POST method to call sign up
+  if (token) headers["Authorization"] = "Bearer " + token;
+
+  const resp = await fetch(url + endpoint, { ...options, headers });
+
+  if (resp.status === 401 || resp.status === 422) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
+    window.location.href = "/";
+    return null;
+  }
+
+  return resp;
+};
+
+// POST sign up
 userServices.signup = async (formData) => {
   try {
     const resp = await fetch(url + "/api/signup", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      //Need to add email, password and username fields all required.
-      //All other fields are filled automatically.
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     });
 
     const data = await resp.json();
 
-    if (!resp.ok){
-      return {error: data.error || "Sign Up failed" };
+    if (!resp.ok) {
+      return { error: data.error || "Sign Up failed" };
     }
 
     return data;
-
   } catch (error) {
     return error;
   }
 };
 
-//POST method to call log in
+// POST login
 userServices.login = async (formData, rememberMe) => {
   try {
     const resp = await fetch(url + "/api/login", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      //Need only the email and password fields. All the others are filled automatically.
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     });
+
     const data = await resp.json();
 
-    if (!resp.ok){
-      return {error: data.error || "Login failed" };
+    if (!resp.ok) {
+      return { error: data.error || "Login failed" };
     }
 
-    //If rememberMe is true, we store the token and user data in localStorage for 7 days
-    //If false, we store them in sessionStorage for the current session
     if (rememberMe) {
-      localStorage.setItem("token", data.token)
-      localStorage.setItem("user", JSON.stringify(data.user))
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
     } else {
-      sessionStorage.setItem("token", data.token)
-      sessionStorage.setItem("user", JSON.stringify(data.user))
+      sessionStorage.setItem("token", data.token);
+      sessionStorage.setItem("user", JSON.stringify(data.user));
     }
 
     return data;
-
   } catch (error) {
     console.log(error);
     return error;
   }
 };
 
-
-//GET user information, could be profile page
+// GET user info
 userServices.getUser = async () => {
   try {
-    const resp = await fetch(url + "/api/user", {
-      method: "GET",
-      //Token required, we have to log in first
-      headers: authHeaders()
-    })
+    const resp = await fetchWithAuth("/api/user", { method: "GET" });
+    if (!resp) return;
 
-    const data = await resp.json()
+    const data = await resp.json();
 
-    if (!resp.ok){
-      return {error: data.error || "Could not fetch user" };
+    if (!resp.ok) {
+      return { error: data.error || "Could not fetch user" };
     }
-    console.log(data)
 
-    //add user data as object, we need to use JSON.stringify()
-    localStorage.setItem('user', JSON.stringify(data.user))
-    
+    localStorage.setItem("user", JSON.stringify(data.user));
+
     return data;
-
   } catch (error) {
     console.log(error);
     return error;
   }
-}
+};
 
-//PUT to edit user information
+// PUT edit user info
 userServices.editUser = async (userData) => {
   try {
-    const resp = await fetch(url + "/api/user", {
+    const resp = await fetchWithAuth("/api/user", {
       method: "PUT",
-      //Token required, we have to log in first
-      headers: authHeaders(),
-      //Same as the POST method
-      body: JSON.stringify(userData)
-    })
+      body: JSON.stringify(userData),
+    });
+    if (!resp) return;
 
-    const data = await resp.json()
+    const data = await resp.json();
 
-    if (!resp.ok){
-      return {error: data.error || "Profile not updated" };
+    if (!resp.ok) {
+      return { error: data.error || "Profile not updated" };
     }
 
-    //update user data locally as object, we need to use JSON.stringify()
-    localStorage.setItem("token", data.token)
-    localStorage.setItem('user', JSON.stringify(data.user))
-    
-    return data;
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
 
+    return data;
   } catch (error) {
     console.log(error);
     return error;
   }
-}
+};
 
-//POST for forgot password link (will send provisional token to the client email)
+// POST forgot password
 userServices.forgotPassword = async (email) => {
   try {
     const resp = await fetch(url + "/api/forgot-password", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      //email field is required
-      body: JSON.stringify({email}),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
     });
 
     const data = await resp.json();
 
-    if (!resp.ok){
-      return {error: data.error || "Could not reset password" };
+    if (!resp.ok) {
+      return { error: data.error || "Could not reset password" };
     }
 
     return data;
-
   } catch (error) {
     console.error("Forgot Password Error:", error.message);
     return { error: error.message };
   }
 };
 
-//POST for reset password after receivin token from forgot password method
+// POST reset password
 userServices.resetPassword = async (token, new_password) => {
   try {
-    //token will be sent as part on the reset password URL, we will have to extract from it
     const resp = await fetch(url + "/api/reset-password/" + token, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      //Field password is required
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password: new_password }),
     });
 
     const data = await resp.json();
 
-    if (!resp.ok){
-      return {error: data.error || "Password reset failed" };
+    if (!resp.ok) {
+      return { error: data.error || "Password reset failed" };
     }
 
     console.log("Reset Password:", data);
     return data;
-    
   } catch (error) {
     console.error("Reset Password Error:", error.message);
     return { error: error.message };
   }
 };
 
-//Soft DELETE user information, we keep recipes posted by the user
+// DELETE user
 userServices.deleteUser = async () => {
   try {
-    const resp = await fetch(url + "/api/user", {
-      method: "DELETE",
-      //Token required, we have to log in first
-      headers: authHeaders()
-    })
+    const resp = await fetchWithAuth("/api/user", { method: "DELETE" });
+    if (!resp) return;
 
-    const data = await resp.json()
+    const data = await resp.json();
 
-    if (!resp.ok){
-      return {error: data.error || "Could not delete user account" };
+    if (!resp.ok) {
+      return { error: data.error || "Could not delete user account" };
     }
-    
-    console.log(data)
 
-    //we remove the user and token from local storage in order to log them out
-    //All data deleted from server none is kept in the database
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+
     return data;
-
   } catch (error) {
     console.log(error);
     return error;
   }
-}
+};
 
 export default userServices;

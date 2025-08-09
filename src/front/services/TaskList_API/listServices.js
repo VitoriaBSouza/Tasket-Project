@@ -2,28 +2,43 @@ const url = import.meta.env.VITE_BACKEND_URL;
 
 const listServices = {};
 
-// Utility: Add JWT token
-const authHeaders = () => ({
-  'Authorization': 'Bearer ' + localStorage.getItem('token'),
-  'Content-Type': 'application/json'
-});
+const fetchWithAuth = async (endpoint, options = {}) => {
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+  const headers = {
+    "Content-Type": "application/json",
+    ...(options.headers || {}),
+  };
+
+  if (token) headers["Authorization"] = "Bearer " + token;
+
+  const resp = await fetch(url + endpoint, { ...options, headers });
+
+  if (resp.status === 401 || resp.status === 422) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
+    window.location.href = "/";
+    return null;
+  }
+
+  return resp;
+};
 
 // GET all lists of the user
 listServices.getAllLists = async () => {
   try {
-    const resp = await fetch(url + "/api/user/lists", {
-      method: "GET",
-      headers: authHeaders()
-    });
+    const resp = await fetchWithAuth("/api/user/lists", { method: "GET" });
+    if (!resp) return;
 
     const data = await resp.json();
 
-    if (!resp.ok){
+    if (!resp.ok) {
       return { error: data.error || "Could not fetch lists" };
     }
 
     return data;
-
   } catch (error) {
     console.log(error);
     return error;
@@ -33,19 +48,18 @@ listServices.getAllLists = async () => {
 // GET one list of the user
 listServices.getOneList = async (listId) => {
   try {
-    const resp = await fetch(url + "/api/user/list/" + listId, {
+    const resp = await fetchWithAuth("/api/user/list/" + listId, {
       method: "GET",
-      headers: authHeaders()
     });
+    if (!resp) return;
 
     const data = await resp.json();
 
-    if (!resp.ok){
+    if (!resp.ok) {
       return { error: data.error || "Could not fetch list" };
     }
 
     return data;
-
   } catch (error) {
     console.log(error);
     return error;
@@ -55,21 +69,19 @@ listServices.getOneList = async (listId) => {
 // POST a new list
 listServices.addList = async (formData) => {
   try {
-    const resp = await fetch(url + "/api/user/lists", {
+    const resp = await fetchWithAuth("/api/user/lists", {
       method: "POST",
-      headers: authHeaders(),
-      // title and description required, handled in backend
-      body: JSON.stringify(formData)
+      body: JSON.stringify(formData),
     });
+    if (!resp) return;
 
     const data = await resp.json();
 
-    if (!resp.ok){
+    if (!resp.ok) {
       return { error: data.error || "Could not create list" };
     }
 
     return data;
-
   } catch (error) {
     console.log(error);
     return error;
@@ -79,20 +91,19 @@ listServices.addList = async (formData) => {
 // PUT to update list details
 listServices.updateList = async (listId, listData) => {
   try {
-    const resp = await fetch(url + "/api/user/list/" + listId, {
+    const resp = await fetchWithAuth("/api/user/list/" + listId, {
       method: "PUT",
-      headers: authHeaders(),
-      body: JSON.stringify(listData)
+      body: JSON.stringify(listData),
     });
+    if (!resp) return;
 
     const data = await resp.json();
 
-    if (!resp.ok){
+    if (!resp.ok) {
       return { error: data.error || "Could not update list" };
     }
 
     return data;
-
   } catch (error) {
     console.log(error);
     return error;
@@ -102,19 +113,18 @@ listServices.updateList = async (listId, listData) => {
 // DELETE one list
 listServices.deleteList = async (listId) => {
   try {
-    const resp = await fetch(url + "/api/user/list/" + listId, {
+    const resp = await fetchWithAuth("/api/user/list/" + listId, {
       method: "DELETE",
-      headers: authHeaders()
     });
+    if (!resp) return;
 
     const data = await resp.json();
 
-    if (!resp.ok){
+    if (!resp.ok) {
       return { error: data.error || "Could not delete list" };
     }
 
     return data;
-
   } catch (error) {
     console.log(error);
     return error;
@@ -124,19 +134,16 @@ listServices.deleteList = async (listId) => {
 // DELETE all lists of the user
 listServices.deleteAllLists = async () => {
   try {
-    const resp = await fetch(url + "/api/user/lists", {
-      method: "DELETE",
-      headers: authHeaders()
-    });
+    const resp = await fetchWithAuth("/api/user/lists", { method: "DELETE" });
+    if (!resp) return;
 
     const data = await resp.json();
 
-    if (!resp.ok){
+    if (!resp.ok) {
       return { error: data.error || "Could not delete all lists" };
     }
 
     return data;
-
   } catch (error) {
     console.log(error);
     return error;

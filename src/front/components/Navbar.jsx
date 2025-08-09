@@ -12,10 +12,10 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 
 //components
-import { UserToggle } from "./Navbar_Options/UserToggle.jsx";
+import { UserToggle } from "./Navbar_Components/UserToggle.jsx";
 import { PopOver } from "./popOver.jsx";
-import { GuestTabs } from "./Navbar_Options/GuestTabs.jsx";
-import { FaqButton } from "./Navbar_Options/faqButton.jsx";
+import { GuestTabs } from "./Navbar_Components/GuestTabs.jsx";
+import { FaqButton } from "./Navbar_Components/faqButton.jsx";
 
 export const Navbar = () => {
 

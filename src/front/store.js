@@ -11,6 +11,10 @@ export const initialStore = () => {
       return user && user !== "undefined" ? JSON.parse(user) : {};
     })(),
     lists:[],
+    urgent:[],
+    pinned: [],
+    status: [],
+    status_by_list:[],
 
     message: null,
     todos: [
@@ -61,6 +65,36 @@ export default function storeReducer(store, action = {}) {
         ...store,
         user: {}, // reset user to empty object
         token: null, // reset token to null
+      };
+
+    case "get_all_lists":
+      return {
+        ...store,
+        lists: action.payload,
+      };
+    
+    case "get_urgent_tasks":
+      return {
+        ...store,
+        urgent: action.payload,
+      };
+
+    case "get_pinned_lists":
+      return {
+        ...store,
+        pinned: action.payload,
+      };
+
+    case "get_tasks_status":
+      return {
+        ...store,
+        status: action.payload || { completed: 0, pending: 0 },
+      };
+
+    case "get_tasks_status_by_list":
+      return {
+        ...store,
+        status_by_list: action.payload || { completed: 0, pending: 0 },
       };
 
     case "set_hello":

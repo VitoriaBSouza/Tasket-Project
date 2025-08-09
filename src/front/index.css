@@ -271,6 +271,104 @@ body {
 
 /* End of Features component clases */
 
+/* User Page component */
+
+.user_page_title {
+  color: #367070;
+  font-size: 3rem;
+  font-weight: 800;
+  font-family: "Fredoka", sans-serif;
+}
+
+.user_page_subtitles{
+  color: #2A8C89;
+  font-weight: 700;
+}
+
+.rows_user_page {
+  background-color: #c7e2e2;
+}
+
+.title_rows_user_page {
+  color: #2a8c89;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.urgent_cards {
+  flex: 0 0 auto; 
+  width: 500px;   
+  margin-right: 1rem; 
+}
+
+.urgent_cards {
+  background-color: transparent !important;
+  border: none;
+  box-shadow: none;
+  min-width: 450px;
+  max-height: 200px;
+  position: relative;
+}
+
+.urgent_cards img.card-img {
+  width: 500px;
+  height: 200px;
+  object-fit: cover;
+  object-position: top;
+}
+
+.pinned_cards {
+  background-color: transparent !important;
+  border: none;
+  box-shadow: none;
+  min-width: 450px;
+  max-height: 200px;
+  position: relative;
+}
+
+.pinned_cards img.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* End of User Page component clases */
+
+/* Status List component */
+
+.check_list_title{
+  color: #F78A42;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.search{
+  width: 25rem;
+}
+
+.search_result{
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.search_item{
+  cursor: pointer;
+}
+
+/* End of Status List component clases */
+
+/* PieChart component */
+
+.piechart{
+  max-width: 300px;
+  margin: auto;
+}
+
+/* End of PieChart component clases */
+
 /* LogIn component */
 
 .welcome_logIn {

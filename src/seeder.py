@@ -26,7 +26,7 @@ with app.app_context():
             username=f"user{i+1}",
             email=f"user{i+1}@mail.com",
             password=generate_password_hash('password123'),
-            photo_url=f"https://via.placeholder.com/150?text={chr(65+i)}",
+            photo_url=f"https://picsum.photos/300/300?random=1",
             created_at=datetime.now(timezone.utc),
             updated_at=datetime.now(timezone.utc),
         )
