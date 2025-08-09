@@ -61,7 +61,7 @@ export const UserPage = () => {
             </h1>
 
             <div className="row m-2">
-                <div className="col-12 col-lg-6 mt-2">
+                <div className="col-12 col-lg-6 my-2 mb-4">
                     <PieChart
                         completed={store.status?.completed || 0}
                         pending={store.status?.pending || 0}

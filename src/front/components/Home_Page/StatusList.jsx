@@ -57,7 +57,7 @@ export const StatusList = () => {
             <div className="col-12 mb-4">
                 <input
                     type="text"
-                    className="form-control search"
+                    className="form-control search fs-5"
                     placeholder="Search list..."
                     value={input}
                     onChange={handleInputChange}
@@ -80,11 +80,11 @@ export const StatusList = () => {
                     </ul>
                 )}
             </div>
-            <div className="col-6">
+            <div className="col-12 col-md-6">
                 <p className="fs-5 user_page_subtitles m-0">Total tasks completed</p>
                 <p className="fs-5">{store.status_by_list?.completed || 0}</p>
             </div>
-            <div className="col-6">
+            <div className="col-12 col-md-6">
                 <p className="fs-5 user_page_subtitles m-0">Total tasks pending</p>
                 <p className="fs-5">{store.status_by_list?.pending || 0}</p>
             </div>

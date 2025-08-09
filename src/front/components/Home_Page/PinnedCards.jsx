@@ -4,12 +4,9 @@ import PinnedCard from "../../assets/img/Pinned_card.png";
 export const PinnedCards = (props) => {
 
     return (
-        <div className="card pinned_cards border-0">
-            <img src={PinnedCard} className="card-img" alt="list_default_img" />
-            <div className="card-img-overlay mt- ms-3">
-                <h3 className="card-title mt-5 ms-5">{props.title}</h3>
-                <p className="card-subtitle mt-2 ms-5 fs-5">{props.description}</p>
-            </div>
+        <div className="card postit-card m-2">
+            <h3 className="card-title urgent_card_title">{props.title}</h3>
+            <p className="card-subtitle urgent_card_text">{props.description}</p>
         </div>
     );
 }

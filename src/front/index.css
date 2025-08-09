@@ -295,26 +295,41 @@ body {
   font-weight: 700;
 }
 
-.urgent_cards {
-  flex: 0 0 auto; 
-  width: 500px;   
-  margin-right: 1rem; 
+.urgent_card_text{
+  color: #d94f20;
+  font-size: 1.5rem;
 }
 
-.urgent_cards {
-  background-color: transparent !important;
-  border: none;
-  box-shadow: none;
+.urgent_card_title{
+  color: #367070;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.postit-card {
+  background-color: #e9f5f5; /* amarillo post-it */
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  color: #000;
+  font-family: "Quicksand", sans-serif;
+  padding: 1rem;
   min-width: 450px;
-  max-height: 200px;
-  position: relative;
+  margin: 1rem auto;
 }
 
-.urgent_cards img.card-img {
-  width: 500px;
-  height: 200px;
-  object-fit: cover;
-  object-position: top;
+.postit-card::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  background-color: #d94f20; /* color rojo pin */
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+  border: 2px solid #800000;
+  z-index: 10;
 }
 
 .pinned_cards {
