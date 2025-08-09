@@ -1,6 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
+//css file
+import '../CSS_files/navbar.css';
+
 //assets
 import TasketLogo from "../assets/img/TasketLogo.png";
 

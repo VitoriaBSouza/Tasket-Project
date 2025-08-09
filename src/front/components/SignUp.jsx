@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+//css file
+import '../CSS_files/signup.css';
 
 //hooks
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
 //services
 import userServices from "../services/TaskList_API/userServices.js";
-import { showError, showSuccess } from "../services/toastService.js";
+import { showError } from "../services/toastService.js";
 
 export const SignUp = () => {
 

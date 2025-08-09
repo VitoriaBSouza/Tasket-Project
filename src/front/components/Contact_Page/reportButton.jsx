@@ -1,6 +1,9 @@
 import emailjs from "@emailjs/browser";
 import { useState, useEffect } from "react";
 
+//CSS file
+import '../../CSS_files/contact.css';
+
 //hooks
 import useGlobalReducer from "../../hooks/useGlobalReducer.jsx";
 

@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
+//css file
+import '../CSS_files/login.css';
+
 //hooks
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { showError } from "../services/toastService.js";

@@ -1,4 +1,7 @@
 
+//css file
+import '../../CSS_files/guestHome.css';
+
 //assets
 import Tasket_img_1 from "../../assets/img/Tasket_img_1.png";
 import Tasket_img_2 from "../../assets/img/Tasket_img_2.png";

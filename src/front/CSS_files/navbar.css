@@ -1,0 +1,61 @@
+/* Navbar component classes*/
+
+.logo_navbar {
+  width: 4rem;
+  height: 4rem;
+  padding: none;
+}
+
+.navbar_color {
+  background-color: #c7e2e2;
+}
+
+.text_tabs {
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-bottom: #4f8f8f solid 1.4px;
+  color: #4f8f8f !important;
+}
+
+.text_tabs:hover {
+  font-weight: 500;
+  border-bottom: #ff895e solid 1.4px;
+  color: #ff895e !important;
+}
+
+.text_tabs_active {
+  font-size: 1.1rem;
+  font-weight: 800;
+  border-bottom: #f45c27 solid 1.8px;
+  color: #f45c27 !important;
+}
+
+.logout_btn {
+  color: #f45c27;
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+.user_menu_items {
+  color: #2a8c89;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.no_outline:focus,
+.no_outline:active {
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+
+@media (max-width: 48rem) {
+  .text_tabs_active {
+    font-size: 1.3rem;
+    border-bottom: 2.5px solid;
+  }
+  .text_tabs {
+    font-size: 1.3rem;
+    border-bottom: 2px solid;
+  }
+}

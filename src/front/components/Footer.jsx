@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 
+//css file
+import '../CSS_files/footer.css';
+
 //assets
 import TasketLogo from "../assets/img/TasketLogo.png";
 

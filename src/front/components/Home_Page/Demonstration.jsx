@@ -1,4 +1,6 @@
 
+//css file
+import '../../CSS_files/guestHome.css';
 
 export const Demonstration = () => {
 

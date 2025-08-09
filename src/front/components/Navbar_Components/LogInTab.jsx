@@ -1,3 +1,6 @@
+//css file
+import '../../CSS_files/navbar.css';
+
 import { useLocation } from "react-router-dom";
 
 export const LogInTab = () => {

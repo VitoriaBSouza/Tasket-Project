@@ -1,0 +1,153 @@
+/* Hero component */
+.hero_container {
+  height: 60vh;
+  min-height: 400px;
+  max-height: 700px;
+  overflow: hidden;
+}
+
+.hero_image {
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.9);
+  opacity: 0.2;
+}
+
+.text_overlay {
+  width: 90%;
+  max-width: 700px;
+  padding: 0 1rem;
+}
+
+.title_hero {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #d55601;
+  z-index: 7;
+}
+
+.title_hero span {
+  color: #228e7c;
+}
+
+.btn_logIn_hero {
+  font-size: 1.2rem;
+  background-color: #228e7c;
+  color: orange;
+}
+
+.btn_logIn_hero:hover {
+  background-color: #d55601;
+  color: black;
+}
+
+.btn_signUp_hero {
+  font-size: 1.2rem;
+  color: #d55601;
+  border-color: #d55601;
+  background-color: rgba(245, 243, 243, 0.219);
+}
+
+.btn_signUp_hero:hover {
+  color: black;
+  background-color: #d55601;
+}
+
+.icon_faq {
+  font-size: 3rem;
+  color: #228e7c;
+}
+
+.user_img {
+  border-radius: 50%;
+  min-width: 3rem;
+  max-width: 5rem;
+  min-height: 3rem;
+  max-height: 5rem;
+  object-fit: cover;
+  display: block;
+}
+
+.user_menu {
+  position: absolute !important;
+  top: 100%;
+  left: auto;
+  right: 0;
+  z-index: 1050;
+  width: 12rem;
+}
+
+@media (max-width: 48rem) {
+  .title_hero {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #d55601;
+    z-index: 7;
+  }
+  .btn_logIn_hero {
+    font-size: 1.5rem;
+  }
+  .btn_signUp_hero {
+    font-size: 1.5rem;
+  }
+
+  .user_img {
+    border-radius: 50%;
+    min-width: 2rem;
+    max-width: 4rem;
+    min-height: 2rem;
+    max-height: 4rem;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+/* End of Hero component clases */
+
+/* Demonstration component */
+.scroll-container {
+  overflow: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.tasket_cards {
+  min-width: 300px;
+  min-height: 150px;
+  border: 0;
+  box-shadow: none;
+}
+
+/* End of Demonstration component clases */
+
+/* Features component */
+.title_features {
+  color: #2a8c89;
+  font-weight: 700;
+}
+
+.card_title_features {
+  height: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  background-color: rgba(221, 221, 221, 0.83);
+}
+
+.tasket_cards_features {
+  min-width: 385px;
+  min-height: 200px;
+  max-height: 250px;
+  border: 0;
+  box-shadow: none;
+  overflow: hidden;
+  background-color: white;
+}
+
+.img_features {
+  filter: brightness(0.7);
+  opacity: 0.85;
+}
+
+/* End of Features component clases */

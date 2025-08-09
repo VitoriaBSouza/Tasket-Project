@@ -1,9 +1,11 @@
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 
+//CSS file
+import '../../CSS_files/contact.css';
+
 //services
 import { showError, showSuccess } from "../../services/toastService.js";
-
 
 export const ContactForm = () => {
 

@@ -1,3 +1,5 @@
+//css file
+import '../../CSS_files/navbar.css';
 
 export const NavbarGuest = () => {
 

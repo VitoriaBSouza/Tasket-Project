@@ -1,0 +1,44 @@
+/* Contact component */
+
+.contact_btn {
+  background-color: #f45c27;
+  color: black;
+  font-weight: 900;
+  font-family: "Quicksand", sans-serif;
+  min-width: 200px;
+  max-width: 250px;
+  white-space: nowrap;
+}
+
+.contact_btn:hover {
+  background-color: #d94f20;
+}
+
+.contact_btn:active {
+  background-color: #228e7c;
+  color: white;
+}
+
+.contact_title {
+  color: #f45c27;
+  font-weight: 800;
+  font-size: 3rem;
+  font-family: "Nunito", sans-serif;
+}
+
+.contact_form_title {
+  color: #228e7c;
+  font-weight: 800;
+  font-size: 2rem;
+  font-family: "Nunito", sans-serif;
+}
+
+.report_btn {
+  background-color: #e4202d;
+  color: black;
+  font-weight: 900;
+  font-family: "Quicksand", sans-serif;
+  min-width: 100px;
+  max-width: 150px;
+  white-space: nowrap;
+}

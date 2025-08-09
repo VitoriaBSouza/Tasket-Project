@@ -1,0 +1,24 @@
+/* SignUp component */
+
+.signUp_btn {
+  background-color: #cc1925;
+  font-weight: 700;
+  font-family: "Quicksand", sans-serif;
+  color: white;
+}
+
+.signUp_btn:hover {
+  background-color: #2a8c89;
+  font-weight: 700;
+  color: white;
+}
+
+.signUpPage_logIn {
+  color: #cc1925;
+  font-weight: 700;
+}
+
+.signUpPage_reset {
+  color: #d55601;
+  font-weight: 700;
+}

@@ -1,3 +1,5 @@
+//css file
+import '../../CSS_files/userHome.css';
 
 export const UrgentCards = (props) => {
 

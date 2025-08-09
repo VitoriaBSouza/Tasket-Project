@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react"
 
+//css file
+import '../../CSS_files/userHome.css';
+
 //hooks
 import useGlobalReducer from "../../hooks/useGlobalReducer.jsx";
 

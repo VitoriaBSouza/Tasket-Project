@@ -1,0 +1,51 @@
+/* LogIn component */
+
+.welcome_logIn {
+  color: #d55601;
+  font-weight: 700;
+  font-size: 4rem;
+  font-family: "Fredoka", sans-serif;
+}
+
+.welcome_logIn span {
+  color: #2a8c89;
+  font-weight: 900;
+  font-size: 4rem;
+}
+
+.logIn_title {
+  color: #2a8c89;
+  font-weight: 700;
+}
+
+.logIn_btn {
+  background-color: #4bc6bf;
+  font-weight: 700;
+  font-family: "Quicksand", sans-serif;
+  color: white;
+}
+
+.logIn_btn:hover {
+  background-color: #d55601;
+  font-weight: 700;
+  color: white;
+}
+
+.form_checkbox {
+  background-color: none;
+}
+
+.form_checkbox:checked {
+  background-color: #f45c27;
+  border: none;
+}
+
+.logInPage_signUp {
+  color: black;
+  font-weight: 700;
+}
+
+.logInPage_signUp span {
+  color: #f45c27;
+  font-weight: 700;
+}

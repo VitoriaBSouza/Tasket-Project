@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
 
+//css file
+import '../../CSS_files/guestHome.css';
+
 //assets
 import TasketHero from "../../assets/img/TasketHero.jpg";
 

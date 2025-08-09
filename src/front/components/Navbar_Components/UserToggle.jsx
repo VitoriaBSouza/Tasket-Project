@@ -1,3 +1,6 @@
+//css file
+import '../../CSS_files/navbar.css';
+
 import { useNavigate } from "react-router-dom";
 
 //hooks

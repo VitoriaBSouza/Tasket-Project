@@ -1,0 +1,66 @@
+/* This is to check errors on the frontend uncomment to use it */
+/* * {
+  outline: 1px solid rgba(255, 0, 0, 0.2);
+}
+html,
+body {
+  border: 2px solid blue;
+} */
+
+/* If you uncomment above, comment this body class */
+body {
+  line-height: 2;
+  font-family: "Nunito", sans-serif;
+}
+
+/* Privacy component */
+
+.title_policy {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #f45c27;
+}
+
+/* End of Privacy component clases */
+
+/* FAQ component */
+
+.faq_btn {
+  color: #4f8f8f;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.faq_card_btn {
+  background-color: #c7e2e2;
+  font-size: 1.3rem;
+}
+
+.faq_card_btn:hover {
+  background-color: #4f8f8f;
+}
+
+.faq_card_btn:active {
+  background-color: #4f8f8f;
+}
+
+.faq_card_title {
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.faq_card {
+  background-color: #c7e2e223;
+}
+
+/* End of FAQ component clases */
+
+/* ForgotPassw component */
+
+.forgot_title {
+  color: #2a8c89;
+  font-weight: 700;
+  font-family: "Nunito", sans-serif;
+}
+
+/* End of ForgotPassw component clases */

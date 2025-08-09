@@ -1,0 +1,95 @@
+/* User Page component */
+
+.user_page_title {
+  color: #367070;
+  font-size: 3rem;
+  font-weight: 800;
+  font-family: "Fredoka", sans-serif;
+}
+
+.user_page_subtitles{
+  color: #2A8C89;
+  font-weight: 700;
+}
+
+.rows_user_page {
+  background-color: #c7e2e2;
+}
+
+.title_rows_user_page {
+  color: #2a8c89;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.urgent_card_text{
+  color: #d94f20;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.urgent_card_title{
+  color: #367070;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.postit-card {
+  background-color: #e9f5f5; /* amarillo post-it */
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  font-family: "Quicksand", sans-serif;
+  padding: 1rem;
+  min-width: 450px;
+  margin: 1rem auto;
+}
+
+.postit-card::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  background-color: #d94f20; /* color rojo pin */
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+  border: 2px solid #800000;
+  z-index: 10;
+}
+
+/* End of User Page component clases */
+
+/* Status List component */
+
+.check_list_title{
+  color: #F78A42;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.search{
+  width: 25rem;
+}
+
+.search_result{
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.search_item{
+  cursor: pointer;
+}
+
+/* End of Status List component clases */
+
+/* PieChart component */
+
+.piechart{
+  max-width: 300px;
+  margin: auto;
+}
+
+/* End of PieChart component clases */

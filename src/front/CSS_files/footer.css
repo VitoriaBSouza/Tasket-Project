@@ -1,0 +1,29 @@
+/* Footer component classes*/
+
+.footer_container {
+  background-color: #c7e2e2;
+}
+
+.footer_links {
+  color: #f45c27 !important;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.footer_divider {
+  font-size: 1.4rem;
+  line-height: 1;
+  margin: 0 0.5rem;
+  margin-bottom: 15px;
+  color: #f45c27;
+}
+
+@media (max-width: 57rem) {
+  .footer_links {
+    display: block !important;
+  }
+
+  .footer_divider {
+    display: none;
+  }
+}
