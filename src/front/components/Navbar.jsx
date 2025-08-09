@@ -50,7 +50,7 @@ export const Navbar = () => {
 
 	return (
 		<nav className="navbar navbar-expand-md navbar-light bg-light p-0">
-			<div className="container-fluid navbar_color">
+			<div className="container-fluid navbar_color p-2">
 				<Link to="/">
 					<img src={TasketLogo} alt="Logo" className="logo_navbar order-1" />
 				</Link>

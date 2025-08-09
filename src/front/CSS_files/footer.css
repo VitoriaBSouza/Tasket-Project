@@ -1,5 +1,11 @@
 /* Footer component classes*/
 
+.logo_navbar {
+  width: 4rem;
+  height: 4rem;
+  padding: none;
+}
+
 .footer_container {
   background-color: #c7e2e2;
 }

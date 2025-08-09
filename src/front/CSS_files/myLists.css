@@ -1,0 +1,63 @@
+/* My Lists components classes */
+
+.bg_page{
+    background-color: #c7e2e271;
+}
+
+/* End of My Lists components classes */
+
+/* My Create Button classes */
+
+.create_btn{
+    background-color: #F45C27;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: white;
+}
+
+/* End of My Create Button classes */
+
+/* My Search Bar components classes */
+
+.search_box_bg {
+  background-color: rgba(255, 255, 255, 0.959);
+}
+
+.searchBar {
+  max-width: 50rem;
+  width: 100%;
+  z-index: 1050;
+}
+
+.search_input_bg {
+  background-color: transparent;
+}
+
+.search_input_bg:focus {
+  outline: none;
+  box-shadow: none;
+  background-color: inherit;
+}
+
+.searchResult {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-height: 10rem;
+  overflow-y: auto;
+  z-index: 1050;
+  scrollbar-color: #c1454b rgba(211, 211, 211, 0.406);
+}
+
+.dataItem {
+  margin: 2rem;
+  color: #c1454b;
+  font-weight: 480;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+}
+
+/* End of Search Bar components classes */
