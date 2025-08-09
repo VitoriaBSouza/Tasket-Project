@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import useGlobalReducer from "../../hooks/useGlobalReducer.jsx";
 
 //services
-import { showError, showSuccess } from "../services/toastService.js";
+import { showError, showSuccess } from "../../services/toastService.js";
 
 //Defined guestEmail function here to only render once not every change of status.
 //This also helps to save memory and process space

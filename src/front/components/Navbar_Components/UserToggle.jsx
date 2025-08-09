@@ -22,7 +22,8 @@ export const UserToggle = () => {
                 id="navbarDropdownMenuLink"
                 role="button"
                 data-bs-toggle="dropdown"
-                aria-expanded="false">
+                aria-expanded="false"
+                >
                 <img
                     src={store.user?.photo_url}
                     alt="User"
