@@ -15,7 +15,7 @@ import { PieChart } from "../components/Home_Page/PieChart.jsx";
 
 export const UserPage = () => {
 
-    const { store, dispatch } = useGlobalReducer()
+    const { store, dispatch } = useGlobalReducer();
 
     const getUrgent = async () => {
         taskServices.getUrgentLists().then(data => {
