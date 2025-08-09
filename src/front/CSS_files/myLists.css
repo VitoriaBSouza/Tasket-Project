@@ -1,20 +1,32 @@
 /* My Lists components classes */
 
-.bg_page{
-    background-color: #c7e2e271;
+.bg_page {
+  background-color: #c7e2e271;
 }
 
 /* End of My Lists components classes */
 
 /* My Create Button classes */
 
-.create_btn{
-    background-color: #F45C27;
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: white;
+.create_btn {
+  background-color: #f45c27;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: white;
 }
 
+.modal_bg {
+  background-color: #f3fcfcec;
+}
+
+.btn_create{
+  background-color: #228E7C;
+  color: white;
+}
+
+.title_modal{
+  color: #228E7C;
+}
 /* End of My Create Button classes */
 
 /* My Search Bar components classes */
