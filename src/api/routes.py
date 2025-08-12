@@ -27,6 +27,8 @@ def handle_hello():
     return jsonify(response_body), 200
 
 # Get all users (for test purposes)
+
+
 @api.route('/users', methods=['GET'])
 def get_users():
 
@@ -34,19 +36,22 @@ def get_users():
 
     users = db.session.execute(statement).scalars().all()
 
-    return jsonify({"users":[user.serialize() for user in users], "success":True}), 200
+    return jsonify({"users": [user.serialize() for user in users], "success": True}), 200
 
 # POST to create a new user
+
+
 @api.route('/signup', methods=['POST'])
 def signup():
     try:
         data = request.get_json()
 
-        if not data["email"] or not data["password"] or not data["username"]: 
+        if not data["email"] or not data["password"] or not data["username"]:
             return jsonify({"error": "Missing required information"}), 400
 
         # Check if user is registered
-        stm = select(User).where(User.email == data["email"], User.username == data["username"])
+        stm = select(User).where(
+            User.email == data["email"], User.username == data["username"])
         user = db.session.execute(stm).scalar_one_or_none()
 
         if user:
@@ -57,7 +62,7 @@ def signup():
                 return jsonify({"error": "This username is already been used, try another one."}), 409
 
         # Generate a placeholder image with random color and username initial
-        #User will be able to change later
+        # User will be able to change later
         placeholder_url = generate_placeholder(data["username"])
 
         # hash password to not show to others
@@ -65,33 +70,33 @@ def signup():
 
         new_user = User(
             username=data["username"],
-            photo_url = data.get("photo_url", placeholder_url),
+            photo_url=data.get("photo_url", placeholder_url),
             email=data["email"].strip().lower(),
             password=hashed_password,
             created_at=datetime.now(timezone.utc),
-            #we will update this field on PUT method, created_at remains the same
+            # we will update this field on PUT method, created_at remains the same
             updated_at=datetime.now(timezone.utc)
         )
         db.session.add(new_user)
         db.session.commit()
 
         return jsonify({"success": True}), 201
-        
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
+
 # POST to make authentication to log in
 @api.route('/login', methods=['POST'])
 def login():
     try:
         data = request.json
 
-        if not data["email"] or not data["password"]: 
+        if not data["email"] or not data["password"]:
             return jsonify({"error": "Missing required information"}), 400
-        
-        #Check if the user has an account
+
+        # Check if the user has an account
         email = data["email"].strip().lower()
-        stmt = select(User).where(User.email==email)
+        stmt = select(User).where(User.email == email)
         user = db.session.execute(stmt).scalar_one_or_none()
 
         if user is None:
@@ -105,18 +110,20 @@ def login():
         remember = data.get("rememberMe", False)
         expires = timedelta(days=7) if remember else timedelta(hours=1)
 
-        #Generate str token as it's not possible to be a number
-        token = create_access_token(identity=str(user.id), expires_delta=expires)  
-        
+        # Generate str token as it's not possible to be a number
+        token = create_access_token(
+            identity=str(user.id), expires_delta=expires)
+
         return jsonify({"success": True, "token": token, "user": user.serialize()}), 200
-    
+
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
-    
+
+
 @api.route('/forgot-password', methods=['POST'])
 def forgot_password():
-    
+
     try:
         email = request.json.get('email')
 
@@ -154,27 +161,29 @@ def forgot_password():
             The {app_name} Team
             """
 
-        #Sends email with reset link to user
+        # Sends email with reset link to user
         send_email(
             to=user.email,
             subject=subject,
             body=body
         )
 
-        return jsonify({"message": f"If that email exists, a reset link was sent.", 
-                        "success" : True, "user":user.email }), 200
+        return jsonify({"message": f"If that email exists, a reset link was sent.",
+                        "success": True, "user": user.email}), 200
 
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
-    
+
+
 @api.route('/reset-password/<token>', methods=['POST'])
 def reset_password(token):
     try:
         serializer = get_serializer()
 
         try:
-            email = serializer.loads(token, salt='password-reset', max_age=3600)
+            email = serializer.loads(
+                token, salt='password-reset', max_age=3600)
         except Exception as e:
             return jsonify({"error": "Invalid or expired token"}), 400
 
@@ -198,25 +207,29 @@ def reset_password(token):
     except Exception as e:
         print("Reset password error:", e)
         return jsonify({"error": "Something went wrong"}), 500
-    
+
 # GET one user profile
 # Requires to request the token from the frontend
+
+
 @api.route('/user', methods=['GET'])
-@jwt_required() 
+@jwt_required()
 def get_user_profile():
 
     id = get_jwt_identity()
     stm = select(User).where(User.id == id)
     user = db.session.execute(stm).scalar_one_or_none()
-    
+
     if not user:
         return jsonify({"success": False, "error": "Something went wrong, try to refresh page or log in again."})
 
-    return jsonify({"success": True, "user":user.serialize()})
+    return jsonify({"success": True, "user": user.serialize()})
 
 # PUT to update user profile
+
+
 @api.route("/user", methods=["PUT"])
-@jwt_required() 
+@jwt_required()
 def update_user():
 
     user_id = get_jwt_identity()
@@ -230,7 +243,8 @@ def update_user():
     if email or username:
         check_stm = select(User).where(User.id != user_id)
         if email and username:
-            check_stm = check_stm.where((User.email == email) | (User.username == username))
+            check_stm = check_stm.where(
+                (User.email == email) | (User.username == username))
         elif email:
             check_stm = check_stm.where(User.email == email)
         elif username:
@@ -257,12 +271,13 @@ def update_user():
     if "username" in data:
         user.username = data["username"]
     if "photo_url" in data:
-        placeholder_url = generate_placeholder(data.get("username", user.username))
+        placeholder_url = generate_placeholder(
+            data.get("username", user.username))
         # If no foto added or foto is deleted then will use the placeholder
         user.photo_url = data["photo_url"] or placeholder_url
 
     user.updated_at = datetime.now(timezone.utc)
-    
+
     db.session.commit()
 
     return jsonify({"success": True, "user": user.serialize()}), 200
@@ -296,32 +311,38 @@ def delete_user():
     return jsonify({"message": "Your account has been successfully erased", "success": True}), 200
 
 # GET all lists of all users (for test purposes)
+
+
 @api.route('/lists', methods=['GET'])
 def get_all_lists():
 
     stm = select(List)
     lists = db.session.execute(stm).scalars().all()
-    
+
     if not lists:
         return jsonify({"success": False, "error": "No lists found"}), 404
 
     return jsonify({"success": True, "lists": [l.serialize() for l in lists]}), 200
 
 # GET all lists of the user
+
+
 @api.route('/user/lists', methods=['GET'])
-@jwt_required() 
+@jwt_required()
 def get_lists():
 
     user_id = get_jwt_identity()
     stm = select(List).where(List.user_id == user_id)
     lists = db.session.execute(stm).scalars().all()
-    
+
     if not lists:
         return jsonify({"success": False, "error": "You have no lists yet, create one!"}), 404
 
     return jsonify({"success": True, "lists": [l.serialize() for l in lists]}), 200
 
 # GET one lists of the user
+
+
 @api.route('/user/list/<int:list_id>', methods=['GET'])
 @jwt_required()
 def get_one_list(list_id):
@@ -329,15 +350,17 @@ def get_one_list(list_id):
     user_id = get_jwt_identity()
     stm = select(List).where((List.user_id == user_id) & (List.id == list_id))
     list = db.session.execute(stm).scalar_one_or_none()
-    
+
     if not list:
         return jsonify({"success": False, "error": "List not found or no permission"}), 404
 
     return jsonify({"success": True, "list": list.serialize()}), 200
 
 # POST a new list
+
+
 @api.route('/user/lists', methods=['POST'])
-@jwt_required() 
+@jwt_required()
 def add_list():
 
     user_id = get_jwt_identity()
@@ -345,14 +368,14 @@ def add_list():
     try:
         data = request.json
 
-        if not data["title"]: 
+        if not data["title"]:
             return jsonify({"error": "Please add a title to your list"}), 400
 
         # We add on frontend the control of blank space and lower cases
         new_list = List(
             user_id=user_id,
             title=data["title"],
-            description= data["description"],
+            description=data["description"],
             status=ListStatus.pending,
             created_at=datetime.now(timezone.utc),
             updated_at=datetime.now(timezone.utc)
@@ -361,24 +384,26 @@ def add_list():
         db.session.commit()
 
         return jsonify({"success": True, "list": new_list.serialize()}), 201
-        
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 # PUT to update list details
+
+
 @api.route("/user/list/<int:list_id>", methods=["PUT"])
-@jwt_required() 
+@jwt_required()
 def update_list(list_id):
 
     try:
         data = request.json
         user_id = get_jwt_identity()
-        stm = select(List).where((List.user_id == user_id) & (List.id == list_id))
+        stm = select(List).where(
+            (List.user_id == user_id) & (List.id == list_id))
         list = db.session.execute(stm).scalar_one_or_none()
 
         if list is None:
             return jsonify({"error": "List not found or you do not have permission"}), 403
- 
 
         if "title" in data:
             list.title = data["title"]
@@ -386,15 +411,17 @@ def update_list(list_id):
             list.description = data["description"]
 
         list.updated_at = datetime.now(timezone.utc)
-        
+
         db.session.commit()
 
         return jsonify({"success": True, "list": list.serialize()}), 200
-    
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
+
 # DELETE list
+
+
 @api.route("/user/list/<int:list_id>", methods=["DELETE"])
 @jwt_required()
 def delete_list(list_id):
@@ -417,6 +444,8 @@ def delete_list(list_id):
     return jsonify({"message": "List deleted", "success": True}), 200
 
 # DELETE all lists of a user
+
+
 @api.route("/user/lists", methods=["DELETE"])
 @jwt_required()
 def delete_all_lists():
@@ -425,32 +454,32 @@ def delete_all_lists():
 
     stm = select(List).where(List.user_id == user_id)
     lists = db.session.execute(stm).scalars().all()
-    
+
     if not lists:
         return jsonify({"success": False, "error": "No lists found"}), 403
 
     # Delete tasks of the lists, then pinned items, then the lists
     list_ids = [lst.id for lst in lists]
-    
+
     db.session.execute(delete(Pinned).where(Pinned.list_id.in_(list_ids)))
     db.session.execute(delete(Task).where(Task.list_id.in_(list_ids)))
     db.session.execute(delete(List).where(List.user_id == user_id))
-    
+
     db.session.commit()
 
     return jsonify({"message": "All listed where deleted", "success": True}), 200
 
-    
-# GET all tasks of a list 
+
+# GET all tasks of a list
 @api.route('/user/list/<int:list_id>/tasks', methods=['GET'])
-@jwt_required() 
+@jwt_required()
 def get_all_tasks(list_id):
 
-    #Check user has access to the list
+    # Check user has access to the list
     user_id = get_jwt_identity()
     stm = select(List).where((List.user_id == user_id) & (List.id == list_id))
     list = db.session.execute(stm).scalar_one_or_none()
-    
+
     if not list:
         return jsonify({"success": False, "error": "List not found or no permission"}), 403
 
@@ -464,20 +493,23 @@ def get_all_tasks(list_id):
     return jsonify({"success": True, "tasks": [t.serialize() for t in tasks]}), 200
 
 # GET one tasks of a list
+
+
 @api.route('/user/list/<int:list_id>/task/<int:task_id>', methods=['GET'])
-@jwt_required() 
+@jwt_required()
 def get_one_task(list_id, task_id):
 
-    #Check user has access to the list
+    # Check user has access to the list
     user_id = get_jwt_identity()
     stm = select(List).where((List.user_id == user_id) & (List.id == list_id))
     list = db.session.execute(stm).scalar_one_or_none()
-    
+
     if not list:
         return jsonify({"success": False, "error": "List not found or no permission"}), 403
 
     # Get the task details
-    stm_task = select(Task).where((Task.list_id == list_id) & (Task.id == task_id))
+    stm_task = select(Task).where(
+        (Task.list_id == list_id) & (Task.id == task_id))
     task = db.session.execute(stm_task).scalar_one_or_none()
 
     if not task:
@@ -486,16 +518,18 @@ def get_one_task(list_id, task_id):
     return jsonify({"success": True, "task": task.serialize()}), 200
 
 # GET all tasks based on status (for statistics)
+
+
 @api.route('/user/tasks/status', methods=['GET'])
-@jwt_required() 
+@jwt_required()
 def get_status_tasks():
 
     user_id = get_jwt_identity()
 
-    #Will check for the status of each task
-    #Then will join with List table to relate the tasks and their lists
-    #All lists will be filtered based on user_id
-    #Finally groups the tasks based on their status: "pending" or "completed"
+    # Will check for the status of each task
+    # Then will join with List table to relate the tasks and their lists
+    # All lists will be filtered based on user_id
+    # Finally groups the tasks based on their status: "pending" or "completed"
     result = (
         db.session.query(Task.status, func.count(Task.id))
         .join(List, Task.list_id == List.id)
@@ -508,19 +542,21 @@ def get_status_tasks():
     return jsonify({"success": True, "stats": stats}), 200
 
 # GET all tasks based on status of one specific list (for statistics)
+
+
 @api.route('/user/list/<int:list_id>/tasks/status', methods=['GET'])
-@jwt_required() 
+@jwt_required()
 def get_tasks_status_of_list(list_id):
 
     user_id = get_jwt_identity()
 
-    #Will check if the list owner is the user
+    # Will check if the list owner is the user
     lst = List.query.filter_by(id=list_id, user_id=user_id).first()
     if not lst:
         return jsonify({"success": False, "error": "List not found"}), 404
 
-    #Will check for the status of each task of said list
-    #Finally groups the tasks based on their status: "pending" or "completed"
+    # Will check for the status of each task of said list
+    # Finally groups the tasks based on their status: "pending" or "completed"
     result = (
         db.session.query(Task.status, func.count(Task.id))
         .filter(Task.list_id == list_id)
@@ -533,14 +569,16 @@ def get_tasks_status_of_list(list_id):
     return jsonify({"success": True, "stats": stats}), 200
 
 # POST a new task
+
+
 @api.route('/user/list/<int:list_id>/task', methods=['POST'])
-@jwt_required() 
+@jwt_required()
 def add_task(list_id):
 
     user_id = get_jwt_identity()
 
-    list= db.session.execute(select(List).where(
-        List.id == list_id, 
+    list = db.session.execute(select(List).where(
+        List.id == list_id,
         List.user_id == user_id)).scalar_one_or_none()
 
     if list is None:
@@ -549,7 +587,7 @@ def add_task(list_id):
     try:
         data = request.json
 
-        if not data["task"]: 
+        if not data["task"]:
             return jsonify({"error": "Please add a title to your list"}), 400
 
         # We add on frontend the control of blank space and lower cases
@@ -570,26 +608,30 @@ def add_task(list_id):
         db.session.commit()
 
         return jsonify({"success": True, "task": new_task.serialize()}), 201
-        
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
+
 # PUT to update task details
+
+
 @api.route("/user/list/<int:list_id>/task/<int:task_id>", methods=["PUT"])
-@jwt_required() 
+@jwt_required()
 def update_task(list_id, task_id):
 
     try:
         data = request.json
         user_id = get_jwt_identity()
 
-        stm = select(List).where((List.user_id == user_id) & (List.id == list_id))
+        stm = select(List).where(
+            (List.user_id == user_id) & (List.id == list_id))
         list = db.session.execute(stm).scalar_one_or_none()
-        
+
         if not list:
             return jsonify({"success": False, "error": "List not found or no permission"}), 403
-        
-        stm_task = select(Task).where((Task.list_id == list_id) & (Task.id == task_id))
+
+        stm_task = select(Task).where(
+            (Task.list_id == list_id) & (Task.id == task_id))
         task = db.session.execute(stm_task).scalar_one_or_none()
 
         if not task:
@@ -609,28 +651,30 @@ def update_task(list_id, task_id):
             task.comment = data["comment"]
 
         task.updated_at = datetime.now(timezone.utc)
-        
+
         db.session.commit()
 
         return jsonify({"success": True, "task": task.serialize()}), 200
-    
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 # GET all urgent tasks of all users (for test purposes)
+
+
 @api.route('/lists/tasks/urgent', methods=['GET'])
 def get_all_tasks_urgent():
 
-    #Check all urgent lists with urgent tasks
+    # Check all urgent lists with urgent tasks
     stm = (select(List).join(Task).where(Task.urgent.is_(True)).distinct())
     urgent = db.session.execute(stm).scalars().all()
-    
+
     if not urgent:
         return jsonify({"success": False, "error": "No lists with urgent tasks found"}), 404
-    
+
     result = []
 
-    #From each list will filter the urgent tasks and serialize it
+    # From each list will filter the urgent tasks and serialize it
     for lst in urgent:
         urgent_tasks = [task.serialize() for task in lst.tasks if task.urgent]
         result.append({
@@ -638,28 +682,29 @@ def get_all_tasks_urgent():
             "urgent_tasks": urgent_tasks
         })
 
-
     return jsonify({"success": True, "lists": result}), 200
 
 # GET all lists with urgent task of one user
+
+
 @api.route('/user/lists/tasks/urgent', methods=['GET'])
-@jwt_required() 
+@jwt_required()
 def get_user_lists_with_urgent_tasks():
 
     user_id = get_jwt_identity()
-    #Check all urgent lists with urgent tasks
+    # Check all urgent lists with urgent tasks
     stm = stm = stm = (select(List).join(Task)
                        .where(Task.urgent.is_(True))
                        .where(List.user_id == user_id).distinct())
-    
+
     urgent = db.session.execute(stm).scalars().all()
-    
+
     if not urgent:
         return jsonify({"success": False, "error": "No lists with urgent tasks found"}), 404
-    
+
     result = []
 
-    #From each list will filter the urgent tasks and serialize it
+    # From each list will filter the urgent tasks and serialize it
     for lst in urgent:
         urgent_tasks = [task.serialize() for task in lst.tasks if task.urgent]
         result.append({
@@ -668,23 +713,27 @@ def get_user_lists_with_urgent_tasks():
         })
 
     return jsonify({"success": True, "urgent": result}), 200
-    
+
 # PUT to update task urgent status
+
+
 @api.route("/user/list/<int:list_id>/task/<int:task_id>/urgent", methods=["PUT"])
-@jwt_required() 
+@jwt_required()
 def update_task_urgency(list_id, task_id):
 
     try:
         data = request.json
         user_id = get_jwt_identity()
 
-        stm = select(List).where((List.user_id == user_id) & (List.id == list_id))
+        stm = select(List).where(
+            (List.user_id == user_id) & (List.id == list_id))
         list = db.session.execute(stm).scalar_one_or_none()
-        
+
         if not list:
             return jsonify({"success": False, "error": "List not found or no permission"}), 403
-        
-        stm_task = select(Task).where((Task.list_id == list_id) & (Task.id == task_id))
+
+        stm_task = select(Task).where(
+            (Task.list_id == list_id) & (Task.id == task_id))
         task = db.session.execute(stm_task).scalar_one_or_none()
 
         if not task:
@@ -695,17 +744,18 @@ def update_task_urgency(list_id, task_id):
             print("Urgent updated to:", task.urgent)
 
         task.updated_at = datetime.now(timezone.utc)
-        
+
         db.session.commit()
 
         return jsonify({"success": True, "task": task.serialize()}), 200
-    
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
+
 # PUT to update task status
+
 @api.route("/user/list/<int:list_id>/task/<int:task_id>/status", methods=["PUT"])
-@jwt_required() 
+@jwt_required()
 def update_task_status(list_id, task_id):
 
     try:
@@ -713,13 +763,15 @@ def update_task_status(list_id, task_id):
 
         user_id = get_jwt_identity()
 
-        stm = select(List).where((List.user_id == user_id) & (List.id == list_id))
+        stm = select(List).where(
+            (List.user_id == user_id) & (List.id == list_id))
         list = db.session.execute(stm).scalar_one_or_none()
-        
+
         if not list:
             return jsonify({"success": False, "error": "List not found or no permission"}), 403
-        
-        stm_task = select(Task).where((Task.list_id == list_id) & (Task.id == task_id))
+
+        stm_task = select(Task).where(
+            (Task.list_id == list_id) & (Task.id == task_id))
         task = db.session.execute(stm_task).scalar_one_or_none()
 
         if not task:
@@ -735,10 +787,12 @@ def update_task_status(list_id, task_id):
         # Will check status of the task on the list to update the list status to completed or pending
         # If all tasks are completed then the list is completed, otherwise it is pending
         pending_count = db.session.execute(
-            select(func.count(Task.id)).where(Task.list_id == list_id, Task.status == TaskStatus.pending)
+            select(func.count(Task.id)).where(Task.list_id ==
+                                              list_id, Task.status == TaskStatus.pending)
         ).scalar_one()
 
-        list = db.session.execute(select(List).where(List.id == list_id)).scalar_one()
+        list = db.session.execute(select(List).where(
+            List.id == list_id)).scalar_one()
 
         if pending_count == 0:
             list.status = ListStatus.completed
@@ -749,12 +803,18 @@ def update_task_status(list_id, task_id):
 
         db.session.commit()
 
-        return jsonify({"success": True, "task": task.serialize()}), 200
-    
+        list = db.session.execute(
+            select(List).where(List.id == list_id)
+        ).scalar_one()
+
+        return jsonify({"success": True, "task": task.serialize(), "list": list.serialize()}), 200
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
+
 # DELETE one task of a list
+
+
 @api.route("/user/list/<int:list_id>/task/<int:task_id>", methods=["DELETE"])
 @jwt_required()
 def delete_one_task(list_id, task_id):
@@ -763,11 +823,12 @@ def delete_one_task(list_id, task_id):
 
     stm = select(List).where((List.user_id == user_id) & (List.id == list_id))
     list = db.session.execute(stm).scalar_one_or_none()
-    
+
     if not list:
         return jsonify({"success": False, "error": "List not found or no permission"}), 403
-    
-    stm_task = select(Task).where((Task.list_id == list_id) & (Task.id == task_id))
+
+    stm_task = select(Task).where(
+        (Task.list_id == list_id) & (Task.id == task_id))
     task = db.session.execute(stm_task).scalar_one_or_none()
 
     if task is None:
@@ -779,8 +840,10 @@ def delete_one_task(list_id, task_id):
     db.session.commit()
 
     return jsonify({"message": "Task deleted", "success": True}), 200
-    
+
 # DELETE all task of a list
+
+
 @api.route("/user/list/<int:list_id>/tasks", methods=["DELETE"])
 @jwt_required()
 def delete_all_tasks(list_id):
@@ -789,10 +852,10 @@ def delete_all_tasks(list_id):
 
     stm = select(List).where((List.user_id == user_id) & (List.id == list_id))
     list = db.session.execute(stm).scalar_one_or_none()
-    
+
     if not list:
         return jsonify({"success": False, "error": "List not found or no permission"}), 403
-    
+
     stm_task = select(Task).where((Task.list_id == list_id))
     task = db.session.execute(stm_task).scalars().all()
 
@@ -801,71 +864,82 @@ def delete_all_tasks(list_id):
 
     # Delete tasks from list
     db.session.execute(delete(Task).where(Task.list_id == list_id))
-    
+
     db.session.commit()
 
     return jsonify({"message": "Tasks deleted", "success": True}), 200
 
 # GET all pinned lists of all users (for test purposes)
+
+
 @api.route('/lists/pinned', methods=['GET'])
 def get_all_lists_pinned():
 
     stm = select(Pinned)
     pinned = db.session.execute(stm).scalars().all()
-    
+
     if not pinned:
         return jsonify({"success": False, "error": "No pinned lists found"}), 404
 
     return jsonify({"success": True, "pinned": [p.serialize() for p in pinned]}), 200
 
 # GET all lists pinned by user
+
+
 @api.route('/user/lists/pinned', methods=['GET'])
-@jwt_required() 
+@jwt_required()
 def get_user_lists_pinned():
 
     user_id = get_jwt_identity()
     stm = select(Pinned).where(Pinned.user_id == user_id)
     pinned = db.session.execute(stm).scalars().all()
-    
+
     if not pinned:
-        return jsonify({"success": True, "message": "You have no pinned list yet, add one!", "pinned":[]}), 200
+        return jsonify({"success": True, "message": "You have no pinned list yet, add one!", "pinned": []}), 200
 
     return jsonify({"success": True, "pinned": [p.serialize() for p in pinned]}), 200
 
 # GET one lists pinned by user
+
+
 @api.route('/user/list/<int:list_id>/pinned', methods=['GET'])
 @jwt_required()
 def get_one_list_pinned(list_id):
 
     user_id = get_jwt_identity()
-    stm = select(Pinned).where((Pinned.user_id == user_id) & (Pinned.list_id == list_id))
+    stm = select(Pinned).where((Pinned.user_id == user_id)
+                               & (Pinned.list_id == list_id))
     pinned = db.session.execute(stm).scalar_one_or_none()
-    
+
     if not pinned:
         return jsonify({"success": False, "error": "Pinned list not found or no permission"}), 404
 
     return jsonify({"success": True, "pinned": pinned.serialize()}), 200
 
 # POST to pin a list
+
+
 @api.route('/user/list/<int:list_id>/pinned', methods=['POST'])
-@jwt_required() 
+@jwt_required()
 def pin_list(list_id):
 
     user_id = get_jwt_identity()
 
     # Check if user can access the list
-    list_stm = select(List).where((List.id == list_id) & (List.user_id == user_id))
+    list_stm = select(List).where(
+        (List.id == list_id) & (List.user_id == user_id))
     list = db.session.execute(list_stm).scalar_one_or_none()
 
     if not list:
         return jsonify({"success": False, "error": "List not found or no permission"}), 404
-    
+
     # Check if list is already pinned
-    stm = select(Pinned).where((Pinned.user_id == user_id) & (Pinned.list_id == list_id))
+    stm = select(Pinned).where((Pinned.user_id == user_id)
+                               & (Pinned.list_id == list_id))
     pinned = db.session.execute(stm).scalar_one_or_none()
 
     if pinned:
-        return jsonify({"success": False, "error": "List already pinned"}), 409       
+        return jsonify({"success": False, "error": "List already pinned"}), 409
 
     try:
 
@@ -879,19 +953,22 @@ def pin_list(list_id):
         db.session.commit()
 
         return jsonify({"success": True, "pinned": new_pin.serialize()}), 201
-        
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 # DELETE list from pinned table
+
+
 @api.route("/user/list/<int:list_id>/pinned", methods=["DELETE"])
 @jwt_required()
 def unpin_list(list_id):
 
     user_id = get_jwt_identity()
-    
+
     # Check if list is pinned
-    stm = select(Pinned).where((Pinned.user_id == user_id) & (Pinned.list_id == list_id))
+    stm = select(Pinned).where((Pinned.user_id == user_id)
+                               & (Pinned.list_id == list_id))
     pinned = db.session.execute(stm).scalar_one_or_none()
 
     if pinned is None:

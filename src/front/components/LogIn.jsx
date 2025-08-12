@@ -18,7 +18,7 @@ export const LogIn = () => {
 
     const [formData, setFormData] = useState({
         email: "",
-        password: ""
+        password: "",
     })
 
     const [rememberMe, setRememberMe] = useState(false);
@@ -33,7 +33,7 @@ export const LogIn = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const data = await userServices.login(formData, rememberMe);
+            const data = await userServices.login({ ...formData, rememberMe });
 
             if (data.success) {
 

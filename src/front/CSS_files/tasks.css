@@ -1,0 +1,144 @@
+.bg_tasks_page {
+  background-color: #c7e2e292;
+}
+
+.title_tasks_page {
+  color: #4f8f8f;
+  font-size: 3.5rem;
+  font-weight: 700;
+}
+
+.title_list {
+  min-width: 90%;
+  min-height: 5rem;
+  font-size: 2rem;
+  background-color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.clear_btn {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  min-width: 7rem;
+  max-height: 3rem;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.delete_list_btn {
+  background-color: #f42727;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  min-width: 8rem;
+  max-height: 3rem;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.delete_list_btn:hover {
+  background-color: #c02716;
+}
+
+.delete_list_btn:active {
+  background-color: #c02716 !important;
+  transition: none;
+}
+
+.edit_list_btn {
+  background-color: #4f8f8f;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  min-width: 8rem;
+  max-height: 3rem;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.edit_list_btn:hover {
+  background-color: #1a7b6b;
+}
+
+.edit_list_btn:active {
+  background-color: #1a7b6b !important;
+  transition: none;
+}
+
+.counter_tasks_status_completed {
+  background-color: #32d560;
+  min-width: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  border-radius: 40px;
+}
+
+.counter_tasks_status_pending {
+  background-color: #4bc6bf;
+  min-width: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  border-radius: 40px;
+}
+
+.counter_tasks_status_urgent {
+  background-color: #f42727;
+  min-width: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  border-radius: 40px;
+}
+
+.counter_tasks_status_completed,
+.counter_tasks_status_pending,
+.counter_tasks_status_urgent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.pin_btn {
+  color: #c02716;
+  font-size: 2rem;
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6);
+}
+
+.pin_btn:hover {
+  color: #f45c27;
+}
+
+.check_input:checked {
+  background-color: #4caf50;
+  border-color: #4caf50;
+}
+
+.check_input:not(:checked) {
+  background-color: #4bc6bf;
+  border-color: #175653;
+}
+
+.form-switch .form-check-input:not(:checked) {
+  background-position: left center;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23ffffff'/%3e%3c/svg%3e");
+}
+
+.check_input:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.add_task_btn {
+  color: #f45c27;
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.urgent_btn{
+  font-size: 0.75rem;
+  font-weight: 700;
+}

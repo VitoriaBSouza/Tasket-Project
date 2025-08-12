@@ -15,8 +15,8 @@ with app.app_context():
 
     # Limpia tablas (opcional, cuidado en prod)
     Task.query.delete()
-    List.query.delete()
     Pinned.query.delete()
+    List.query.delete()
     User.query.delete()
     db.session.commit()
 

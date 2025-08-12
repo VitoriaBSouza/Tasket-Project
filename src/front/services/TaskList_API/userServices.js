@@ -49,7 +49,7 @@ userServices.signup = async (formData) => {
 };
 
 // POST login
-userServices.login = async (formData, rememberMe) => {
+userServices.login = async (formData) => {
   try {
     const resp = await fetch(url + "/api/login", {
       method: "POST",
@@ -63,7 +63,7 @@ userServices.login = async (formData, rememberMe) => {
       return { error: data.error || "Login failed" };
     }
 
-    if (rememberMe) {
+    if (formData.rememberMe) {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
     } else {

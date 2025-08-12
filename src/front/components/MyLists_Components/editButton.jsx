@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 //css file
 import '../../CSS_files/myLists.css';
@@ -7,20 +7,34 @@ import '../../CSS_files/myLists.css';
 import useGlobalReducer from "../../hooks/useGlobalReducer.jsx";
 
 //services
-import listServices from "../../services/TaskList_API/listServices";
+import listServices from "../../services/TaskList_API/listServices.js";
 import { showError, showSuccess } from "../../services/toastService.js";
-import { DeleteAllListsBtn } from "./deleteAllListsBtn.jsx";
 
-export const CreateBtn = () => {
+//icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+
+export const EditButton = ({ list }) => {
 
     const { store, dispatch } = useGlobalReducer();
 
     const [formData, setFormData] = useState({
+        id: "",
         title: "",
         description: ""
     })
 
-    //This will limit the words for the title and description
+    useEffect(() => {
+        if (list) {
+            setFormData({
+                id: list.id,
+                title: list.title,
+                description: list.description || "",
+            });
+        }
+    }, [list]);
+
+    //this will limit the words for the title and description
     //On the backend we also have limited but in case it is a guest we had to limit on the frontend again.
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -36,16 +50,28 @@ export const CreateBtn = () => {
         }
     };
 
-    // Will close the modal once we click on submit button
+    //Will close the modal once we click o submit button
     const closeModal = () => {
-        // Forzar blur del elemento enfocado
-        document.activeElement?.blur();
-
-        const modalEl = document.getElementById("crateBtnModal"); // tu id exacto
+        const modalEl = document.getElementById(`editBtnModal-${list.id}`); // tu id exacto
         if (modalEl) {
             const modalInstance = bootstrap.Modal.getInstance(modalEl);
             modalInstance?.hide();
         }
+    };
+
+    //Change the status of the list, this is already present on backend
+    //This function will only apply if the person is a guets or not logged
+    const updateListStatus = (listId, store) => {
+        // Filter the tasks which are part of the list by id
+        const tasksOfList = store.tasks.filter(task => task.listId === listId);
+
+        // if no tasks we leave as pending
+        if (tasksOfList.length === 0) return "Pending";
+
+        // If all tasks are completed, then will change to completed
+        const allCompleted = tasksOfList.every(task => task.status === "Completed");
+
+        return allCompleted ? "Completed" : "Pending";
     };
 
 
@@ -58,36 +84,34 @@ export const CreateBtn = () => {
             }
 
             if (store.token) {
-                const data = await listServices.addList(formData);
+                const data = await listServices.updateList(list.id, formData);
 
                 if (data.success) {
-                    dispatch({ type: "add_list", payload: data.list });
-                    showSuccess("List created successfully.");
+                    dispatch({ type: "edit_list", payload: data.list });
+                    showSuccess("List updated successfully.");
                     closeModal();
-                    setFormData({ title: "", description: "" });
 
                 } else {
-                    showError(data.error || "Could not create the list, please try again.");
+                    showError(data.error || "Could not updated the list, please try again.");
                 }
             } else {
-                //if user is not logged or does not have account will add locally
-                const newList = {
-                    //this will generate an id based on the time was created
-                    //we do not add an id because once they close tab, the session will be lost
-                    //so ID cannot be duplicated by the same user and session.
-                    id: Date.now(),
-                    ...formData,
-                    status: "Pending",
-                };
-                dispatch({ type: "add_list", payload: newList });
+                //if user is not logged or does not have account will edit locally
+                const status = updateListStatus(formData.id, store);
 
-                //will save the list on the session so guest can have access until they close the tab
-                const updatedLists = [...store.lists, newList];
+                const newList = {
+                    ...formData,
+                    status,
+                };
+
+                //will update on the session storage so it's saved
+                const updatedLists = store.lists.map(list =>
+                    list.id === newList.id ? newList : list
+                );
                 sessionStorage.setItem('lists', JSON.stringify(updatedLists));
 
-                showSuccess("List created successfully.");
+                dispatch({ type: "edit_list", payload: newList });
+                showSuccess("List updated successfully.");
                 closeModal();
-                setFormData({ title: "", description: "" });
             }
 
         } catch (error) {
@@ -96,19 +120,17 @@ export const CreateBtn = () => {
     };
 
     return (
-        <div className="col-12 col-sm-4 d-flex justify-content-end mt-2 ms-auto">
+        <div className="col-12 col-md-3 d-flex justify-content-end me-3">
 
             <button type="button"
-                className="btn rounded-pill create_btn mt-2 me-3"
+                className="btn border-0"
                 data-bs-toggle="modal"
-                data-bs-target="#crateBtnModal"
+                data-bs-target={`#editBtnModal-${list.id}`}
                 data-bs-whatever="@mdo">
-                Create List
+                <FontAwesomeIcon icon={faPenToSquare} className="edit_btn" />
             </button>
 
-            <DeleteAllListsBtn />
-
-            <div className="modal fade" id="crateBtnModal" tabIndex="-1" aria-labelledby="createBtnModalLabel" aria-hidden="true">
+            <div className="modal fade" id={`editBtnModal-${list.id}`} tabIndex="-1" aria-labelledby="createBtnModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content modal_bg">
                         <div className="modal-header">

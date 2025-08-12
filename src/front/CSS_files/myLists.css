@@ -4,6 +4,12 @@
   background-color: #c7e2e271;
 }
 
+.title_myLists{
+  color: #197566;
+  font-size: 3.5rem;
+  font-weight: 800;
+}
+
 /* End of My Lists components classes */
 
 /* My Create Button classes */
@@ -13,10 +19,31 @@
   font-size: 1.3rem;
   font-weight: 600;
   color: white;
+  min-width: 10rem;
+  max-height: 3rem;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.create_btn:hover {
+  background-color: #c04316;
+}
+
+.create_btn:active {
+  background-color: #c04316 !important;
+  transition: none;
+}
+
+.delete_all_lists_btn {
+  font-size: 1.3rem;
+  font-weight: 600;
+  min-width: 10rem;
+  max-height: 3rem;
+  transition: background-color 0.15s ease-in-out;
 }
 
 .modal_bg {
   background-color: #f3fcfcec;
+  color: #228E7C;
 }
 
 .btn_create{
@@ -27,12 +54,41 @@
 .title_modal{
   color: #228E7C;
 }
+
 /* End of My Create Button classes */
+
+/* My ListsCards components classes */
+
+.card_lists_title {
+  min-height: 3rem;
+  overflow-wrap: break-word;
+}
+
+.card_lists_text {
+  min-height: 4.8rem; 
+  overflow-wrap: break-word;
+}
+
+.edit_btn{
+  color: #228E7C;
+  font-size: 1.7rem;
+}
+
+.trash_btn{
+  color: #c1454b;
+  font-size: 1.5rem;
+}
+
+/* End of ListsCards classes */
 
 /* My Search Bar components classes */
 
 .search_box_bg {
   background-color: rgba(255, 255, 255, 0.959);
+}
+
+.search_box_bg2 {
+  background-color: #c7e2e293;
 }
 
 .searchBar {
@@ -59,12 +115,11 @@
   max-height: 10rem;
   overflow-y: auto;
   z-index: 1050;
-  scrollbar-color: #c1454b rgba(211, 211, 211, 0.406);
+  scrollbar-color: #228E7C rgba(211, 211, 211, 0.406);
 }
 
 .dataItem {
-  margin: 2rem;
-  color: #c1454b;
+  color: #228E7C;
   font-weight: 480;
 }
 

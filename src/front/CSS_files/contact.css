@@ -8,6 +8,7 @@
   min-width: 200px;
   max-width: 250px;
   white-space: nowrap;
+  transition: background-color 0.15s ease-in-out;
 }
 
 .contact_btn:hover {
@@ -15,8 +16,9 @@
 }
 
 .contact_btn:active {
-  background-color: #228e7c;
+  background-color: #228e7c !important;
   color: white;
+  transition: none;
 }
 
 .contact_title {
@@ -41,4 +43,10 @@
   min-width: 100px;
   max-width: 150px;
   white-space: nowrap;
+  transition: background-color 0.30s ease-in-out;
+}
+
+.report_btn {
+  background-color: #e4202d;
+  transition: none;
 }

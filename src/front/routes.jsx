@@ -19,6 +19,7 @@ import { FaqPage } from "./pages/FaqPage";
 import { ContactPage } from "./pages/ContactPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { MyLists } from "./pages/MyLists";
+import { TaskPage } from "./pages/TaskPage";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,6 +40,7 @@ export const router = createBrowserRouter(
       <Route path="/reset-password/:token" element={<ResetPage />} />
       <Route path="/my-profile" element={<ProfilePage />} />
       <Route path="/my-lists" element={<MyLists />} />
+      <Route path="/list/:id/tasks" element={<TaskPage />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/term-services" element={<TermServices />} />
       <Route path="/faq" element={<FaqPage />} />

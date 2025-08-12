@@ -10,11 +10,13 @@ export const initialStore = () => {
         localStorage.getItem("user") || sessionStorage.getItem("user");
       return user && user !== "undefined" ? JSON.parse(user) : {};
     })(),
-    lists:[],
-    urgent:[],
+    lists: [],
+    list: [],
+    tasks: [],
+    urgent: [],
     pinned: [],
     status: [],
-    status_by_list:[],
+    status_by_list: [],
 
     message: null,
     todos: [
@@ -79,16 +81,73 @@ export default function storeReducer(store, action = {}) {
         lists: action.payload,
       };
 
+    case "get_one_list":
+      return {
+        ...store,
+        list: action.payload,
+      };
+
     case "add_list":
       return {
         ...store,
-        lists: action.payload,
+        lists: [...store.lists, action.payload],
       };
-    
+
+    case "edit_list":
+      return {
+        ...store,
+        lists: store.lists.map((list) =>
+          list.id === action.payload.id ? action.payload : list
+        ),
+      };
+
+    case "delete_list":
+      return {
+        ...store,
+        lists: store.lists.filter((list) => list.id !== action.payload),
+      };
+
+    case "delete_all_lists":
+      return {
+        ...store,
+        lists: [],
+      };
+
     case "get_urgent_tasks":
       return {
         ...store,
         urgent: action.payload,
+      };
+
+    case "update_task_status":
+      return {
+        ...store,
+        lists: store.lists.map((list) =>
+          list.id === action.payload.id ? action.payload : list
+        ),
+      };
+
+    case "update_urgent_tag":
+      return {
+        ...store,
+        lists: store.lists.map((list) =>
+          list.id === action.payload.list_id
+            ? {
+                ...list,
+                tasks: list.tasks.map((task) =>
+                  task.id === action.payload.task_id
+                    ? { ...task, urgent: action.payload.urgent }
+                    : task
+                ),
+              }
+            : list
+        ),
+      };
+
+    case "delete_all_tasks":
+      return {
+        ...store,
+        tasks: store.tasks.filter((task) => task.listId !== action.payload),
       };
 
     case "get_pinned_lists":

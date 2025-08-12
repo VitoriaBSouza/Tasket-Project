@@ -55,7 +55,7 @@ export const Navbar = () => {
 					<img src={TasketLogo} alt="Logo" className="logo_navbar order-1" />
 				</Link>
 
-				<ul className="navbar-nav flex-row d-flex align-items-end ms-auto me-3 me-md-0 order-2 order-md-3">
+				<ul className="navbar-nav flex-row ms-auto me-3 me-md-0 order-2 order-md-3">
 					{showTabs ? null : (
 						<>
 							{location.pathname === "/faq" ?
@@ -75,7 +75,7 @@ export const Navbar = () => {
 					<FontAwesomeIcon icon={faBars} className="fs-1" />
 				</button>
 
-				<div className="collapse navbar-collapse order-3 order-md-2" id="navbarNavDropdown">
+				<div className="collapse navbar-collapse order-3 order-md-2 align-self-end" id="navbarNavDropdown">
 					{showTabs ?
 						(store.token ?
 							<UserToggle />
@@ -83,10 +83,10 @@ export const Navbar = () => {
 							<GuestTabs />
 						)
 						:
-						(<div className="d-flex flex-grow-1 justify-content-center align-self-start">
-							<ul className="navbar-nav flex-row py-3 py-md-0">
+						(<div className="d-flex flex-grow-1 justify-content-center">
+							<ul className="navbar-nav py-3 py-md-0">
 								<li className="nav-item">
-									<a className={`nav-link mb-0 pb-0 ${location.pathname === "/" ?
+									<a className={`nav-link ${location.pathname === "/" ?
 										"active text_tabs_active"
 										:
 										"text_tabs"}`}
@@ -94,7 +94,7 @@ export const Navbar = () => {
 										href="/">Home</a>
 								</li>
 								<li className="nav-item">
-									<a className={`nav-link mb-0 pb-0 mx-3 mx-md-2 ${location.pathname === "/my-lists" ?
+									<a className={`nav-link mx-3 mx-md-2 ${location.pathname === "/my-lists" ?
 										"active text_tabs_active"
 										:
 										"text_tabs"}`}
@@ -103,7 +103,7 @@ export const Navbar = () => {
 								</li>
 								<PopOver>
 									<li className="nav-item">
-										<a className={`nav-link mb-0 pb-0 ${location.pathname === "/my-budget" ?
+										<a className={`nav-link ${location.pathname === "/my-budget" ?
 											"active text_tabs_active"
 											:
 											"disabled text_tabs"}`}
