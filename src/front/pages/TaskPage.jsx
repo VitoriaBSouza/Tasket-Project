@@ -118,17 +118,17 @@ export const TaskPage = () => {
             <div className="row mb-3 pb-4 bg_tasks_page rounded-bottom-3">
 
                 <div className="col-12 col-lg-6">
-                    <div class="accordion accordion-flush" id="accordionTask">
+                    <div className="accordion accordion-flush" id="accordionTask">
                         {!store.list?.tasks || store.list?.tasks.length === 0 ? (
                             <p className="fs-4 p-4">No tasks on your list, add one now!</p>
                         ) : (
                             store.list.tasks
-                                .slice() // clona array para no mutar original
+                                .slice() // clones array to avoid changing state
                                 .sort((a, b) => {
-                                    // completados al final
+                                    // will send completed to the bottom
                                     if (a.status === 'completed' && b.status !== 'completed') return 1;
                                     if (a.status !== 'completed' && b.status === 'completed') return -1;
-                                    // urgentes arriba (solo pendientes)
+                                    // will move pending tagged urgent to the top
                                     if (a.urgent && !b.urgent) return -1;
                                     if (!a.urgent && b.urgent) return 1;
                                     return 0;

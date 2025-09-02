@@ -81,40 +81,55 @@ export const TaskCard = ({ id, task, status, list_id, urgent }) => {
 
 
     return (
-        <div class="accordion-item">
-            <h2 className="accordion-header" id="flush-headingOne">
-                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                    <div className="form-check form-switch d-flex align-items-center mt-1 custom-switch">
+        <div className="accordion-item mb-3">
+            <h2 className="accordion-header" id={"flush-heading"+ id}>
+                <div className="accordion-button collapsed d-flex align-items-center"
+                    data-bs-toggle="collapse"
+                    data-bs-target={"#flush-collapse"+ id}
+                    aria-expanded="false"
+                    aria-controls="flush-collapseOne">
 
-                        <div className="form-check form-switch align-self-center">
-                            <input
-                                className="form-check-input fs-5 check_input border-0 mt-3 mt-md-2"
-                                type="checkbox"
-                                id={"flexSwitchCheckDefault_" + id}
-                                checked={taskStatus === "completed"}
-                                onChange={setStatus} />
-                            <label
-                                className="form-check-label p-1 fs-6 lh-sm m-1"
-                                htmlFor={"flexSwitchCheckDefault_" + id}>{task}</label>
-                        </div>
-                        <UrgentTag
-                            task_id={id}
-                            list_id={list_id}
-                            tag_urgent={urgent}
-                            status={status}
+                    <div className="form-check form-switch align-self-center">
+                        <input
+                            className="form-check-input fs-5 check_input border-0 mt-3 mt-md-2"
+                            type="checkbox"
+                            id={"flexSwitchCheckDefault_" + id}
+                            checked={taskStatus === "completed"}
+                            onChange={setStatus}
                         />
-                        <button
-                            type="button"
-                            className="btn-close align-self-center m-3 fs-6"
-                            aria-label="Close"></button>
-
+                        <label
+                            className="form-check-label p-1 fs-6 lh-sm m-1"
+                            htmlFor={"flexSwitchCheckDefault_" + id}>
+                            {task}
+                        </label>
                     </div>
-                </button>
+
+                    <UrgentTag
+                        task_id={id}
+                        list_id={list_id}
+                        tag_urgent={urgent}
+                        status={status}
+                    />
+
+                    {/* Este sí es botón, pero ya no está dentro del accordion-button */}
+                    <button
+                        type="button"
+                        className="btn-close align-self-center m-3 fs-6"
+                        aria-label="Close"
+                    />
+                </div>
             </h2>
-            <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionTask">
-                <div className="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+
+            <div
+                id={"flush-collapse"+ id}
+                className="accordion-collapse collapse"
+                aria-labelledby={"flush-heading"+ id}
+                data-bs-parent="#accordionTask">
+                <div className="accordion-body">
+                    Placeholder content for this accordion, which is intended to demonstrate the
+                    <code>.accordion-flush</code> class. This is the first item's accordion body.
+                </div>
             </div>
         </div>
-
     );
 }
