@@ -95,6 +95,7 @@ export const UserPage = () => {
                                     <UrgentCards
                                         key={task.id}
                                         id={task.id}
+                                        list_id={list.id}
                                         title={list.title}
                                         task={task.task}
                                     />

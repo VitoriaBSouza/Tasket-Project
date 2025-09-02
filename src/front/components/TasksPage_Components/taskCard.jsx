@@ -14,9 +14,9 @@ import { showError } from "../../services/toastService.js";
 import { UrgentTag } from "./urgentTag";
 
 
-export const TaskCard = ({ id, task, status, list_id, urgent }) => {
+export const TaskCard = (props) => {
 
-    const [taskStatus, setTaskStatus] = useState(status);
+    const [taskStatus, setTaskStatus] = useState(props.status);
     const { store, dispatch } = useGlobalReducer();
 
     const setStatus = async () => {
@@ -31,13 +31,13 @@ export const TaskCard = ({ id, task, status, list_id, urgent }) => {
         if (store.token) {
 
             //if user is logged will update the task status on database
-            const data = await taskServices.updateStatus(list_id, id, newStatus);
+            const data = await taskServices.updateStatus(props.list_id, props.id, newStatus);
 
             //if success will change urgent tag to false if any so we do ont show on urgent tasks scroll
             if (data.success) {
                 if (newStatus === "completed") {
 
-                    const urgent = await taskServices.updateUrgency(list_id, id, false);
+                    const urgent = await taskServices.updateUrgency(props.list_id, props.id, false);
 
                     if (urgent.success) {
                         dispatch({
@@ -68,7 +68,7 @@ export const TaskCard = ({ id, task, status, list_id, urgent }) => {
                 setTaskStatus(oldStatus);
             }
         } else {
-            const list = store.lists.find(l => String(l.id) === String(list_id));
+            const list = store.lists.find(l => String(l.id) === String(props.list_id));
             dispatch({
                 type: "update_task_status",
                 payload: list,
@@ -82,10 +82,10 @@ export const TaskCard = ({ id, task, status, list_id, urgent }) => {
 
     return (
         <div className="accordion-item mb-3">
-            <h2 className="accordion-header" id={"flush-heading"+ id}>
+            <h2 className="accordion-header" id={"flush-heading" + props.id}>
                 <div className="accordion-button collapsed d-flex align-items-center"
                     data-bs-toggle="collapse"
-                    data-bs-target={"#flush-collapse"+ id}
+                    data-bs-target={"#flush-collapse" + props.id}
                     aria-expanded="false"
                     aria-controls="flush-collapseOne">
 
@@ -93,22 +93,22 @@ export const TaskCard = ({ id, task, status, list_id, urgent }) => {
                         <input
                             className="form-check-input fs-5 check_input border-0 mt-3 mt-md-2"
                             type="checkbox"
-                            id={"flexSwitchCheckDefault_" + id}
+                            id={"flexSwitchCheckDefault_" + props.id}
                             checked={taskStatus === "completed"}
                             onChange={setStatus}
                         />
                         <label
                             className="form-check-label p-1 fs-6 lh-sm m-1"
-                            htmlFor={"flexSwitchCheckDefault_" + id}>
-                            {task}
+                            htmlFor={"flexSwitchCheckDefault_" + props.id}>
+                            {props.task}
                         </label>
                     </div>
 
                     <UrgentTag
-                        task_id={id}
-                        list_id={list_id}
-                        tag_urgent={urgent}
-                        status={status}
+                        task_id={props.id}
+                        list_id={props.list_id}
+                        tag_urgent={props.urgent}
+                        status={props.status}
                     />
 
                     {/* Este sí es botón, pero ya no está dentro del accordion-button */}
@@ -121,13 +121,40 @@ export const TaskCard = ({ id, task, status, list_id, urgent }) => {
             </h2>
 
             <div
-                id={"flush-collapse"+ id}
+                id={"flush-collapse" + props.id}
                 className="accordion-collapse collapse"
-                aria-labelledby={"flush-heading"+ id}
+                aria-labelledby={"flush-heading" + props.id}
                 data-bs-parent="#accordionTask">
                 <div className="accordion-body">
-                    Placeholder content for this accordion, which is intended to demonstrate the
-                    <code>.accordion-flush</code> class. This is the first item's accordion body.
+                    <div className="row">
+
+                        <div className="col-12 col-md-6 col-lg-4">
+                            <p className="fw-bold m-0">Scheduled:</p>
+                            <p>{props.schedule_at}</p>
+                        </div>
+                        <div className="col-12 col-md-6 col-lg-4">
+                            <p className="fw-bold m-0">Time limit:</p>
+                            <p>{props.due_at}</p>
+                        </div>
+                        <div className="col-12 col-md-6 col-lg-4">
+                            <p className="fw-bold m-0">Set reminder:</p>
+                            <p>{props.reminder_at}</p>
+                        </div>
+                        <div className="col-12 col-md-6 col-lg-4">
+                            <p className="fw-bold m-0">Location:</p>
+                            <p>{props.location}</p>
+                        </div>
+
+                        <div className="col-12">
+                            <p className="fw-bold">Comments:</p>
+                            <p>{props.comment}</p>
+                        </div>
+
+                        <p className="text-end fs-6 text-secondary fst-italic">
+                            Last update: {props.updated_at}
+                        </p>
+
+                    </div>
                 </div>
             </div>
         </div>

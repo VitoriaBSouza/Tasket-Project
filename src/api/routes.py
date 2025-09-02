@@ -27,8 +27,6 @@ def handle_hello():
     return jsonify(response_body), 200
 
 # Get all users (for test purposes)
-
-
 @api.route('/users', methods=['GET'])
 def get_users():
 
@@ -39,8 +37,6 @@ def get_users():
     return jsonify({"users": [user.serialize() for user in users], "success": True}), 200
 
 # POST to create a new user
-
-
 @api.route('/signup', methods=['POST'])
 def signup():
     try:
@@ -120,7 +116,7 @@ def login():
         print(e)
         return jsonify({"error": str(e)}), 500
 
-
+# request token link to reset password
 @api.route('/forgot-password', methods=['POST'])
 def forgot_password():
 
@@ -176,6 +172,7 @@ def forgot_password():
         return jsonify({"error": str(e)}), 500
 
 
+# Reset password with temporary token
 @api.route('/reset-password/<token>', methods=['POST'])
 def reset_password(token):
     try:
@@ -210,8 +207,6 @@ def reset_password(token):
 
 # GET one user profile
 # Requires to request the token from the frontend
-
-
 @api.route('/user', methods=['GET'])
 @jwt_required()
 def get_user_profile():
@@ -226,8 +221,6 @@ def get_user_profile():
     return jsonify({"success": True, "user": user.serialize()})
 
 # PUT to update user profile
-
-
 @api.route("/user", methods=["PUT"])
 @jwt_required()
 def update_user():
@@ -311,8 +304,6 @@ def delete_user():
     return jsonify({"message": "Your account has been successfully erased", "success": True}), 200
 
 # GET all lists of all users (for test purposes)
-
-
 @api.route('/lists', methods=['GET'])
 def get_all_lists():
 
@@ -325,8 +316,6 @@ def get_all_lists():
     return jsonify({"success": True, "lists": [l.serialize() for l in lists]}), 200
 
 # GET all lists of the user
-
-
 @api.route('/user/lists', methods=['GET'])
 @jwt_required()
 def get_lists():
@@ -341,8 +330,6 @@ def get_lists():
     return jsonify({"success": True, "lists": [l.serialize() for l in lists]}), 200
 
 # GET one lists of the user
-
-
 @api.route('/user/list/<int:list_id>', methods=['GET'])
 @jwt_required()
 def get_one_list(list_id):
@@ -357,8 +344,6 @@ def get_one_list(list_id):
     return jsonify({"success": True, "list": list.serialize()}), 200
 
 # POST a new list
-
-
 @api.route('/user/lists', methods=['POST'])
 @jwt_required()
 def add_list():
@@ -389,8 +374,6 @@ def add_list():
         return jsonify({"error": str(e)}), 500
 
 # PUT to update list details
-
-
 @api.route("/user/list/<int:list_id>", methods=["PUT"])
 @jwt_required()
 def update_list(list_id):
@@ -420,8 +403,6 @@ def update_list(list_id):
         return jsonify({"error": str(e)}), 500
 
 # DELETE list
-
-
 @api.route("/user/list/<int:list_id>", methods=["DELETE"])
 @jwt_required()
 def delete_list(list_id):
@@ -444,8 +425,6 @@ def delete_list(list_id):
     return jsonify({"message": "List deleted", "success": True}), 200
 
 # DELETE all lists of a user
-
-
 @api.route("/user/lists", methods=["DELETE"])
 @jwt_required()
 def delete_all_lists():
@@ -493,8 +472,6 @@ def get_all_tasks(list_id):
     return jsonify({"success": True, "tasks": [t.serialize() for t in tasks]}), 200
 
 # GET one tasks of a list
-
-
 @api.route('/user/list/<int:list_id>/task/<int:task_id>', methods=['GET'])
 @jwt_required()
 def get_one_task(list_id, task_id):
@@ -518,8 +495,6 @@ def get_one_task(list_id, task_id):
     return jsonify({"success": True, "task": task.serialize()}), 200
 
 # GET all tasks based on status (for statistics)
-
-
 @api.route('/user/tasks/status', methods=['GET'])
 @jwt_required()
 def get_status_tasks():
@@ -542,8 +517,6 @@ def get_status_tasks():
     return jsonify({"success": True, "stats": stats}), 200
 
 # GET all tasks based on status of one specific list (for statistics)
-
-
 @api.route('/user/list/<int:list_id>/tasks/status', methods=['GET'])
 @jwt_required()
 def get_tasks_status_of_list(list_id):
@@ -569,8 +542,6 @@ def get_tasks_status_of_list(list_id):
     return jsonify({"success": True, "stats": stats}), 200
 
 # POST a new task
-
-
 @api.route('/user/list/<int:list_id>/task', methods=['POST'])
 @jwt_required()
 def add_task(list_id):
@@ -613,8 +584,6 @@ def add_task(list_id):
         return jsonify({"error": str(e)}), 500
 
 # PUT to update task details
-
-
 @api.route("/user/list/<int:list_id>/task/<int:task_id>", methods=["PUT"])
 @jwt_required()
 def update_task(list_id, task_id):
@@ -660,8 +629,6 @@ def update_task(list_id, task_id):
         return jsonify({"error": str(e)}), 500
 
 # GET all urgent tasks of all users (for test purposes)
-
-
 @api.route('/lists/tasks/urgent', methods=['GET'])
 def get_all_tasks_urgent():
 
@@ -685,8 +652,6 @@ def get_all_tasks_urgent():
     return jsonify({"success": True, "lists": result}), 200
 
 # GET all lists with urgent task of one user
-
-
 @api.route('/user/lists/tasks/urgent', methods=['GET'])
 @jwt_required()
 def get_user_lists_with_urgent_tasks():
@@ -715,8 +680,6 @@ def get_user_lists_with_urgent_tasks():
     return jsonify({"success": True, "urgent": result}), 200
 
 # PUT to update task urgent status
-
-
 @api.route("/user/list/<int:list_id>/task/<int:task_id>/urgent", methods=["PUT"])
 @jwt_required()
 def update_task_urgency(list_id, task_id):
@@ -753,7 +716,6 @@ def update_task_urgency(list_id, task_id):
         return jsonify({"error": str(e)}), 500
 
 # PUT to update task status
-
 @api.route("/user/list/<int:list_id>/task/<int:task_id>/status", methods=["PUT"])
 @jwt_required()
 def update_task_status(list_id, task_id):
@@ -813,8 +775,6 @@ def update_task_status(list_id, task_id):
         return jsonify({"error": str(e)}), 500
 
 # DELETE one task of a list
-
-
 @api.route("/user/list/<int:list_id>/task/<int:task_id>", methods=["DELETE"])
 @jwt_required()
 def delete_one_task(list_id, task_id):
@@ -842,8 +802,6 @@ def delete_one_task(list_id, task_id):
     return jsonify({"message": "Task deleted", "success": True}), 200
 
 # DELETE all task of a list
-
-
 @api.route("/user/list/<int:list_id>/tasks", methods=["DELETE"])
 @jwt_required()
 def delete_all_tasks(list_id):
@@ -870,8 +828,6 @@ def delete_all_tasks(list_id):
     return jsonify({"message": "Tasks deleted", "success": True}), 200
 
 # GET all pinned lists of all users (for test purposes)
-
-
 @api.route('/lists/pinned', methods=['GET'])
 def get_all_lists_pinned():
 
@@ -884,8 +840,6 @@ def get_all_lists_pinned():
     return jsonify({"success": True, "pinned": [p.serialize() for p in pinned]}), 200
 
 # GET all lists pinned by user
-
-
 @api.route('/user/lists/pinned', methods=['GET'])
 @jwt_required()
 def get_user_lists_pinned():
@@ -900,8 +854,6 @@ def get_user_lists_pinned():
     return jsonify({"success": True, "pinned": [p.serialize() for p in pinned]}), 200
 
 # GET one lists pinned by user
-
-
 @api.route('/user/list/<int:list_id>/pinned', methods=['GET'])
 @jwt_required()
 def get_one_list_pinned(list_id):
@@ -917,8 +869,6 @@ def get_one_list_pinned(list_id):
     return jsonify({"success": True, "pinned": pinned.serialize()}), 200
 
 # POST to pin a list
-
-
 @api.route('/user/list/<int:list_id>/pinned', methods=['POST'])
 @jwt_required()
 def pin_list(list_id):
@@ -958,8 +908,6 @@ def pin_list(list_id):
         return jsonify({"error": str(e)}), 500
 
 # DELETE list from pinned table
-
-
 @api.route("/user/list/<int:list_id>/pinned", methods=["DELETE"])
 @jwt_required()
 def unpin_list(list_id):

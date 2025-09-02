@@ -47,12 +47,18 @@ export const ListsCards = ({ id, title, status, description }) => {
                     <div className="d-flex my-2 align-items-center">
                         <h5 className="card-title fw-bold card_lists_title">
                             {title
-                            .toLowerCase()
-                            .replace(/(^\s*\w|\. \s*\w)/g, match => match.toUpperCase())}
+                                .toLowerCase()
+                                .replace(/(^\s*\w|\. \s*\w)/g, match => match.toUpperCase())}
                         </h5>
-                        <div className="btn-group ms-auto me-2" role="group" aria-label="Basic outlined example">
+                        <div
+                            className="btn-group ms-auto me-2"
+                            role="group"
+                            aria-label="Basic outlined example">
                             <button type="button" className="btn border-0">
-                                <FontAwesomeIcon icon={faTrash} className="trash_btn" onClick={handleDelete} />
+                                <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className="trash_btn"
+                                    onClick={handleDelete} />
                             </button>
                             <EditButton list={list} />
                         </div>
@@ -62,7 +68,9 @@ export const ListsCards = ({ id, title, status, description }) => {
                     </div>
 
                     {/* Will capitalize the first letter and after period. */}
-                    <p className="card-text lh-sm card_lists_text" onClick={() => navigate(`/list/${id}/tasks`)}>
+                    <p
+                        className="card-text lh-sm card_lists_text"
+                        onClick={() => navigate(`/list/${id}/tasks`)}>
                         {description
                             .toLowerCase()
                             .replace(/(^\s*\w|\. \s*\w)/g, match => match.toUpperCase())}

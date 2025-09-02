@@ -78,7 +78,7 @@ class List(db.Model):
             "title": self.title,
             "user_id": self.user_id,
             "status": self.status.value,
-            "tasks": [{"id": t.id, "task": t.task, "status": t.status.value, "urgent": t.urgent} for t in self.tasks],
+            "tasks": [t.serialize() for t in self.tasks],
             "description": self.description,
             "created_at": self.created_at,
             "updated_at": self.updated_at

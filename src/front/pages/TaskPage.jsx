@@ -91,24 +91,24 @@ export const TaskPage = () => {
                 <div className="col-12 col-lg-3 d-flex justify-content-center
                  mt-3 mt-md-5 mt-lg-0 order-2 order-lg-3">
                     <div className="d-flex flex-column align-items-center mx-3">
-                        <div className="counter_tasks_status_completed fw-bold d-flex align-items-center 
-                        justify-content-center">
+                        <div className="counter_tasks_status_completed fw-bold d-flex 
+                        align-items-center justify-content-center">
                             {store.list?.tasks?.filter(t => t.status === "completed").length || 0}
                         </div>
                         <div className="fs-6 fw-normal mt-1 text-center">Completed</div>
                     </div>
 
                     <div className="d-flex flex-column align-items-center mx-3">
-                        <div className="counter_tasks_status_pending fw-bold d-flex align-items-center 
-                        justify-content-center">
+                        <div className="counter_tasks_status_pending fw-bold d-flex 
+                        align-items-center justify-content-center">
                             {store.list?.tasks?.filter(t => t.status === "pending").length || 0}
                         </div>
                         <div className="fs-6 fw-normal mt-1 text-center">Pending</div>
                     </div>
 
                     <div className="d-flex flex-column align-items-center mx-3">
-                        <div className="counter_tasks_status_urgent fw-bold d-flex align-items-center 
-                        justify-content-center">
+                        <div className="counter_tasks_status_urgent fw-bold d-flex 
+                        align-items-center justify-content-center">
                             {store.list?.tasks?.filter(t => t.urgent).length || 0}
                         </div>
                         <div className="fs-6 fw-normal mt-1 text-center">Urgent</div>
@@ -117,7 +117,7 @@ export const TaskPage = () => {
             </div>
             <div className="row mb-3 pb-4 bg_tasks_page rounded-bottom-3">
 
-                <div className="col-12 col-lg-6">
+                <div className="col-12 col-lg-6 px-5 d-flex">
                     <div className="accordion accordion-flush" id="accordionTask">
                         {!store.list?.tasks || store.list?.tasks.length === 0 ? (
                             <p className="fs-4 p-4">No tasks on your list, add one now!</p>
@@ -142,6 +142,13 @@ export const TaskPage = () => {
                                         task={el.task}
                                         status={el.status}
                                         urgent={el.urgent}
+                                        comment={el.comment}
+                                        due_at={el.due_at}
+                                        location={el.location}
+                                        reminder_at={el.reminder_at}
+                                        schedule_at={el.schedule_at}
+                                        updated_at={el.updated_at}
+
                                     />
                                 ))
                         )}

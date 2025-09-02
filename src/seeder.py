@@ -3,17 +3,16 @@ load_dotenv()
 
 from werkzeug.security import generate_password_hash
 from random import choice
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from api.models import User, List, Task, Pinned, ListStatus, TaskStatus
 from app import app, db
 
 with app.app_context():
 
     print("Conectando a DB:", app.config['SQLALCHEMY_DATABASE_URI'])
-    # Crear tablas si no existen
     db.create_all()
 
-    # Limpia tablas (opcional, cuidado en prod)
+    # Limpia tablas (cuidado en prod)
     Task.query.delete()
     Pinned.query.delete()
     List.query.delete()
@@ -26,16 +25,16 @@ with app.app_context():
             username=f"user{i+1}",
             email=f"user{i+1}@mail.com",
             password=generate_password_hash('password123'),
-            photo_url=f"https://picsum.photos/300/300?random=1",
+            photo_url=f"https://picsum.photos/300/300?random={i+1}",
             created_at=datetime.now(timezone.utc),
             updated_at=datetime.now(timezone.utc),
         )
         for i in range(3)
     ]
     db.session.add_all(users)
-    db.session.commit()  # para tener ids
+    db.session.commit()
 
-    # Crear listas para usuarios
+    # Crear listas
     lists = []
     for user in users:
         for j in range(2):
@@ -51,22 +50,25 @@ with app.app_context():
             lists.append(new_list)
     db.session.commit()
 
-    # Crear tareas para listas
+    # Crear tareas con detalles
     tasks = []
+    now = datetime.now(timezone.utc)
+    sample_locations = ["Home", "Office", "Supermarket", "Gym"]
+
     for list_ in lists:
         for k in range(3):
             new_task = Task(
                 list_id=list_.id,
                 task=f"Task {k+1} for {list_.title}",
-                location=None,
-                due_at=None,
-                schedule_at=None,
-                reminder_at=None,
+                location=choice(sample_locations),
+                due_at=now + timedelta(days=k+1),
+                schedule_at=now + timedelta(days=k, hours=9),
+                reminder_at=now + timedelta(days=k, hours=8),
                 status=TaskStatus.pending,
                 urgent=choice([True, False]),
-                comment=f"Comment {k+1}",
-                created_at=datetime.now(timezone.utc),
-                updated_at=datetime.now(timezone.utc),
+                comment=f"Comment {k+1} for {list_.title}",
+                created_at=now,
+                updated_at=now,
             )
             db.session.add(new_task)
             tasks.append(new_task)
@@ -83,4 +85,4 @@ with app.app_context():
         db.session.add(pin)
     db.session.commit()
 
-    print("Seeder ejecutado correctamente.")
+    print("✅ Seeder ejecutado correctamente con detalles en tasks.")
