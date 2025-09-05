@@ -8,6 +8,11 @@ body {
 } */
 
 /* If you uncomment above, comment this body class */
+
+html{
+  font-size: 75%;
+}
+
 body {
   line-height: 2;
   font-family: "Nunito", sans-serif;

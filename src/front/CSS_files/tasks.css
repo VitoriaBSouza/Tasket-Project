@@ -141,4 +141,29 @@
 .urgent_btn{
   font-size: 0.75rem;
   font-weight: 700;
+  max-height: 2rem;
+  align-self: center;
+}
+
+.urgent_btn:hover{
+  background-color: #f45c27;
+  border-color: #f45c27;
+}
+
+.task_details_btn:focus,
+.task_details_btn:hover {
+  background-color: #4bc6c028;
+  color: inherit;
+  box-shadow: none;
+}
+
+.delete_task_btn{
+  color: #4f8f8f;
+  font-size: 2rem;
+  font-weight: 500;
+  max-height: 2rem;
+}
+
+.delete_task_btn:hover{
+  color: #f45c27;
 }

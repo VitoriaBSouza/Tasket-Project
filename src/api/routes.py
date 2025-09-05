@@ -4,7 +4,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 from flask import Flask, request, jsonify, url_for, Blueprint
 from sqlalchemy import select, delete, func, and_
 from api.models import db, User, List, Pinned, Task, ListStatus, TaskStatus
-from api.utils import generate_sitemap, APIException
+from api.utils import generate_sitemap, APIException, parse_date
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -609,11 +609,11 @@ def update_task(list_id, task_id):
         if "task" in data:
             task.task = data["task"]
         if "due_at" in data:
-            task.due_at = data["due_at"]
+            task.due_at = parse_date(data["due_at"])
         if "schedule_at" in data:
-            task.schedule_at = data["schedule_at"]
+            task.schedule_at = parse_date(data["schedule_at"])
         if "reminder_at" in data:
-            task.reminder_at = data["reminder_at"]
+            task.reminder_at = parse_date(data["reminder_at"])
         if "location" in data:
             task.location = data["location"]
         if "comment" in data:

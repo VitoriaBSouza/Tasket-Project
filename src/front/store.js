@@ -168,6 +168,21 @@ export default function storeReducer(store, action = {}) {
         status_by_list: action.payload || { completed: 0, pending: 0 },
       };
 
+    case "edit_task":
+      return {
+        ...store,
+        lists: store.lists.map((list) =>
+          list.id === action.payload.list_id
+            ? {
+                ...list,
+                tasks: list.tasks.map((task) =>
+                  task.id === action.payload.id ? action.payload : task
+                ),
+              }
+            : list
+        ),
+      };
+
     case "set_hello":
       return {
         ...store,
@@ -183,6 +198,7 @@ export default function storeReducer(store, action = {}) {
           todo.id === id ? { ...todo, background: color } : todo
         ),
       };
+
     default:
       throw Error("Unknown action.");
   }

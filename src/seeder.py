@@ -12,19 +12,19 @@ with app.app_context():
     print("Conectando a DB:", app.config['SQLALCHEMY_DATABASE_URI'])
     db.create_all()
 
-    # Limpia tablas (cuidado en prod)
+    # Clears all tables
     Task.query.delete()
     Pinned.query.delete()
     List.query.delete()
     User.query.delete()
     db.session.commit()
 
-    # Crear usuarios
+    # Creats users
     users = [
         User(
             username=f"user{i+1}",
             email=f"user{i+1}@mail.com",
-            password=generate_password_hash('password123'),
+            password=generate_password_hash('123'),
             photo_url=f"https://picsum.photos/300/300?random={i+1}",
             created_at=datetime.now(timezone.utc),
             updated_at=datetime.now(timezone.utc),
@@ -34,7 +34,7 @@ with app.app_context():
     db.session.add_all(users)
     db.session.commit()
 
-    # Crear listas
+    # Creat lists
     lists = []
     for user in users:
         for j in range(2):
@@ -50,7 +50,7 @@ with app.app_context():
             lists.append(new_list)
     db.session.commit()
 
-    # Crear tareas con detalles
+    # Creat tasks with details
     tasks = []
     now = datetime.now(timezone.utc)
     sample_locations = ["Home", "Office", "Supermarket", "Gym"]
@@ -61,20 +61,20 @@ with app.app_context():
                 list_id=list_.id,
                 task=f"Task {k+1} for {list_.title}",
                 location=choice(sample_locations),
-                due_at=now + timedelta(days=k+1),
-                schedule_at=now + timedelta(days=k, hours=9),
-                reminder_at=now + timedelta(days=k, hours=8),
+                due_at=(now + timedelta(days=k+1)).replace(microsecond=0).isoformat(),      # ISO 8601
+                schedule_at=(now + timedelta(days=k, hours=9)).replace(microsecond=0).isoformat(),
+                reminder_at=(now + timedelta(days=k, hours=8)).replace(microsecond=0).isoformat(),
                 status=TaskStatus.pending,
                 urgent=choice([True, False]),
                 comment=f"Comment {k+1} for {list_.title}",
-                created_at=now,
-                updated_at=now,
+                created_at=now.isoformat(),
+                updated_at=now.isoformat(),
             )
             db.session.add(new_task)
             tasks.append(new_task)
     db.session.commit()
 
-    # Pinea primeras listas del primer usuario
+    # Pin first lists of each user
     first_user = users[0]
     for list_ in lists[:2]:
         pin = Pinned(
