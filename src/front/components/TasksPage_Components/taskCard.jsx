@@ -96,7 +96,7 @@ export const TaskCard = (props) => {
     };
 
     return (
-        <div className="accordion-item mb-3">
+        <div className="accordion-item mb-3 bg-light">
             <h2 className="accordion-header d-flex" id={"flush-heading" + props.id}>
                 <div
                     className="accordion-button collapsed d-flex align-items-center 
@@ -108,13 +108,13 @@ export const TaskCard = (props) => {
                 >
                     <div className="form-check form-switch align-self-center w-75">
                         <input
-                            className="form-check-input fs-5 check_input border-0 mt-3 mt-md-2"
+                            className="form-check-input fs-5 check_input border-0 mt-3 mt-md-2 ms-1 me-2"
                             type="checkbox"
                             id={"flexSwitchCheckDefault_" + props.id}
                             checked={taskStatus === "completed"}
                             onChange={setStatus}
                         />
-                        <p className="form-check-label p-1 fs-6 lh-sm m-1">
+                        <p className="p-1 fs-6 lh-sm m-1">
                             {props.task}
                         </p>
 
@@ -131,7 +131,7 @@ export const TaskCard = (props) => {
 
                 <button
                     type="button"
-                    className="btn delete_task_btn mt-2 ms-2">
+                    className="btn delete_task_btn pb-5 ms-2">
                     <FontAwesomeIcon icon={faDeleteLeft} />
                 </button>
 
@@ -143,7 +143,7 @@ export const TaskCard = (props) => {
                 aria-labelledby={"flush-heading" + props.id}
                 data-bs-parent="#accordionTask"
             >
-                <div className="accordion-body">
+                <div className="accordion-body p-4">
                     <div className="row">
                         <EditTaskBtn
                             key={props.id}
@@ -174,12 +174,12 @@ export const TaskCard = (props) => {
                         </div>
                         <div className="col-12 col-md-4">
                             <p className="fw-bold m-0">Location:</p>
-                            <p p className="fs-6 lh-sm">{props.location}</p>
+                            <p className="fs-6 lh-sm">{props.location}</p>
                         </div>
 
                         <div className="col-12">
                             <p className="fw-bold m-0">Comments:</p>
-                            <p p className="fs-6 lh-sm">{props.comment}</p>
+                            <p className="fs-6 lh-sm">{props.comment}</p>
                         </div>
 
                         <p className="text-end fs-6 text-secondary fst-italic">

@@ -23,8 +23,6 @@ export const MyLists = () => {
         });
     };
 
-    store.lists;
-
     useEffect(() => {
         if (!store.token) {
             const savedLists = sessionStorage.getItem("lists");

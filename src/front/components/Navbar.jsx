@@ -101,7 +101,7 @@ export const Navbar = () => {
 										aria-current="page"
 										href="/my-lists">My Lists</a>
 								</li>
-								<PopOver>
+								<PopOver content={"Coming Soon!"}>
 									<li className="nav-item">
 										<a className={`nav-link ${location.pathname === "/my-budget" ?
 											"active text_tabs_active"

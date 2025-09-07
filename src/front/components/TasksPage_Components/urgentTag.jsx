@@ -52,7 +52,7 @@ export const UrgentTag = ({ list_id, task_id, tag_urgent, status }) => {
     return (
         <button
             type="button"
-            className={`btn ms-auto border-2 urgent_btn p-1 btn-outline-danger 
+            className={`btn ms-auto border-2 urgent_btn btn-outline-danger 
                 ${urgent ? 'btn-danger text-white' : 'btn-outline-danger'}`}
             onClick={handleUrgent}
             disabled={status === "completed"}>

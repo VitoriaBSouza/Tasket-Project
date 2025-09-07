@@ -3,19 +3,19 @@ import React, { useEffect, useRef } from "react";
 export const PopOver = ({ title, content, children })=> {
 
     // To prevent multiple popover initializations
-    const ref = useRef(false);
-    const popOverText = "Coming Soon!"
+    const ref = useRef(null);
 
     useEffect(() => {
         const popover = new bootstrap.Popover(ref.current, {
         trigger: "hover",
         html: true,
-        content:popOverText,
+        content: content || "",
         placement: "bottom",
+        customClass: "popover_body lh-sm"
         });
 
         return () => popover.dispose();
-    }, [title, content]);
+    }, [content]);
 
     // Attach ref and data attribute to child button
     return (

@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import Masonry from "react-masonry-css";
 
 //css file
 import "../CSS_files/tasks.css";
@@ -18,6 +19,7 @@ import { DeleteListBtn } from "../components/TasksPage_Components/deleteListBtn"
 import { EditListBtn } from "../components/TasksPage_Components/editListBtn";
 import { TaskCard } from "../components/TasksPage_Components/taskCard.jsx";
 import { AddTaskBtn } from "../components/TasksPage_Components/addTaskBtn.jsx";
+import { PinListBtn } from "../components/TasksPage_Components/pinListBtn.jsx";
 
 export const TaskPage = () => {
   const { id } = useParams();
@@ -85,10 +87,15 @@ export const TaskPage = () => {
               : ""}
           </div>
         </div>
-        <AddTaskBtn />
+        <div className="col-12 col-md-4 col-lg-3 d-flex 
+        justify-content-center mt-3 mt-lg-0 order-3 order-lg-2">
+          <AddTaskBtn />
+          <PinListBtn />
+        </div>
+        
         <div
           className="col-12 col-lg-3 d-flex justify-content-center
-            mt-3 mt-md-5 mt-lg-0 order-2 order-lg-3"
+            mt-3 mt-md-5 mt-lg-0 order-2 order-lg-3 mt-2"
         >
           <div className="d-flex flex-column align-items-center mx-3">
             <div
@@ -123,46 +130,52 @@ export const TaskPage = () => {
           </div>
         </div>
       </div>
-      <div className="row mb-3 pb-4 bg_tasks_page rounded-bottom-3">
-        <div className="col-12 col-lg-6 px-5 d-flex">
-          <div className="accordion accordion-flush w-100" id="accordionTask">
-            {!store.list?.tasks || store.list?.tasks.length === 0 ? (
-              <p className="fs-4 p-4">No tasks on your list, add one now!</p>
-            ) : (
-              store.list.tasks
-                .slice() // clones array to avoid changing state
-                .sort((a, b) => {
-                  // will send completed to the bottom
-                  if (a.status === "completed" && b.status !== "completed")
-                    return 1;
-                  if (a.status !== "completed" && b.status === "completed")
-                    return -1;
-                  // will move pending tagged urgent to the top
-                  if (a.urgent && !b.urgent) return -1;
-                  if (!a.urgent && b.urgent) return 1;
-                  return 0;
-                })
-                .slice(0, 14)
-                .map((el) => (
-                  <TaskCard
-                    key={el.id}
-                    id={el.id}
-                    list_id={store.list?.id}
-                    task={el.task}
-                    status={el.status}
-                    urgent={el.urgent}
-                    comment={el.comment}
-                    due_at={el.due_at}
-                    location={el.location}
-                    reminder_at={el.reminder_at}
-                    schedule_at={el.schedule_at}
-                    updated_at={el.updated_at}
-                  />
-                ))
-            )}
-          </div>
+
+      <div className="row bg_tasks_page">
+        <div className="col-12 m-2 d-flex justify-content-center">
+          <p className="fs-5">{store.list?.description}</p>
         </div>
       </div>
+
+      <div className="row mb-3 pb-4 bg_tasks_list rounded-bottom-3">
+        <Masonry
+          breakpointCols={{ default: 2, 950: 1 }} // 2 columnas desktop, 1 en móvil
+          className="tasks_columns_masonry"
+          columnClassName="tasks_column_masonry"
+        >
+          {!store.list?.tasks || store.list?.tasks.length === 0 ? (
+            <p className="fs-4 p-4">No tasks on your list, add one now!</p>
+          ) : (
+            store.list.tasks
+              .slice()
+              .sort((a, b) => {
+                if (a.status === "completed" && b.status !== "completed") return 1;
+                if (a.status !== "completed" && b.status === "completed") return -1;
+                if (a.urgent && !b.urgent) return -1;
+                if (!a.urgent && b.urgent) return 1;
+                return 0;
+              })
+              .slice(0, 14)
+              .map((el) => (
+                <TaskCard
+                  key={el.id}
+                  id={el.id}
+                  list_id={store.list?.id}
+                  task={el.task}
+                  status={el.status}
+                  urgent={el.urgent}
+                  comment={el.comment}
+                  due_at={el.due_at}
+                  location={el.location}
+                  reminder_at={el.reminder_at}
+                  schedule_at={el.schedule_at}
+                  updated_at={el.updated_at}
+                />
+              ))
+          )}
+        </Masonry>
+      </div>
+
     </div>
   );
 };

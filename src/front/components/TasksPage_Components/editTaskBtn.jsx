@@ -55,10 +55,11 @@ export const EditTaskBtn = (props) => {
             if (words.length > wordLimit) return;
         }
 
-        setTaskData((prev) => ({
+        setTaskData(prev => ({
             ...prev,
-            [name]: value === "" ? null : value,
+            [name]: value === "" ? "" : value,
         }));
+
     };
 
     //Will close the modal once we click o submit button
@@ -170,7 +171,7 @@ export const EditTaskBtn = (props) => {
                                         id="task-title"
                                         name="task"
                                         required
-                                        value={taskData.task}
+                                        value={taskData.task || ""}
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -188,7 +189,7 @@ export const EditTaskBtn = (props) => {
                                         className="form-control fs-5"
                                         id="task-schedule"
                                         name="schedule_at"
-                                        value={taskData.schedule_at}
+                                        value={taskData.schedule_at || ""}
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -202,7 +203,7 @@ export const EditTaskBtn = (props) => {
                                         className="form-control fs-5"
                                         id="task-due"
                                         name="due_at"
-                                        value={taskData.due_at}
+                                        value={taskData.due_at || ""}
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -219,7 +220,7 @@ export const EditTaskBtn = (props) => {
                                         className="form-control fs-5"
                                         id="task-reminder"
                                         name="reminder_at"
-                                        value={taskData.reminder_at}
+                                        value={taskData.reminder_at || ""}
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -230,7 +231,7 @@ export const EditTaskBtn = (props) => {
                                         className="form-control fs-5"
                                         id="task-location"
                                         name="location"
-                                        value={taskData.location}
+                                        value={taskData.location || ""}
                                         onChange={handleChange}
                                     ></textarea>
                                 </div>
@@ -241,7 +242,7 @@ export const EditTaskBtn = (props) => {
                                         className="form-control fs-5"
                                         id="task-comment"
                                         name="comment"
-                                        value={taskData.comment}
+                                        value={taskData.comment || ""}
                                         onChange={handleChange}
                                     ></textarea>
                                 </div>
@@ -255,7 +256,7 @@ export const EditTaskBtn = (props) => {
                                             document.activeElement?.blur();
                                         }}
                                     >
-                                        Close
+                                        Cancel
                                     </button>
                                     <button
                                         type="submit"

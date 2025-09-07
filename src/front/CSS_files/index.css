@@ -69,3 +69,10 @@ body {
 }
 
 /* End of ForgotPassw component clases */
+
+/* PopOver component */
+.popover_body{
+  font-size: 1.2rem;
+  font-weight: 450;
+}
+/* End of ForgotPassw component clases */

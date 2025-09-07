@@ -190,12 +190,12 @@ export default function storeReducer(store, action = {}) {
       };
 
     case "add_task":
-      const { id, color } = action.payload;
-
       return {
         ...store,
-        todos: store.todos.map((todo) =>
-          todo.id === id ? { ...todo, background: color } : todo
+        lists: store.lists.map((list) =>
+          list.id === action.payload.list_id
+            ? { ...list, tasks: [...list.tasks, action.payload] }
+            : list
         ),
       };
 

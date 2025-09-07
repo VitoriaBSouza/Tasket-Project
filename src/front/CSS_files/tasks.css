@@ -2,6 +2,22 @@
   background-color: #c7e2e292;
 }
 
+.bg_tasks_list {
+  background-color: #c7e2e292;
+  min-height: 400px;
+}
+
+.tasks_columns_masonry {
+  display: flex;
+  margin-left: -1rem; /* gutter negativo */
+  min-width: 100%;
+}
+
+.tasks_column_masonry {
+  padding-left: 2rem;
+  background-clip: padding-box;
+}
+
 .title_tasks_page {
   color: #4f8f8f;
   font-size: 3.5rem;
@@ -139,10 +155,12 @@
 }
 
 .urgent_btn{
-  font-size: 0.75rem;
+  font-size: 1rem;
   font-weight: 700;
   max-height: 2rem;
   align-self: center;
+  align-items: center;
+  display: flex;
 }
 
 .urgent_btn:hover{
@@ -152,7 +170,7 @@
 
 .task_details_btn:focus,
 .task_details_btn:hover {
-  background-color: #4bc6c028;
+  background-color: #4bc6c00b;
   color: inherit;
   box-shadow: none;
 }

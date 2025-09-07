@@ -1,6 +1,10 @@
 // Import necessary hooks and functions from React.
 import { useContext, useReducer, createContext } from "react";
 import storeReducer, { initialStore } from "../store"  // Import the reducer and the initial state.
+import { useEffect } from "react";
+
+//services
+import listServices from "../services/TaskList_API/listServices.js";
 
 // Create a context to hold the global state of the application
 // We will call this global state the "store" to avoid confusion while using local states
@@ -12,6 +16,23 @@ export function StoreProvider({ children }) {
     // Initialize reducer with the initial state.
     const [store, dispatch] = useReducer(storeReducer, initialStore())
     // Provide the store and dispatch method to all child components.
+
+    const getLists = async () => {
+        listServices.getAllLists().then((data) => {
+            if (!data.error) {
+                dispatch({ type: "get_all_lists", payload: data.lists });
+            }
+        });
+    };
+
+    // Load the lists once only and save on the store
+    useEffect(() => {
+        if (store.token) {
+            getLists()
+        }
+    }, [store.user, store.token]);
+
+
     return <StoreContext.Provider value={{ store, dispatch }}>
         {children}
     </StoreContext.Provider>
