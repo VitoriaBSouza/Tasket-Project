@@ -156,6 +156,20 @@ export default function storeReducer(store, action = {}) {
         pinned: action.payload,
       };
 
+    case "pin_list":
+      return {
+        ...store,
+        pinned: [...store.pinned, action.payload],
+      };
+
+    case "unpin_list":
+      return {
+        ...store,
+        pinned: store.pinned.filter(
+          (list) => list.list_id !== Number(action.payload)
+        ),
+      };
+
     case "get_tasks_status":
       return {
         ...store,

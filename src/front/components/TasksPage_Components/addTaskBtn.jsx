@@ -30,10 +30,7 @@ export const AddTaskBtn = () => {
     const { store, dispatch } = useGlobalReducer();
 
     const currentList = store.lists?.find(l => l.id === Number(id));
-    const tasksCount = currentList?.tasks?.length || 0;
-
-    console.log(tasksCount);
-    
+    const tasksCount = currentList?.tasks?.length || 0;    
 
     // Will close the modal once we click on submit button
     const closeModal = () => {

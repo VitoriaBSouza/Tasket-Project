@@ -1,89 +1,81 @@
+import { useParams } from "react-router-dom";
+import { useState } from "react";
 
 //hooks
 import useGlobalReducer from "../../hooks/useGlobalReducer.jsx";
 
 //services
-import taskServices from "../../services/TaskList_API/taskServices.js";
+import pinnedListServices from "../../services/TaskList_API/pinnedListServices.js";
 import { showError, showSuccess } from "../../services/toastService.js";
 
 //icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbtack } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { faThumbtackSlash } from '@fortawesome/free-solid-svg-icons';
 
-export const PinListBtn = (props) => {
-
-    const [taskData, setTaskData] = useState({
-        id: "",
-        list_id: "",
-        comment: "",
-        due_at: "",
-        schedule_at: "",
-        reminder_at: "",
-        location: "",
-        task: "",
-    });
+export const PinListBtn = () => {
 
     const { store, dispatch } = useGlobalReducer();
+    const { id } = useParams();
+   
+    const [pin, setPin] = useState(false);
+    const isPinned = store.pinned.some(p => p.list_id === Number(id));
 
-    // Will close the modal once we click on submit button
-    const closeModal = () => {
-        document.activeElement?.blur();
 
-        const modalEl = document.getElementById("crateBtnModal"); // tu id exacto
-        if (modalEl) {
-            const modalInstance = bootstrap.Modal.getInstance(modalEl);
-            modalInstance?.hide();
-        }
-    };
+    const pinList = async () => {
 
-    const addTask = async () => {
+        const isPinned = store.pinned.some(p => p.list_id === Number(id));
 
         if (store.token) {
-            const data = await taskServices.addTask(props.list_id, props.id, taskData);
+            if (!isPinned) {
+                const data = await pinnedListServices.pinList(id);
 
-            if (data.success) {
-                dispatch({ type: "add_task", payload: data.task });
-                closeModal();
-                showSuccess("Task added successfully");
-                setTaskData({
-                    id: "",
-                    list_id: "",
-                    comment: "",
-                    due_at: "",
-                    schedule_at: "",
-                    reminder_at: "",
-                    location: "",
-                    task: "",
-                })
+                if (data.success) {
+                    dispatch({ type: "pin_list", payload: data.pinned });
+                    setPin(true);
+                    showSuccess("Added to pinned lists successfully");
+
+                } else {
+                    showError(data.error || "List could not be pinned, please try again.");
+                }
             } else {
-                showError(data.error || "Task could not be added, please try again.");
+                const data = await pinnedListServices.unpinList(id);
+
+                if (data.success) {
+                    dispatch({ type: "unpin_list", payload: id });
+                    setPin(false);
+                    showSuccess("Removed from pinned lists successfully");
+
+                } else {
+                    showError(data.error || "List could not be removed from pinned lists, please try again.");
+                }
             }
         } else {
-            const newTask = {
-                //this will generate an id based on the time was created
-                id: Date.now(),
-                ...taskData,
-                status: "Pending",
-            };
 
-            const createTask = store.lists.map((list) =>
-                //will check if list exists before updating task details
-                list.id === newTask.list_id
-                    ? {
-                        ...list,
-                        newTask
-                    }
-                    : list
-            );
+            if (!isPinned) {
+                dispatch({ type: "pin_list", payload: { list_id: Number(id) } });
+                setPin(true);
+                showSuccess("Added to pinned lists successfully");
+            } else {
+                dispatch({ type: "unpin_list", payload: Number(id) });
+                setPin(false);
+                showSuccess("Removed from pinned lists successfully");
+            }
 
-            dispatch({ type: "add_task", payload: createTask });
         }
     };
 
     return (
-        <button type="button" className="btn border-0">
-            <FontAwesomeIcon icon={faThumbtack} className="pin_btn border-0 rounded-circle" />
+        <button
+            type="button"
+            className="btn border-0"
+            onClick={pinList}>
+            {pin ?
+                <FontAwesomeIcon icon={faThumbtack} 
+                className="pinned_btn border-0 rounded-circle" />
+                :
+                <FontAwesomeIcon icon={faThumbtackSlash} 
+                className="unpinned_btn border-0 rounded-circle" />}
         </button>
     );
 }

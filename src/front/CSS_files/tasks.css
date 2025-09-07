@@ -118,14 +118,24 @@
   border-radius: 50%;
 }
 
-.pin_btn {
+.pinned_btn {
   color: #c02716;
   font-size: 2rem;
   text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6);
 }
 
-.pin_btn:hover {
-  color: #f45c27;
+.pinned_btn:hover {
+  color: #96180a;
+}
+
+.unpinned_btn {
+  color: #1c9783;
+  font-size: 2rem;
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6);
+}
+
+.unpinned_btn:hover {
+  color: #1a7b6b;
 }
 
 .check_input:checked {

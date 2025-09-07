@@ -22,6 +22,7 @@ import { AddTaskBtn } from "../components/TasksPage_Components/addTaskBtn.jsx";
 import { PinListBtn } from "../components/TasksPage_Components/pinListBtn.jsx";
 
 export const TaskPage = () => {
+
   const { id } = useParams();
   const { store, dispatch } = useGlobalReducer();
 
@@ -58,7 +59,7 @@ export const TaskPage = () => {
         showError("No lists found in session storage");
       }
     }
-  }, [id, store.lists]);
+  }, [id, store.lists, store.pinned]);
 
   return (
     <div className="container-fluid justify-content-center p-5">
