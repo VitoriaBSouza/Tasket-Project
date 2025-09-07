@@ -17,10 +17,8 @@ export const PinListBtn = () => {
 
     const { store, dispatch } = useGlobalReducer();
     const { id } = useParams();
-   
-    const [pin, setPin] = useState(false);
-    const isPinned = store.pinned.some(p => p.list_id === Number(id));
 
+    const [pin, setPin] = useState(false);
 
     const pinList = async () => {
 
@@ -47,7 +45,8 @@ export const PinListBtn = () => {
                     showSuccess("Removed from pinned lists successfully");
 
                 } else {
-                    showError(data.error || "List could not be removed from pinned lists, please try again.");
+                    showError(data.error ||
+                        "List could not be removed from pinned lists, please try again.");
                 }
             }
         } else {
@@ -71,11 +70,11 @@ export const PinListBtn = () => {
             className="btn border-0"
             onClick={pinList}>
             {pin ?
-                <FontAwesomeIcon icon={faThumbtack} 
-                className="pinned_btn border-0 rounded-circle" />
+                <FontAwesomeIcon icon={faThumbtack}
+                    className="pinned_btn border-0 rounded-circle" />
                 :
-                <FontAwesomeIcon icon={faThumbtackSlash} 
-                className="unpinned_btn border-0 rounded-circle" />}
+                <FontAwesomeIcon icon={faThumbtackSlash}
+                    className="unpinned_btn border-0 rounded-circle" />}
         </button>
     );
 }

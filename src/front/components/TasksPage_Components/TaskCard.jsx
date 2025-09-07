@@ -6,17 +6,14 @@ import "../../CSS_files/tasks.css";
 //hooks
 import useGlobalReducer from "../../hooks/useGlobalReducer.jsx";
 
-//icons
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDeleteLeft } from "@fortawesome/free-solid-svg-icons";
-
 //services
-import taskServices from "../../services/TaskList_API/taskServices";
+import taskServices from "../../services/TaskList_API/taskServices.js";
 import { showError } from "../../services/toastService.js";
 
 //components
-import { UrgentTag } from "./urgentTag";
+import { UrgentTag } from "./urgentTag.jsx";
 import { EditTaskBtn } from "./editTaskBtn.jsx";
+import { DeleteTaskBtn } from "./deleteTaskBtn.jsx";
 
 export const TaskCard = (props) => {
     const [taskStatus, setTaskStatus] = useState(props.status);
@@ -129,11 +126,7 @@ export const TaskCard = (props) => {
                     status={props.status}
                 />
 
-                <button
-                    type="button"
-                    className="btn delete_task_btn pb-5 ms-2">
-                    <FontAwesomeIcon icon={faDeleteLeft} />
-                </button>
+                <DeleteTaskBtn id={props.id} list_id={props.list_id} />
 
             </h2>
 

@@ -17,7 +17,7 @@ import { SearchBar } from "../components/MyLists_Components/SearchBar";
 import { ClearBtn } from "../components/TasksPage_Components/clearBtn";
 import { DeleteListBtn } from "../components/TasksPage_Components/deleteListBtn";
 import { EditListBtn } from "../components/TasksPage_Components/editListBtn";
-import { TaskCard } from "../components/TasksPage_Components/taskCard.jsx";
+import { TaskCard } from "../components/TasksPage_Components/TaskCard.jsx";
 import { AddTaskBtn } from "../components/TasksPage_Components/addTaskBtn.jsx";
 import { PinListBtn } from "../components/TasksPage_Components/pinListBtn.jsx";
 
@@ -93,7 +93,7 @@ export const TaskPage = () => {
           <AddTaskBtn />
           <PinListBtn />
         </div>
-        
+
         <div
           className="col-12 col-lg-3 d-flex justify-content-center
             mt-3 mt-md-5 mt-lg-0 order-2 order-lg-3 mt-2"
