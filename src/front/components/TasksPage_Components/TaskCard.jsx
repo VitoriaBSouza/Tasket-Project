@@ -127,7 +127,7 @@ export const TaskCard = (props) => {
                 />
 
                 <DeleteTaskBtn id={props.id} list_id={props.list_id} />
-
+                
             </h2>
 
             <div
