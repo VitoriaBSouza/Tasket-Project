@@ -7,9 +7,6 @@ export const UrgentCards = (props) => {
 
     const navigate = useNavigate();
 
-    console.log(props.id);
-    
-
     return (
         <div 
         className="card postit-card m-2"

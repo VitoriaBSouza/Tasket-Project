@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 
 //css file
-import "../../CSS_files/tasks.css";
+import "../../../CSS_files/tasks.css";
 
 //hooks
-import useGlobalReducer from "../../hooks/useGlobalReducer.jsx";
+import useGlobalReducer from "../../../hooks/useGlobalReducer.jsx";
 
 //services
-import taskServices from "../../services/TaskList_API/taskServices.js";
-import { showError, showSuccess } from "../../services/toastService.js";
+import taskServices from "../../../services/TaskList_API/taskServices.js";
+import { showError, showSuccess } from "../../../services/toastService.js";
 
 //icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

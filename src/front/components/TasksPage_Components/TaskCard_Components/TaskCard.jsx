@@ -1,19 +1,19 @@
 import { useState } from "react";
 
 //css file
-import "../../CSS_files/tasks.css";
+import "../../../CSS_files/tasks.css";
 
 //hooks
-import useGlobalReducer from "../../hooks/useGlobalReducer.jsx";
+import useGlobalReducer from "../../../hooks/useGlobalReducer.jsx";
 
 //services
-import taskServices from "../../services/TaskList_API/taskServices.js";
-import { showError } from "../../services/toastService.js";
+import taskServices from "../../../services/TaskList_API/taskServices.js";
+import { showError } from "../../../services/toastService.js";
 
 //components
-import { UrgentTag } from "./urgentTag.jsx";
-import { EditTaskBtn } from "./editTaskBtn.jsx";
-import { DeleteTaskBtn } from "./deleteTaskBtn.jsx";
+import { UrgentTag } from "./UrgentTag.jsx";
+import { EditTaskBtn } from "./EditTaskBtn.jsx";
+import { DeleteTaskBtn } from "./DeleteTaskBtn.jsx";
 
 export const TaskCard = (props) => {
     const [taskStatus, setTaskStatus] = useState(props.status);
@@ -127,7 +127,7 @@ export const TaskCard = (props) => {
                 />
 
                 <DeleteTaskBtn id={props.id} list_id={props.list_id} />
-                
+
             </h2>
 
             <div

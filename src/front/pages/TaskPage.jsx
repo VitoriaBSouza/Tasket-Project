@@ -14,12 +14,12 @@ import { showError } from "../services/toastService.js";
 
 //components
 import { SearchBar } from "../components/MyLists_Components/SearchBar";
-import { ClearBtn } from "../components/TasksPage_Components/clearBtn";
-import { DeleteListBtn } from "../components/TasksPage_Components/deleteListBtn";
-import { EditListBtn } from "../components/TasksPage_Components/editListBtn";
-import { TaskCard } from "../components/TasksPage_Components/TaskCard.jsx";
-import { AddTaskBtn } from "../components/TasksPage_Components/addTaskBtn.jsx";
-import { PinListBtn } from "../components/TasksPage_Components/pinListBtn.jsx";
+import { ClearBtn } from "../components/TasksPage_Components/ClearAllTasksBtn";
+import { DeleteListBtn } from "../components/TasksPage_Components/DeleteListBtn";
+import { EditListBtn } from "../components/TasksPage_Components/EditListBtn";
+import { TaskCard } from "../components/TasksPage_Components/TaskCard_Components/TaskCard.jsx";
+import { AddTaskBtn } from "../components/TasksPage_Components/AddTaskBtn.jsx";
+import { PinListBtn } from "../components/TasksPage_Components/PinListBtn.jsx";
 
 export const TaskPage = () => {
 

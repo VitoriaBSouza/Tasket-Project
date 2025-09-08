@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 
+//css file
+import "../../../CSS_files/tasks.css";
+
 //hooks
-import useGlobalReducer from "../../hooks/useGlobalReducer.jsx";
+import useGlobalReducer from "../../../hooks/useGlobalReducer.jsx";
 
 //services
-import taskServices from "../../services/TaskList_API/taskServices";
-import { showError } from "../../services/toastService.js";
-
+import taskServices from "../../../services/TaskList_API/taskServices.js";
+import { showError } from "../../../services/toastService.js";
 
 export const UrgentTag = ({ list_id, task_id, tag_urgent, status }) => {
 

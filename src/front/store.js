@@ -196,7 +196,17 @@ export default function storeReducer(store, action = {}) {
             : list
         ),
       };
-
+    
+    case "delete_one_task":
+      return {
+        ...store,
+        lists: store.lists.filter((list) => 
+          list.id === action.payload.list_id ? {
+            ...list,
+            tasks: list.tasks.filter((task) => task.id !== action.payload.task_id)
+          } : list ),
+      };
+    
     case "set_hello":
       return {
         ...store,

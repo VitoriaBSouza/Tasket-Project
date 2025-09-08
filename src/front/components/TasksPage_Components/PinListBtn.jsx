@@ -68,7 +68,7 @@ export const PinListBtn = () => {
         <button
             type="button"
             className="btn border-0"
-            onClick={pinList}>
+            onClick={store.pinned?.length >= 10 ? () => {} : pinList}>
             {pin ?
                 <FontAwesomeIcon icon={faThumbtack}
                     className="pinned_btn border-0 rounded-circle" />
