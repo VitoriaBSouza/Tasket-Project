@@ -1,8 +1,8 @@
 
 //components
 import { ContactForm } from "../components/Contact_Page/ContactForm";
-import { FaqCard } from "../components/Contact_Page/faqCard";
-import { ReportButton } from "../components/Contact_Page/reportButton";
+import { FaqCard } from "../components/Contact_Page/FaqCard";
+import { ReportButton } from "../components/Contact_Page/ReportButton";
 
 export const ContactPage = () => {
 

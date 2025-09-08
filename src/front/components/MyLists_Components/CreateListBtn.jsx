@@ -7,11 +7,13 @@ import '../../CSS_files/myLists.css';
 import useGlobalReducer from "../../hooks/useGlobalReducer.jsx";
 
 //services
-import listServices from "../../services/TaskList_API/listServices";
+import listServices from "../../services/TaskList_API/listServices.js";
 import { showError, showSuccess } from "../../services/toastService.js";
-import { DeleteAllListsBtn } from "./deleteAllListsBtn.jsx";
 
-export const CreateBtn = () => {
+//components
+import { DeleteAllListsBtn } from "./DeleteAllListsBtn.jsx";
+
+export const CreateListBtn = () => {
 
     const { store, dispatch } = useGlobalReducer();
 

@@ -14,7 +14,7 @@ import { showError } from "../services/toastService.js";
 
 //components
 import { SearchBar } from "../components/MyLists_Components/SearchBar";
-import { ClearBtn } from "../components/TasksPage_Components/ClearAllTasksBtn";
+import { ClearAllTasksBtn } from "../components/TasksPage_Components/ClearAllTasksBtn";
 import { DeleteListBtn } from "../components/TasksPage_Components/DeleteListBtn";
 import { EditListBtn } from "../components/TasksPage_Components/EditListBtn";
 import { TaskCard } from "../components/TasksPage_Components/TaskCard_Components/TaskCard.jsx";
@@ -46,20 +46,21 @@ export const TaskPage = () => {
     if (store.token) {
       getList();
     } else {
-      const listsFromSession = sessionStorage.getItem("lists");
-      if (listsFromSession) {
-        const lists = JSON.parse(listsFromSession);
+      const listsFromStorage = localStorage.getItem("lists"); // match your storage
+      if (listsFromStorage) {
+        const lists = JSON.parse(listsFromStorage);
         const list = lists.find((l) => String(l.id) === String(id));
         if (list) {
           dispatch({ type: "get_one_list", payload: list });
         } else {
-          showError(`List ${id} not found in session storage`);
+          showError(`List ${id} not found in local storage`);
         }
       } else {
-        showError("No lists found in session storage");
+        showError("No lists found in local storage");
       }
     }
-  }, [id, store.lists, store.pinned]);
+  }, [id]);
+
 
   return (
     <div className="container-fluid justify-content-center p-5">
@@ -72,7 +73,7 @@ export const TaskPage = () => {
             description={store.list?.description}
           />
           <DeleteListBtn id={id} />
-          <ClearBtn id={id} />
+          <ClearAllTasksBtn id={id} />
         </div>
       </div>
 
@@ -140,7 +141,7 @@ export const TaskPage = () => {
 
       <div className="row mb-3 pb-4 bg_tasks_list rounded-bottom-3">
         <Masonry
-          breakpointCols={{ default: 2, 950: 1 }} // 2 columnas desktop, 1 en móvil
+          breakpointCols={{ default: 2, 950: 1 }}
           className="tasks_columns_masonry"
           columnClassName="tasks_column_masonry"
         >

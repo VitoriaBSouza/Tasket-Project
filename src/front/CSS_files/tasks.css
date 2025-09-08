@@ -39,10 +39,13 @@
 .clear_btn {
   font-size: 1.1rem;
   font-weight: 600;
-  color: white;
   min-width: 7rem;
   max-height: 3rem;
   transition: background-color 0.15s ease-in-out;
+}
+
+.clear_btn:active{
+  color: white;
 }
 
 .delete_list_btn {

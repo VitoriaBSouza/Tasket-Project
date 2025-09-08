@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from "react-router-dom";
 
 //Components
-import { ContactButton } from "../components/Contact_Page/contactButton";
+import { ContactButton } from "../components/Contact_Page/ContactButton";
 
 //icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

@@ -144,12 +144,6 @@ export default function storeReducer(store, action = {}) {
         ),
       };
 
-    case "delete_all_tasks":
-      return {
-        ...store,
-        tasks: store.tasks.filter((task) => task.listId !== action.payload),
-      };
-
     case "get_pinned_lists":
       return {
         ...store,
@@ -196,21 +190,33 @@ export default function storeReducer(store, action = {}) {
             : list
         ),
       };
-    
+
     case "delete_one_task":
       return {
         ...store,
-        lists: store.lists.filter((list) => 
-          list.id === action.payload.list_id ? {
-            ...list,
-            tasks: list.tasks.filter((task) => task.id !== action.payload.task_id)
-          } : list ),
+        lists: store.lists.filter((list) =>
+          list.id === action.payload.list_id
+            ? {
+                ...list,
+                tasks: list.tasks.filter(
+                  (task) => task.id !== action.payload.task_id
+                ),
+              }
+            : list
+        ),
       };
-    
-    case "set_hello":
+
+    case "delete_all_tasks":
       return {
         ...store,
-        message: action.payload,
+        tasks: store.tasks.filter(
+          (task) => task.listId !== action.payload.listId
+        ),
+        lists: store.lists.map((list) =>
+          list.id === action.payload.listId
+            ? { ...list, status: action.payload.status, tasks: [] }
+            : list
+        ),
       };
 
     case "add_task":

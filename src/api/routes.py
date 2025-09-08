@@ -383,6 +383,16 @@ def update_list(list_id):
         if "description" in data:
             list.description = data["description"]
 
+        #This will update the status of the list, will be based on the clear all task button
+        #We can also use it to apply to ther functions later
+        valid_status = {status.value for status in ListStatus}
+    
+        if "status" in data:
+            status_value = data["status"].lower()
+            if status_value not in valid_status:
+                return jsonify({"error": "Invalid status value"}), 400
+            list.status = ListStatus(status_value)
+
         list.updated_at = datetime.now(timezone.utc)
 
         db.session.commit()

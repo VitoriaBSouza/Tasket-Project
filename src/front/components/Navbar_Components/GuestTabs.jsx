@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 //components
 import { LogInTab } from "./LogInTab.jsx";
 import { SignUpTab } from "./SignUpTab.jsx";
-import { FaqButton } from "./faqButton.jsx";
+import { FaqButton } from "./FaqButton.jsx";
 
 export const GuestTabs = () => {
 

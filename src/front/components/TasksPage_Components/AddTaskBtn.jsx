@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { useState } from 'react';
 
 //hooks
 import useGlobalReducer from "../../hooks/useGlobalReducer.jsx";
@@ -10,8 +11,9 @@ import { showError, showSuccess } from "../../services/toastService.js";
 //icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
-import { PopOver } from "../popOver.jsx";
+
+//components
+import { PopOver } from "../PopOver.jsx";
 
 export const AddTaskBtn = () => {
 
@@ -30,7 +32,7 @@ export const AddTaskBtn = () => {
     const { store, dispatch } = useGlobalReducer();
 
     const currentList = store.lists?.find(l => l.id === Number(id));
-    const tasksCount = currentList?.tasks?.length || 0;    
+    const tasksCount = currentList?.tasks?.length || 0;
 
     // Will close the modal once we click on submit button
     const closeModal = () => {
@@ -61,7 +63,6 @@ export const AddTaskBtn = () => {
     };
 
     const addTask = async (e) => {
-
         e.preventDefault();
 
         if (store.token) {
@@ -78,37 +79,54 @@ export const AddTaskBtn = () => {
                     reminder_at: "",
                     location: "",
                     task: "",
-                })
+                });
             } else {
                 showError(data.error || "Task could not be added, please try again.");
             }
         } else {
+            // Guest user: store task in sessionStorage
             const newTask = {
-                //this will generate an id based on the time was created
                 id: Date.now(),
+                list_id: Number(id),
                 ...taskData,
                 status: "Pending",
             };
 
-            const createTask = store.lists.map((list) =>
-                //will check if list exists before updating task details
-                list.id === newTask.list_id
-                    ? {
-                        ...list,
-                        newTask
-                    }
-                    : list
-            );
+            // Get current lists
+            const listsFromLocal = JSON.parse(localStorage.getItem("lists")) || [];
 
-            dispatch({ type: "add_task", payload: createTask });
-        }
-    };
+            // Check if list exists
+            const listExists = listsFromLocal.some(list => list.id === newTask.list_id);
+
+            let updatedLists = [];
+
+            if (listExists) {
+                updatedLists = listsFromLocal.map(list =>
+                    list.id === newTask.list_id
+                        ? { ...list, tasks: [...(list.tasks || []), newTask] }
+                        : list
+                );
+            } else {
+                updatedLists = [...listsFromLocal, { id: newTask.list_id, tasks: [newTask] }];
+            }
+
+            // After updating localStorage
+            localStorage.setItem("lists", JSON.stringify(updatedLists));
+
+            // Update store so UI reflects immediately
+            dispatch({ type: "get_all_lists", payload: updatedLists });
+            closeModal();
+            showSuccess("Task added successfully (guest)");
+        };
+    }
+
+    console.log(store.lists?.length);
 
     return (
         <>
             {tasksCount >= 14 ?
-                <PopOver 
-                content={"You have reached the maximum number of tasks. Please delete some tasks or create a new list."}>
+                <PopOver
+                    content={"You have reached the maximum number of tasks. Please delete some tasks or create a new list."}>
                     <button
                         type="button"
                         className="btn border-0">

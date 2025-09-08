@@ -5,6 +5,8 @@ import { useEffect } from "react";
 
 //services
 import listServices from "../services/TaskList_API/listServices.js";
+import pinnedListServices from "../services/TaskList_API/pinnedListServices.js";
+import taskServices from "../services/TaskList_API/taskServices.js";
 
 // Create a context to hold the global state of the application
 // We will call this global state the "store" to avoid confusion while using local states
@@ -25,10 +27,28 @@ export function StoreProvider({ children }) {
         });
     };
 
+    const getPinned = async () => {
+        pinnedListServices.getAllPinned().then(data => {
+            if (!data.error) {
+                dispatch({ type: 'get_pinned_lists', payload: data.pinned });
+            }
+        });
+    };
+
+    const getUrgent = async () => {
+        taskServices.getUrgentLists().then(data => {
+            if (!data.error) {
+                dispatch({ type: 'get_urgent_tasks', payload: data.urgent });
+            }
+        });
+    };
+
     // Load the lists once only and save on the store
     useEffect(() => {
         if (store.token) {
-            getLists()
+            getLists();
+            getPinned();
+            getUrgent();
         }
     }, [store.user, store.token]);
 

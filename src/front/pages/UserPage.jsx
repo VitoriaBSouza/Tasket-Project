@@ -5,7 +5,6 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
 //services
 import taskServices from "../services/TaskList_API/taskServices.js";
-import pinnedListServices from "../services/TaskList_API/pinnedListServices.js";
 
 //components
 import { UrgentCards } from "../components/Home_Page/UrgentCards.jsx";
@@ -16,22 +15,6 @@ import { PieChart } from "../components/Home_Page/PieChart.jsx";
 export const UserPage = () => {
 
     const { store, dispatch } = useGlobalReducer();
-
-    const getUrgent = async () => {
-        taskServices.getUrgentLists().then(data => {
-            if (!data.error) {
-                dispatch({ type: 'get_urgent_tasks', payload: data.urgent });
-            }
-        });
-    };
-
-    const getPinned = async () => {
-        pinnedListServices.getAllPinned().then(data => {
-            if (!data.error) {
-                dispatch({ type: 'get_pinned_lists', payload: data.pinned });
-            }
-        });
-    };
 
     const getStatus = async () => {
         taskServices.getTaskStatus().then(data => {
@@ -49,8 +32,6 @@ export const UserPage = () => {
 
 
     useEffect(() => {
-        getUrgent();
-        getPinned();
         getStatus();
     }, [store.user?.id]);
 

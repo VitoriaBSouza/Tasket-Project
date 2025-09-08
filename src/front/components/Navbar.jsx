@@ -17,9 +17,9 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 //components
 import { UserToggle } from "./Navbar_Components/UserToggle.jsx";
-import { PopOver } from "./popOver.jsx";
+import { PopOver } from "./PopOver.jsx";
 import { GuestTabs } from "./Navbar_Components/GuestTabs.jsx";
-import { FaqButton } from "./Navbar_Components/faqButton.jsx";
+import { FaqButton } from "./Navbar_Components/FaqButton.jsx";
 
 export const Navbar = () => {
 

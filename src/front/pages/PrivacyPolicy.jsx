@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 //Components
-import { ContactButton } from "../components/Contact_Page/contactButton";
-import { FaqCard } from "../components/Contact_Page/faqCard";
+import { ContactButton } from "../components/Contact_Page/ContactButton";
+import { FaqCard } from "../components/Contact_Page/FaqCard";
 
 //icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

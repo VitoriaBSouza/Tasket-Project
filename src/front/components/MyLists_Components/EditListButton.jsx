@@ -14,7 +14,7 @@ import { showError, showSuccess } from "../../services/toastService.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
-export const EditButton = ({ list }) => {
+export const EditListButton = ({ list }) => {
   const { store, dispatch } = useGlobalReducer();
 
   const [formData, setFormData] = useState({

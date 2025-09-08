@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 //Components
-import { ContactButton } from "../components/Contact_Page/contactButton";
+import { ContactButton } from "../components/Contact_Page/ContactButton";
 import { SignUp } from "../components/SignUp";
 
 

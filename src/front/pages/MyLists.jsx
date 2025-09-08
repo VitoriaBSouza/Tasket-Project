@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 //hooks
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
@@ -7,10 +8,9 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import listServices from "../services/TaskList_API/listServices.js";
 
 //components
-import { CreateBtn } from "../components/MyLists_Components/createBtn";
+import { CreateListBtn } from "../components/MyLists_Components/CreateListBtn.jsx";
 import { ListsCards } from "../components/MyLists_Components/ListsCards.jsx";
 import { SearchBar } from "../components/MyLists_Components/SearchBar";
-import { Link } from "react-router-dom";
 
 export const MyLists = () => {
     const { store, dispatch } = useGlobalReducer();
@@ -25,7 +25,7 @@ export const MyLists = () => {
 
     useEffect(() => {
         if (!store.token) {
-            const savedLists = sessionStorage.getItem("lists");
+            const savedLists = localStorage.getItem("lists");
             if (savedLists) {
                 dispatch({ type: "get_all_lists", payload: JSON.parse(savedLists) });
             }
@@ -53,7 +53,7 @@ export const MyLists = () => {
 
             <div className="row pt-4 pb-5">
                 <SearchBar />
-                <CreateBtn />
+                <CreateListBtn />
             </div>
 
             <h1 className="text-center mb-4 title_myLists">My Lists</h1>

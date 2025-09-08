@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 //Components
 import { LogIn } from "../components/LogIn";
-import { ContactButton } from "../components/Contact_Page/contactButton";
+import { ContactButton } from "../components/Contact_Page/ContactButton";
 
 
 export const LogInPage = () => {

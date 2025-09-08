@@ -1,8 +1,8 @@
 
 //Components
 import { ResetPasswd } from "../components/ResetPasswd";
-import { ContactButton } from "../components/Contact_Page/contactButton";
-import { FaqCard } from "../components/Contact_Page/faqCard";
+import { ContactButton } from "../components/Contact_Page/ContactButton";
+import { FaqCard } from "../components/Contact_Page/FaqCard";
 
 
 export const ResetPage = () => {
