@@ -93,7 +93,7 @@ export const AddTaskBtn = () => {
             };
 
             // Get current lists
-            const listsFromLocal = JSON.parse(localStorage.getItem("lists")) || [];
+            const listsFromLocal = JSON.parse(sessionStorage.getItem("lists")) || [];
 
             // Check if list exists
             const listExists = listsFromLocal.some(list => list.id === newTask.list_id);
@@ -106,12 +106,13 @@ export const AddTaskBtn = () => {
                         ? { ...list, tasks: [...(list.tasks || []), newTask] }
                         : list
                 );
+
             } else {
                 updatedLists = [...listsFromLocal, { id: newTask.list_id, tasks: [newTask] }];
             }
 
             // After updating localStorage
-            localStorage.setItem("lists", JSON.stringify(updatedLists));
+            sessionStorage.setItem("lists", JSON.stringify(updatedLists));
 
             // Update store so UI reflects immediately
             dispatch({ type: "get_all_lists", payload: updatedLists });

@@ -84,7 +84,11 @@ export default function storeReducer(store, action = {}) {
     case "get_one_list":
       return {
         ...store,
-        list: action.payload,
+        lists: store.lists.some((l) => l.id === action.payload.id)
+          ? store.lists.map((l) =>
+              l.id === action.payload.id ? action.payload : l
+            )
+          : [...store.lists, action.payload],
       };
 
     case "add_list":

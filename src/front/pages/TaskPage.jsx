@@ -46,17 +46,17 @@ export const TaskPage = () => {
     if (store.token) {
       getList();
     } else {
-      const listsFromStorage = localStorage.getItem("lists"); // match your storage
+      const listsFromStorage = sessionStorage.getItem("lists"); // match your storage
       if (listsFromStorage) {
         const lists = JSON.parse(listsFromStorage);
-        const list = lists.find((l) => String(l.id) === String(id));
+        const list = lists.find((l) => l.id === Number(id));
         if (list) {
           dispatch({ type: "get_one_list", payload: list });
         } else {
-          showError(`List ${id} not found in local storage`);
+          showError(`List ${id} not found.`);
         }
       } else {
-        showError("No lists found in local storage");
+        showError("No lists found.");
       }
     }
   }, [id]);

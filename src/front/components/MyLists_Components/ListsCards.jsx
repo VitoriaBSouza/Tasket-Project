@@ -36,9 +36,6 @@ export const ListsCards = ({ id, title, status, description }) => {
         }
     };
 
-    console.log(title);
-    
-
     return (
         <div className="col-12 col-lg-6 col-xxl-4 my-3 d-flex">
             <div className="card flex-fill d-flex flex-column p-2">
@@ -73,7 +70,7 @@ export const ListsCards = ({ id, title, status, description }) => {
                         className="card-text lh-sm card_lists_text"
                         onClick={() => navigate(`/list/${id}/tasks`)}
                     >
-                        {description || ""
+                        {description
                             .toLowerCase()
                             .replace(/(^\s*\w|\. \s*\w)/g, (match) => match.toUpperCase())}
                     </p>

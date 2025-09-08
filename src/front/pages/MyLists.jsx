@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 
 //hooks
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
@@ -11,6 +10,7 @@ import listServices from "../services/TaskList_API/listServices.js";
 import { CreateListBtn } from "../components/MyLists_Components/CreateListBtn.jsx";
 import { ListsCards } from "../components/MyLists_Components/ListsCards.jsx";
 import { SearchBar } from "../components/MyLists_Components/SearchBar";
+import { Link } from "react-router-dom";
 
 export const MyLists = () => {
     const { store, dispatch } = useGlobalReducer();
@@ -25,7 +25,7 @@ export const MyLists = () => {
 
     useEffect(() => {
         if (!store.token) {
-            const savedLists = localStorage.getItem("lists");
+            const savedLists = sessionStorage.getItem("lists");
             if (savedLists) {
                 dispatch({ type: "get_all_lists", payload: JSON.parse(savedLists) });
             }
