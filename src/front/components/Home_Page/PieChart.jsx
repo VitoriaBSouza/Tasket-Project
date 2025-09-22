@@ -12,8 +12,8 @@ export const PieChart = ({completed, pending}) => {
         datasets: [
             {
                 data: [completed, pending],
-                backgroundColor: ["#7FAEDB", "#ffc107"],
-                hoverBackgroundColor: ["#6393c0ff", "rgba(196, 147, 1, 1)"],
+                backgroundColor: ["#f45c27", "#4f8f8f"],
+                hoverBackgroundColor: ["#f45c27", "#447d7dff"],
                 borderWidth: 0,
             },
         ],

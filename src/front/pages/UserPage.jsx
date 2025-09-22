@@ -48,7 +48,7 @@ export const UserPage = () => {
                         pending={store.status?.pending || 0}
                     />
                 </div>
-                <div className="col-12 col-lg-6 mt-2">
+                <div className="col-12 col-lg-6 mt-2 p-5">
                     <div className="row">
                         <div className="col-12 col-md-6">
                             <p className="fs-5 user_page_subtitles m-0">Total tasks completed</p>
@@ -64,12 +64,12 @@ export const UserPage = () => {
             </div>
 
             <div className="row my-5">
-                <h2 className="m-4 title_rows_user_page w-75">Urgent Tasks</h2>
+                <h2 className="m-4 title_rows_user_page w-75 ms-5">Urgent Tasks</h2>
                 <div className="col-12 rows_user_page py-4">
                     <div className="scroll-container d-flex p-3">
                         {/* maping over urgent tasks to create cards based on the data */}
                         {(!store.urgent || store.urgent.length === 0) ? (
-                            <p className="fs-4">No urgent tasks. Add one now!</p>
+                            <p className="fs-4 ms-5">No urgent tasks. Add one now!</p>
                         ) : (
                             getRandomItems(store.urgent, 10).map((list) =>
                                 list.urgent_tasks?.map((task) => (
@@ -88,12 +88,12 @@ export const UserPage = () => {
             </div>
 
             <div className="row my-5">
-                <h2 className="m-4 title_rows_user_page w-75">Lists Pinned</h2>
+                <h2 className="m-4 title_rows_user_page w-75 ms-5">Lists Pinned</h2>
                 <div className="col-12 rows_user_page py-4">
                     <div className="scroll-container d-flex p-3">
                         {/* maping over pinned lists to create cards based on the data */}
                         {(!store.pinned || store.pinned.length === 0) ? (
-                            <p className="fs-4">No pinned lists yet. Add one!</p>
+                            <p className="fs-4 ms-5">No pinned lists yet. Add one!</p>
                         ) : (
                             getRandomItems(store.pinned, 10).map((el) => (
                                 <PinnedCards
@@ -104,8 +104,6 @@ export const UserPage = () => {
                                 />
                             ))
                         )}
-
-
                     </div>
                 </div>
             </div>

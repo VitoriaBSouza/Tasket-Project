@@ -90,7 +90,7 @@ export const TaskCard = (props) => {
                 dispatch({ type: "update_urgent_tag", payload: list });
             }
         }
-    };
+    };    
 
     return (
         <div className="accordion-item mb-3 bg-light">

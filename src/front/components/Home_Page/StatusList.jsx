@@ -55,8 +55,8 @@ export const StatusList = () => {
     };
 
     return (
-        <div className="row">
-            <p className="check_list_title">Check list status</p>
+        <div className="row bg-light">
+            <p className="check_list_title">Check list:</p>
             <div className="col-12 mb-4">
                 <input
                     type="text"
@@ -84,11 +84,11 @@ export const StatusList = () => {
                 )}
             </div>
             <div className="col-12 col-md-6">
-                <p className="fs-5 user_page_subtitles m-0">Total tasks completed</p>
+                <p className="fs-5 user_page_subtitles m-0">Tasks completed on the list</p>
                 <p className="fs-5">{store.status_by_list?.completed || 0}</p>
             </div>
             <div className="col-12 col-md-6">
-                <p className="fs-5 user_page_subtitles m-0">Total tasks pending</p>
+                <p className="fs-5 user_page_subtitles m-0">Tasks pending on the list</p>
                 <p className="fs-5">{store.status_by_list?.pending || 0}</p>
             </div>
         </div>

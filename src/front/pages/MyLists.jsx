@@ -60,7 +60,7 @@ export const MyLists = () => {
 
             <div className="row pb-5 px-3">
                 {!store.lists || store.lists.length === 0 ? (
-                    <p className="fs-4">No lists, create one now!</p>
+                    <p className="fs-4 ms-4">No lists, create one now!</p>
                 ) : (
                     store.lists
                         .slice(0, 14)

@@ -26,19 +26,21 @@ export const TaskPage = () => {
   const { id } = useParams();
   const { store, dispatch } = useGlobalReducer();
 
+  const currentList = store.lists.find((l) => String(l.id) === String(id));
+
   const getList = async () => {
     if (store.token) {
       const data = await listServices.getOneList(id);
 
       if (data.success) {
         //will delete from store after deling from backend
-        dispatch({ type: "get_one_list", payload: data.list });
+        dispatch({ type: "get_one_list", payload: data.list });              
       } else {
         showError(data.error || "List not found, please try again.");
       }
     } else {
       const list = store.lists.find((l) => String(l.id) === String(id));
-      dispatch({ type: "get_one_list", payload: list });
+      dispatch({ type: "get_one_list", payload: list });      
     }
   };
 
@@ -59,8 +61,7 @@ export const TaskPage = () => {
         showError("No lists found.");
       }
     }
-  }, [id]);
-
+  }, [id]);  
 
   return (
     <div className="container-fluid justify-content-center p-5">
@@ -69,8 +70,8 @@ export const TaskPage = () => {
         <div className="col-12 col-md-5 d-flex justify-content-end mt-2 ms-auto ps-4">
           <EditListBtn
             id={id}
-            title={store.list?.title}
-            description={store.list?.description}
+            title={currentList?.title}
+            description={currentList?.description}
           />
           <DeleteListBtn id={id} />
           <ClearAllTasksBtn id={id} />
@@ -81,9 +82,9 @@ export const TaskPage = () => {
 
       <div className="row rounded-top-3 p-5 d-flex justify-content-center bg_tasks_page">
         <div className="col-12 col-md-8 col-lg-6">
-          <div className="title_list p-1 lh-sm rounded-3 mx-auto">
-            {store.list?.title
-              ? store.list.title
+          <div className="title_list p-1 lh-sm rounded-3 mx-auto text-dark">
+            {currentList?.title
+              ? currentList?.title
                 .toLowerCase()
                 .replace(/(^\s*\w|\. \s*\w)/g, (match) => match.toUpperCase())
               : ""}
@@ -104,7 +105,7 @@ export const TaskPage = () => {
               className="counter_tasks_status_completed fw-bold d-flex 
                 align-items-center justify-content-center"
             >
-              {store.list?.tasks?.filter((t) => t.status === "completed")
+              {currentList?.tasks?.filter((t) => t.status === "completed")
                 .length || 0}
             </div>
             <div className="fs-6 fw-normal mt-1 text-center">Completed</div>
@@ -115,7 +116,7 @@ export const TaskPage = () => {
               className="counter_tasks_status_pending fw-bold d-flex 
                 align-items-center justify-content-center"
             >
-              {store.list?.tasks?.filter((t) => t.status === "pending")
+              {currentList?.tasks?.filter((t) => t.status === "pending")
                 .length || 0}
             </div>
             <div className="fs-6 fw-normal mt-1 text-center">Pending</div>
@@ -126,7 +127,7 @@ export const TaskPage = () => {
               className="counter_tasks_status_urgent fw-bold d-flex 
                 align-items-center justify-content-center"
             >
-              {store.list?.tasks?.filter((t) => t.urgent).length || 0}
+              {currentList?.tasks?.filter((t) => t.urgent).length || 0}
             </div>
             <div className="fs-6 fw-normal mt-1 text-center">Urgent</div>
           </div>
@@ -135,7 +136,7 @@ export const TaskPage = () => {
 
       <div className="row bg_tasks_page">
         <div className="col-12 m-2 d-flex justify-content-center">
-          <p className="fs-5">{store.list?.description}</p>
+          <p className="fs-5">{currentList?.description}</p>
         </div>
       </div>
 
@@ -145,10 +146,10 @@ export const TaskPage = () => {
           className="tasks_columns_masonry"
           columnClassName="tasks_column_masonry"
         >
-          {!store.list?.tasks || store.list?.tasks.length === 0 ? (
-            <p className="fs-4 p-4">No tasks on your list, add one now!</p>
+          {!currentList?.tasks || currentList?.tasks.length === 0 ? (
+            <p className="fs-4 p-4 ms-3">No tasks on your list, add one now!</p>
           ) : (
-            store.list.tasks
+            currentList.tasks
               .slice()
               .sort((a, b) => {
                 if (a.status === "completed" && b.status !== "completed") return 1;
@@ -162,7 +163,7 @@ export const TaskPage = () => {
                 <TaskCard
                   key={el.id}
                   id={el.id}
-                  list_id={store.list?.id}
+                  list_id={currentList?.id}
                   task={el.task}
                   status={el.status}
                   urgent={el.urgent}

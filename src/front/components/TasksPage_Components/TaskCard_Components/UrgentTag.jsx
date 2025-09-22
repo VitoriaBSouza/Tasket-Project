@@ -28,8 +28,6 @@ export const UrgentTag = ({ list_id, task_id, tag_urgent, status }) => {
             const data = await taskServices.updateUrgency(list_id, task_id, newUrgent);
 
             if (data.success) {
-                console.log(data.task);
-
                 dispatch({
                     type: "update_urgent_tag",
                     payload: {

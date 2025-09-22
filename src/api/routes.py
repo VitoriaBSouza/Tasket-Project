@@ -315,7 +315,7 @@ def get_lists():
     lists = db.session.execute(stm).scalars().all()
 
     if not lists:
-        return jsonify({"success": False, "error": "You have no lists yet, create one!"}), 404
+        return jsonify({"success": True, "error": "You have no lists yet, create one!"}), 200
 
     return jsonify({"success": True, "lists": [l.serialize() for l in lists]}), 200
 

@@ -101,11 +101,15 @@ export const AddTaskBtn = () => {
             let updatedLists = [];
 
             if (listExists) {
-                updatedLists = listsFromLocal.map(list =>
-                    list.id === newTask.list_id
-                        ? { ...list, tasks: [...(list.tasks || []), newTask] }
-                        : list
-                );
+                updatedLists = listsFromLocal.map(list => {
+                    if (list.id === newTask.list_id) {
+                        return {
+                            ...list,          // keep title, description, status, etc.
+                            tasks: [...(list.tasks || []), newTask] // only update tasks
+                        };
+                    }
+                    return list;
+                });
 
             } else {
                 updatedLists = [...listsFromLocal, { id: newTask.list_id, tasks: [newTask] }];
@@ -120,8 +124,6 @@ export const AddTaskBtn = () => {
             showSuccess("Task added successfully (guest)");
         };
     }
-
-    console.log(store.lists?.length);
 
     return (
         <>

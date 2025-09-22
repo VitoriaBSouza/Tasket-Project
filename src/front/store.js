@@ -11,7 +11,6 @@ export const initialStore = () => {
       return user && user !== "undefined" ? JSON.parse(user) : {};
     })(),
     lists: [],
-    list: [],
     tasks: [],
     urgent: [],
     pinned: [],
