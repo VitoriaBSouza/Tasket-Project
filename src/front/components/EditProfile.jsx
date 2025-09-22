@@ -10,6 +10,7 @@ import { showError, showSuccess } from "../services/toastService.js";
 export const EditProfile = () => {
 
     const { store, dispatch } = useGlobalReducer();
+    const formatForInput = (isoString) => isoString ? isoString.slice(0, 22) : "";
 
     const [formData, setFormData] = useState({
         email: "",
@@ -144,6 +145,8 @@ export const EditProfile = () => {
                     <div className="d-grid gap-2">
                         <button className="btn fs-5 border-0 signUp_btn py-3" type="submit">Update</button>
                     </div>
+
+                    <p className="text-end m-3 fs-5">{formatForInput(store.user?.updated_at)}</p>
                 </form>
             </div>
         </div>
