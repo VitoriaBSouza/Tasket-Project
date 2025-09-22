@@ -55,7 +55,7 @@ export const StatusList = () => {
     };
 
     return (
-        <div className="row bg-light">
+        <div className="row bg-light p-2">
             <p className="check_list_title">Check list:</p>
             <div className="col-12 mb-4">
                 <input
