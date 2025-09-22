@@ -70,7 +70,7 @@
 }
 
 .search{
-  width: 25rem;
+  max-width: 25rem;
 }
 
 .search_result{
