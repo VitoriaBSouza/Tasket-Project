@@ -14,7 +14,8 @@ export const EditProfile = () => {
     const [formData, setFormData] = useState({
         email: "",
         password: "",
-        username: ""
+        username: "",
+        photo_url:""
     })
 
     const [repeatPassword, setRepeatPassword] = useState("");
@@ -35,6 +36,18 @@ export const EditProfile = () => {
             [e.target.name]: e.target.value
         })
     }
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+            const base64Image = reader.result;
+            setFormData({...formData, photo_url: base64Image})
+        };
+        reader.readAsDataURL(file);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -73,6 +86,22 @@ export const EditProfile = () => {
             </div>
             <div className="col-11 col-sm-9 col-md-6 col-lg-5 border border-2 rounded p-4 mt-2 mb-5 mx-auto">
                 <form onSubmit={handleSubmit} className="p-4">
+                    <div className="mb-3 text-center">
+                        <label htmlFor="user_img_profile_form" className="form-label">
+                            <img
+                                src={store.user?.photo_url}
+                                alt="User"
+                                className="user_img_profile_page"
+                            />
+                        </label>
+                        <input 
+                        className="form-control w-50 mx-auto mt-3 d-none" 
+                        type="file" 
+                        name="photo_url"
+                        onChange={handleFileChange}
+                        id="user_img_profile_form"/>
+                    </div>
+
                     <div className="mb-3">
                         <label htmlFor="Username1" className="form-label fs-5">Username</label>
                         <input

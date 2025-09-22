@@ -58,25 +58,6 @@
   color: #228e7c;
 }
 
-.user_img {
-  border-radius: 50%;
-  min-width: 3rem;
-  max-width: 5rem;
-  min-height: 3rem;
-  max-height: 5rem;
-  object-fit: cover;
-  display: block;
-}
-
-.user_menu {
-  position: absolute !important;
-  top: 100%;
-  left: auto;
-  right: 0;
-  z-index: 1050;
-  width: 12rem;
-}
-
 @media (max-width: 48rem) {
   .title_hero {
     font-size: 3rem;
@@ -89,16 +70,6 @@
   }
   .btn_signUp_hero {
     font-size: 1.5rem;
-  }
-
-  .user_img {
-    border-radius: 50%;
-    min-width: 2rem;
-    max-width: 4rem;
-    min-height: 2rem;
-    max-height: 4rem;
-    object-fit: cover;
-    display: block;
   }
 }
 
