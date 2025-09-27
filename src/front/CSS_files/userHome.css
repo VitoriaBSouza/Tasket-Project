@@ -1,5 +1,11 @@
 /* User Page component */
 
+.profile_title {
+  color: #2a8c89;
+  font-weight: 700;
+  font-family: "Nunito", sans-serif;
+}
+
 .user_img {
   border-radius: 50%;
   min-width: 3rem;
@@ -12,12 +18,20 @@
 
 .user_img_profile_page {
   border-radius: 50%;
-  min-width: 7rem;
-  max-width: 9rem;
-  min-height: 7rem;
-  max-height: 9rem;
+  min-width: 10rem;
+  max-width: 12rem;
+  min-height: 10rem;
+  max-height: 12rem;
   object-fit: cover;
   display: block;
+}
+
+.hover_overlay {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.position-relative:hover .hover_overlay {
+  opacity: 1 !important;
 }
 
 .user_menu {

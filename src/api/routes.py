@@ -257,7 +257,10 @@ def update_user():
         placeholder_url = generate_placeholder(
             data.get("username", user.username))
         # If no foto added or foto is deleted then will use the placeholder
-        user.photo_url = data["photo_url"] or placeholder_url
+        if not data.get("photo_url"):
+            user.photo_url = placeholder_url
+        else:
+            user.photo_url = data["photo_url"]
 
     user.updated_at = datetime.now(timezone.utc)
 

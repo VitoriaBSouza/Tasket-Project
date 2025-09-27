@@ -3,6 +3,11 @@ import { useState, useEffect } from "react";
 //hooks
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
+//icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+
 //services
 import userServices from "../services/TaskList_API/userServices.js"
 import { showError, showSuccess } from "../services/toastService.js";
@@ -16,10 +21,11 @@ export const EditProfile = () => {
         email: "",
         password: "",
         username: "",
-        photo_url:""
+        photo_url: ""
     })
 
     const [repeatPassword, setRepeatPassword] = useState("");
+    const [preview, setPreview] = useState(null)
 
     useEffect(() => {
         if (store.user) {
@@ -45,10 +51,27 @@ export const EditProfile = () => {
         const reader = new FileReader();
         reader.onloadend = async () => {
             const base64Image = reader.result;
-            setFormData({...formData, photo_url: base64Image})
+            setPreview(base64Image);
+            setFormData({ ...formData, photo_url: base64Image })
         };
         reader.readAsDataURL(file);
     };
+
+    const handleDeletePhoto = async () => {
+        setPreview(null);
+        const updatedFormData = { ...formData, photo_url: "" };
+        setFormData(updatedFormData);
+
+        const data = await userServices.editUser(updatedFormData);
+        console.log(formData);
+    
+        if (data.success) {
+            dispatch({ type: "edit_profile", payload: data.user });
+            showSuccess("Your photo has been removed.")
+        } else {
+            showError(data.error || "Could not delete profile photo, try again.");
+        }
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -82,25 +105,51 @@ export const EditProfile = () => {
 
     return (
         <div className="row">
-            <div className="col-12 ps-md-5 text-center text-md-start">
-                <h1 className="mb-5 ms-md-5 forgot_title">My Profile</h1>
-            </div>
-            <div className="col-11 col-sm-9 col-md-6 col-lg-5 border border-2 rounded p-4 mt-2 mb-5 mx-auto">
-                <form onSubmit={handleSubmit} className="p-4">
+
+            <div className="col-11 col-sm-9 col-md-6 col-lg-5 mb-5 mx-auto">
+                <h1 className="mb-5 profile_title text-center
+                position-relative top-0 start-50 translate-middle w-75">
+                    My Profile
+                </h1>
+                <form onSubmit={handleSubmit} className="border border-2 rounded p-4 mt-2">
                     <div className="mb-3 text-center">
-                        <label htmlFor="user_img_profile_form" className="form-label">
-                            <img
-                                src={store.user?.photo_url}
-                                alt="User"
-                                className="user_img_profile_page"
+                        <div className="mb-3 text-center">
+                            <div className="position-relative d-inline-block">
+
+                                <img
+                                    src={preview ? preview : store.user?.photo_url}
+                                    alt="User"
+                                    className="user_img_profile_page"
+                                />
+
+                                <div className="position-absolute top-0 start-0 w-100 h-100 
+                                d-flex justify-content-center align-items-center bg-dark bg-opacity-75 
+                                opacity-0 hover_overlay transition user_img_profile_page">
+
+                                    <label htmlFor="user_img_profile_form" className="m-0" style={{ cursor: "pointer" }}>
+                                        <FontAwesomeIcon icon={faCamera} className="text-light me-3 fs-1" />
+                                    </label>
+
+                                    <button
+                                        type="button"
+                                        className="btn p-0 border-0 bg-transparent"
+                                        onClick={handleDeletePhoto}
+                                    >
+                                        <FontAwesomeIcon icon={faTrash} 
+                                        className="text-light fs-1" />
+                                    </button>
+                                </div>
+                            </div>
+
+                            <input
+                                className="form-control w-50 mx-auto mt-3 d-none"
+                                type="file"
+                                name="photo_url"
+                                onChange={handleFileChange}
+                                id="user_img_profile_form"
                             />
-                        </label>
-                        <input 
-                        className="form-control w-50 mx-auto mt-3 d-none" 
-                        type="file" 
-                        name="photo_url"
-                        onChange={handleFileChange}
-                        id="user_img_profile_form"/>
+                        </div>
+
                     </div>
 
                     <div className="mb-3">
