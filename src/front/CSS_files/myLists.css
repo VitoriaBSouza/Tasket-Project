@@ -14,7 +14,7 @@
 
 /* My Create Button classes */
 
-.create_btn {
+.create_list_btn {
   background-color: #f45c27;
   font-size: 1.3rem;
   font-weight: 600;
@@ -24,11 +24,26 @@
   transition: background-color 0.15s ease-in-out;
 }
 
-.create_btn:hover {
+.create_list_btn_disabled{
+  background-color: rgba(128, 128, 128, 0.749);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: white;
+  min-width: 10rem;
+  max-height: 3rem;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.create_list_btn_disabled:hover{
+  background-color: rgba(128, 128, 128, 0.749);
+  color: white;
+}
+
+.create_list_btn:hover {
   background-color: #c04316;
 }
 
-.create_btn:active {
+.create_list_btn:active {
   background-color: #c04316 !important;
   transition: none;
 }

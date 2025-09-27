@@ -12,6 +12,7 @@ import { showError, showSuccess } from "../../services/toastService.js";
 
 //components
 import { DeleteAllListsBtn } from "./DeleteAllListsBtn.jsx";
+import { PopOver } from "../PopOver.jsx";
 
 export const CreateListBtn = () => {
 
@@ -100,21 +101,42 @@ export const CreateListBtn = () => {
     return (
         <div className="col-12 col-sm-4 d-flex justify-content-end mt-2 ms-auto">
 
-            <button type="button"
-                className="btn rounded-pill create_btn mt-2 me-3"
-                data-bs-toggle="modal"
-                data-bs-target="#crateBtnModal"
-                data-bs-whatever="@mdo">
-                Create List
-            </button>
+            {store.lists?.length === 50 ?
+                <PopOver
+                    content={"You have reached the maximum number of lists. Please delete some lists to create new ones."}>
+                    <button type="button"
+                        className="btn create_list_btn_disabled rounded-pill mt-2 me-3">
+                        Create List
+                    </button>
+                </PopOver>
+                :
+                <button type="button"
+                    className="btn rounded-pill create_list_btn mt-2 me-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#crateBtnModal"
+                    data-bs-whatever="@mdo">
+                    Create List
+                </button>
+            }
+
+
 
             <DeleteAllListsBtn />
 
-            <div className="modal fade" id="crateBtnModal" tabIndex="-1" aria-labelledby="createBtnModalLabel" aria-hidden="true">
+            <div
+                className="modal fade"
+                id="crateBtnModal"
+                tabIndex="-1"
+                aria-labelledby="createBtnModalLabel"
+                aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content modal_bg">
                         <div className="modal-header">
-                            <h5 className="modal-title fw-bold fs-3 title_modal" id="createBtnModalLabel">New List</h5>
+                            <h5
+                                className="modal-title fw-bold fs-3 title_modal"
+                                id="createBtnModalLabel">
+                                New List
+                            </h5>
                             <button type="button"
                                 className="btn-close"
                                 data-bs-dismiss="modal"

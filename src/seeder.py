@@ -12,14 +12,14 @@ with app.app_context():
     print("Conectando a DB:", app.config['SQLALCHEMY_DATABASE_URI'])
     db.create_all()
 
-    # Clears all tables
+    # Clear all tables
     Task.query.delete()
     Pinned.query.delete()
     List.query.delete()
     User.query.delete()
     db.session.commit()
 
-    # Creats users
+    # Create 3 users
     users = [
         User(
             username=f"user{i+1}",
@@ -34,14 +34,14 @@ with app.app_context():
     db.session.add_all(users)
     db.session.commit()
 
-    # Creat lists
+    # Create 50 lists PER USER
     lists = []
     for user in users:
-        for j in range(2):
+        for i in range(50):
             new_list = List(
                 user_id=user.id,
-                title=f"List {j+1} of {user.username}",
-                description=f"Description for list {j+1}",
+                title=f"List {i+1} of {user.username}",
+                description=f"Description for list {i+1} of {user.username}",
                 status=ListStatus.pending,
                 created_at=datetime.now(timezone.utc),
                 updated_at=datetime.now(timezone.utc),
@@ -50,18 +50,18 @@ with app.app_context():
             lists.append(new_list)
     db.session.commit()
 
-    # Creat tasks with details
+    # Create 14 tasks per list
     tasks = []
     now = datetime.now(timezone.utc)
     sample_locations = ["Home", "Office", "Supermarket", "Gym"]
 
     for list_ in lists:
-        for k in range(3):
+        for k in range(14):
             new_task = Task(
                 list_id=list_.id,
                 task=f"Task {k+1} for {list_.title}",
                 location=choice(sample_locations),
-                due_at=(now + timedelta(days=k+1)).replace(microsecond=0).isoformat(),      # ISO 8601
+                due_at=(now + timedelta(days=k+1)).replace(microsecond=0).isoformat(),
                 schedule_at=(now + timedelta(days=k, hours=9)).replace(microsecond=0).isoformat(),
                 reminder_at=(now + timedelta(days=k, hours=8)).replace(microsecond=0).isoformat(),
                 status=TaskStatus.pending,
@@ -74,9 +74,9 @@ with app.app_context():
             tasks.append(new_task)
     db.session.commit()
 
-    # Pin first lists of each user
+    # Pin first 3 lists of first user
     first_user = users[0]
-    for list_ in lists[:2]:
+    for list_ in lists[:3]:
         pin = Pinned(
             user_id=first_user.id,
             list_id=list_.id,
@@ -85,4 +85,4 @@ with app.app_context():
         db.session.add(pin)
     db.session.commit()
 
-    print("✅ Seeder ejecutado correctamente con detalles en tasks.")
+    print("✅ Seeder ejecutado correctamente: 50 listas por usuario y 14 tareas cada una.")

@@ -63,7 +63,7 @@ export const MyLists = () => {
                     <p className="fs-4 ms-4">No lists, create one now!</p>
                 ) : (
                     store.lists
-                        .slice(0, 14)
+                        .slice(0, 50)
                         .map((el) => (
                             <ListsCards
                                 key={el.id}
