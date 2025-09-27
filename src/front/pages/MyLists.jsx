@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 //hooks
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
@@ -10,10 +11,23 @@ import listServices from "../services/TaskList_API/listServices.js";
 import { CreateListBtn } from "../components/MyLists_Components/CreateListBtn.jsx";
 import { ListsCards } from "../components/MyLists_Components/ListsCards.jsx";
 import { SearchBar } from "../components/MyLists_Components/SearchBar";
-import { Link } from "react-router-dom";
+import { Pagination } from "../components/Pagination.jsx";
+
+const itemsPerPage = 10;
 
 export const MyLists = () => {
     const { store, dispatch } = useGlobalReducer();
+
+    //Pagination variables
+    const lists = store.lists || [];
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const pageParam = parseInt(queryParams.get("page")) || 1;
+
+    const currentPage = pageParam;
+    const totalPages = Math.ceil(lists.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentItems = lists.slice(startIndex, startIndex + itemsPerPage);
 
     const getLists = async () => {
         listServices.getAllLists().then((data) => {
@@ -62,19 +76,23 @@ export const MyLists = () => {
                 {!store.lists || store.lists.length === 0 ? (
                     <p className="fs-4 ms-4">No lists, create one now!</p>
                 ) : (
-                    store.lists
-                        .slice(0, 50)
-                        .map((el) => (
-                            <ListsCards
-                                key={el.id}
-                                id={el.id}
-                                title={el.title}
-                                description={el.description}
-                                status={el.status}
-                            />
-                        ))
+                    currentItems.map((el) => (
+                        <ListsCards
+                            key={el.id}
+                            id={el.id}
+                            title={el.title}
+                            description={el.description}
+                            status={el.status}
+                        />
+                    ))
                 )}
             </div>
+
+            {/* <Pagination /> */}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                setCurrentPage={currentPage} />
         </div>
     );
 };

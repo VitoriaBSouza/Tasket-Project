@@ -143,3 +143,25 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 /* End of Search Bar components classes */
+
+/* My Pagination components classes */
+
+.page_item_list_link{
+  font-size: 1.3rem;
+  color: #f45c27;
+  font-weight: 600;
+  background-color: rgb(255, 255, 255);
+}
+
+.page_item_link:hover{
+  background-color: #228e7c75;
+  color: white;
+}
+
+.page_item_link:focus,
+.page_item_link:active{
+  background-color: #228e7c75;
+  color: white;
+  outline: none;
+  box-shadow: none;
+}
