@@ -91,6 +91,7 @@ export const AddTaskBtn = () => {
                 list_id: list_id,
                 ...taskData,
                 status: "Pending",
+                updated_at: new Date().toUTCString()
             };
 
             // Will get sessionStorage lists or show empty array
@@ -105,9 +106,16 @@ export const AddTaskBtn = () => {
                 // If exists will add the task to the list
                 updatedLists = listsFromLocal.map(list => {
                     if (list.id === newTask.list_id) {
+                        const taskWithDates = {
+                            ...newTask,
+                            // Need to cinvert to UTC string so we render date correcly
+                            schedule_at: newTask.schedule_at ? new Date(newTask.schedule_at).toUTCString() : "",
+                            due_at: newTask.due_at ? new Date(newTask.due_at).toUTCString() : "",
+                            reminder_at: newTask.reminder_at ? new Date(newTask.reminder_at).toUTCString() : "",
+                        };
                         return {
                             ...list,
-                            tasks: [...(list.tasks || []), newTask]
+                            tasks: [...(list.tasks || []), taskWithDates],
                         };
                     }
                     return list;
