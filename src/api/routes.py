@@ -799,6 +799,7 @@ def delete_one_task(list_id, task_id):
 
     # Delete tasks from list
     db.session.delete(task)
+    list.updated_at = datetime.now(timezone.utc)
 
     db.session.commit()
 

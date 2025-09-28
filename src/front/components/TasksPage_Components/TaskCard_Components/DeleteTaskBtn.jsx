@@ -13,6 +13,7 @@ import { faDeleteLeft } from "@fortawesome/free-solid-svg-icons";
 //services
 import taskServices from "../../../services/TaskList_API/taskServices.js";
 import { showError, showSuccess } from "../../../services/toastService.js";
+import listServices from "../../../services/TaskList_API/listServices.js";
 
 export const DeleteTaskBtn = (props) => {
 
@@ -25,13 +26,22 @@ export const DeleteTaskBtn = (props) => {
             const data = await taskServices.deleteOneTask(props.list_id, props.id);
 
             if (data.success) {
-                //will delete from store after deling from backend
-                dispatch({ type: "delete_one_task", payload: { id: props.list_id, task_id: props.id } });
-                showSuccess("Task deleted successfully.");
 
+                // Fetch updated lists to ensure state consistency
+                const updatedLists = await listServices.getAllLists();
+                if (updatedLists.success) {
+                    //will delete from store after deling from backend
+                    dispatch({ type: "delete_one_task", payload: { id: props.list_id, task_id: props.id } });
+                    // will update all lists in store
+                    dispatch({ type: "get_all_lists", payload: updatedLists.lists });
+                    showSuccess("Task deleted successfully.");
+                } else {
+                    showError(data.error || "Could not fetch updated lists, please refresh.");
+                }
             } else {
                 showError(data.error || "Task could not be deleted, please try again.");
             }
+
         } else {
 
             //Check session storage for list
