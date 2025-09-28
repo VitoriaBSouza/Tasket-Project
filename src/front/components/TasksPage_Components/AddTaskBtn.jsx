@@ -91,7 +91,8 @@ export const AddTaskBtn = () => {
                 list_id: list_id,
                 ...taskData,
                 status: "Pending",
-                updated_at: new Date().toUTCString()
+                updated_at: new Date().toUTCString(),
+                urgent: false,
             };
 
             // Will get sessionStorage lists or show empty array

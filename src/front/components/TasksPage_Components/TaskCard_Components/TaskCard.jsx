@@ -79,18 +79,49 @@ export const TaskCard = (props) => {
                 setTaskStatus(oldStatus);
             }
         } else {
-            const list = store.lists.find(
-                (l) => String(l.id) === String(props.list_id)
-            );
+
+            //Check session storage for list
+            const listsFromLocal = JSON.parse(sessionStorage.getItem("lists")) || [];
+
+            // Will update task status and set urgent to false if completed
+            const updatedLists = listsFromLocal.map(list => {
+                if (String(list.id) === String(props.list_id)) {
+                    const updatedTasks = (list.tasks || []).map(task => {
+                        if (task.id === props.id) {
+                            const newUrgent = newStatus === "completed" ? false : task.urgent;
+                            return {
+                                ...task,
+                                status: newStatus,
+                                urgent: newUrgent,
+                                updated_at: new Date().toUTCString()
+                            };
+                        }
+                        return task;
+                    });
+
+                    const allCompleted = updatedTasks.every(t => t.status === "completed");
+
+                    return { ...list, 
+                        tasks: updatedTasks, 
+                        updated_at: new Date().toUTCString(),
+                        status: allCompleted ? "completed" : list.status
+                    };
+                }
+                return list;
+            });
+
+            sessionStorage.setItem("lists", JSON.stringify(updatedLists));
+
             dispatch({
                 type: "update_task_status",
-                payload: list,
+                payload: updatedLists,
             });
-            if (list) {
-                dispatch({ type: "update_urgent_tag", payload: list });
+            if (listsFromLocal) {
+                dispatch({ type: "update_urgent_tag", payload: updatedLists });
             }
+            dispatch({ type: "get_all_lists", payload: updatedLists });
         }
-    };    
+    };
 
     return (
         <div className="accordion-item mb-3 bg-light">
