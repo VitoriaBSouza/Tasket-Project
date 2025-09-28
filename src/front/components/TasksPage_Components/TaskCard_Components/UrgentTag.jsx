@@ -41,9 +41,35 @@ export const UrgentTag = ({ list_id, task_id, tag_urgent, status }) => {
                 setUrgent(urgent);
             }
         } else {
-            const localList = store.lists.find(list => list.id === list_id);
-            if (localList) {
-                dispatch({ type: "update_urgent_tag", payload: localList });
+            //Check session storage for list
+            const listsFromLocal = JSON.parse(sessionStorage.getItem("lists")) || [];
+
+            // Will update task status and set urgent to false if completed
+            const updatedLists = listsFromLocal.map(list => {
+                if (String(list.id) === String(list_id)) {
+                    const updatedTasks = (list.tasks || []).map(task => {
+                        if (task.id === task_id) {
+                            return {
+                                ...task,
+                                urgent: newUrgent,
+                                updated_at: new Date().toUTCString()
+                            };
+                        }
+                        return task;
+                    });
+
+                    return { ...list, 
+                        tasks: updatedTasks, 
+                        updated_at: new Date().toUTCString()
+                    };
+                }
+                return list;
+            });
+
+            sessionStorage.setItem("lists", JSON.stringify(updatedLists));
+
+            if (listsFromLocal) {
+                dispatch({ type: "update_urgent_tag", payload: updatedLists });
             }
         }
     };
