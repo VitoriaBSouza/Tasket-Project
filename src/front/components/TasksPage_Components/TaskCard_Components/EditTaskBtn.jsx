@@ -20,12 +20,12 @@ export const EditTaskBtn = (props) => {
     const [taskData, setTaskData] = useState({
         id: "",
         list_id: "",
+        task: "",
         comment: "",
         due_at: "",
         schedule_at: "",
         reminder_at: "",
-        location: "",
-        task: "",
+        location: ""
     });
 
     useEffect(() => {
@@ -33,6 +33,7 @@ export const EditTaskBtn = (props) => {
             setTaskData({
                 id: props.id,
                 list_id: props.list_id,
+                task: props.task || "",
                 comment: props.comment,
                 due_at: props.due_at,
                 schedule_at: props.schedule_at,
@@ -79,6 +80,8 @@ export const EditTaskBtn = (props) => {
                 return;
             }
 
+            console.log(props.list_id);
+
             if (store.token) {
                 const data = await taskServices.updateTask(
                     props.list_id,
@@ -96,22 +99,44 @@ export const EditTaskBtn = (props) => {
                     );
                 }
             } else {
-                //will update on the session storage so it's saved
-                const updatedTask = store.lists.map((list) =>
-                    //will check if list exists before updating task details
-                    list.id === taskData.list_id
-                        ? {
+                //Check session storage for list
+                const listsFromLocal = JSON.parse(sessionStorage.getItem("lists")) || [];
+
+                // Will update task status and set urgent to false if completed
+                const updatedLists = listsFromLocal.map(list => {
+                    if (String(list.id) === String(props.list_id)) {
+                        const updatedTasks = (list.tasks || []).map(task => {
+                            if (task.id === props.id) {
+                                return {
+                                    ...task,
+                                    ...taskData,
+                                    // Need to convert to UTC string so we render date correcly
+                                    schedule_at: taskData.schedule_at ? new Date(taskData.schedule_at).toUTCString() : "",
+                                    due_at: taskData.due_at ? new Date(taskData.due_at).toUTCString() : "",
+                                    reminder_at: taskData.reminder_at ? new Date(taskData.reminder_at).toUTCString() : "",
+                                    updated_at: new Date().toUTCString()
+                                };
+                            }
+                            return task;
+                        });
+
+                        return {
                             ...list,
-                            tasks: list.tasks.map((task) =>
-                                task.id === taskData.id ? taskData : task
-                            ),
-                        }
-                        : list
-                );
+                            tasks: updatedTasks,
+                            updated_at: new Date().toUTCString()
+                        };
+                    }
+                    return list;
+                });
 
-                sessionStorage.setItem("lists", JSON.stringify(updatedTask));
+                sessionStorage.setItem("lists", JSON.stringify(updatedLists));
 
-                dispatch({ type: "edit_task", payload: updatedTask });
+                const updatedTask = updatedLists
+                    .find(l => String(l.id) === String(props.list_id))
+                    .tasks.find(t => t.id === props.id);
+
+                dispatch({ type: "edit_task", payload: { ...updatedTask, list_id: props.list_id, id: props.id } });
+                dispatch({ type: "get_all_lists", payload: updatedLists });
                 showSuccess("List updated successfully.");
                 closeModal();
             }
@@ -170,8 +195,8 @@ export const EditTaskBtn = (props) => {
                                         className="form-control fs-5"
                                         id="task-title"
                                         name="task"
-                                        required
                                         value={taskData.task || ""}
+                                        required
                                         onChange={handleChange}
                                     />
                                 </div>

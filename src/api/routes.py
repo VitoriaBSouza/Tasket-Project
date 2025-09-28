@@ -661,23 +661,31 @@ def get_user_lists_with_urgent_tasks():
 
     user_id = get_jwt_identity()
     # Check all urgent lists with urgent tasks
-    stm = stm = stm = (select(List).join(Task)
-                       .where(Task.urgent.is_(True))
-                       .where(List.user_id == user_id).distinct())
+    stm = (
+        select(List)
+        .join(Task)
+        .where(Task.urgent.is_(True))
+        .where(List.user_id == user_id)
+        .distinct()
+    )
+    urgent_lists = db.session.execute(stm).scalars().all()
 
-    urgent = db.session.execute(stm).scalars().all()
-
-    if not urgent:
+    if not urgent_lists:
         return jsonify({"success": True, "urgent": []}), 200
 
     result = []
 
     # From each list will filter the urgent tasks and serialize it
-    for lst in urgent:
+    for lst in urgent_lists:
         urgent_tasks = [task.serialize() for task in lst.tasks if task.urgent]
+
+
+        base = lst.serialize()
+        base.pop("tasks", None)
+
         result.append({
-            **lst.serialize(),
-            "urgent_tasks": urgent_tasks
+            **base,
+            "urgent_tasks": urgent_tasks,
         })
 
     return jsonify({"success": True, "urgent": result}), 200

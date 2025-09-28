@@ -172,7 +172,7 @@ export const TaskCard = (props) => {
                         <EditTaskBtn
                             key={props.id}
                             id={props.id}
-                            list_id={store.list?.id}
+                            list_id={props.list_id}
                             task={props.task}
                             status={props.status}
                             urgent={props.urgent}
