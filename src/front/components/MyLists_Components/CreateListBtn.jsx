@@ -23,6 +23,8 @@ export const CreateListBtn = () => {
         description: ""
     })
 
+    const demoListsLimit = () => store.token ? 50 : 2;
+
     //This will limit the words for the title and description
     //On the backend we also have limited but in case it is a guest we had to limit on the frontend again.
     const handleChange = (e) => {
@@ -101,7 +103,7 @@ export const CreateListBtn = () => {
     return (
         <div className="col-12 col-sm-4 d-flex justify-content-end mt-2 ms-auto">
 
-            {store.lists?.length === 50 ?
+            {store.lists?.length === demoListsLimit() ?
                 <PopOver
                     content={"You have reached the maximum number of lists. Please delete some lists to create new ones."}>
                     <button type="button"
@@ -118,8 +120,6 @@ export const CreateListBtn = () => {
                     Create List
                 </button>
             }
-
-
 
             <DeleteAllListsBtn />
 
