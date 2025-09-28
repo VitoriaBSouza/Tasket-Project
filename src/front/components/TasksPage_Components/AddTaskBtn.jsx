@@ -108,7 +108,7 @@ export const AddTaskBtn = () => {
                     if (list.id === newTask.list_id) {
                         const taskWithDates = {
                             ...newTask,
-                            // Need to cinvert to UTC string so we render date correcly
+                            // Need to convert to UTC string so we render date correcly
                             schedule_at: newTask.schedule_at ? new Date(newTask.schedule_at).toUTCString() : "",
                             due_at: newTask.due_at ? new Date(newTask.due_at).toUTCString() : "",
                             reminder_at: newTask.reminder_at ? new Date(newTask.reminder_at).toUTCString() : "",
@@ -116,6 +116,7 @@ export const AddTaskBtn = () => {
                         return {
                             ...list,
                             tasks: [...(list.tasks || []), taskWithDates],
+                            updated_at: new Date().toUTCString()
                         };
                     }
                     return list;
@@ -124,12 +125,11 @@ export const AddTaskBtn = () => {
 
             //Will save updated list to session storage
             sessionStorage.setItem("lists", JSON.stringify(updatedLists));
-            console.log(updatedLists);
 
             // Update store so UI reflects immediately
             dispatch({ type: "get_all_lists", payload: updatedLists });
             closeModal();
-            showSuccess("Task added successfully (guest)");
+            showSuccess("Task added successfully");
             setTaskData({
                 comment: "",
                 due_at: "",

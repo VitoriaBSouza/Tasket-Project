@@ -33,7 +33,27 @@ export const DeleteTaskBtn = (props) => {
                 showError(data.error || "Task could not be deleted, please try again.");
             }
         } else {
+
+            //Check session storage for list
+            const listsFromLocal = JSON.parse(sessionStorage.getItem("lists")) || [];
+
+            // Will delete task from list
+            const updatedLists = listsFromLocal.map(list => {
+                if (Number(list.id) === props.list_id) {
+                    return {
+                        ...list,
+                        tasks: (list.tasks || []).filter(task => task.id !== props.id),
+                        updated_at: new Date().toUTCString()
+                    };
+                }
+                return list;
+            });
+
+            // Will save the new updated list on session storage
+            sessionStorage.setItem("lists", JSON.stringify(updatedLists));
+
             dispatch({ type: "delete_one_task", payload: { id: props.list_id, task_id: props.id } });
+            dispatch({ type: "get_all_lists", payload: updatedLists });
             showSuccess("Task deleted successfully.");
         }
 

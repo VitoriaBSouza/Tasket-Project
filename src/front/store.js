@@ -197,11 +197,11 @@ export default function storeReducer(store, action = {}) {
     case "delete_one_task":
       return {
         ...store,
-        lists: store.lists.filter((list) =>
+        lists: store.lists.map((list) =>
           list.id === action.payload.list_id
             ? {
                 ...list,
-                tasks: list.tasks.filter(
+                tasks: (list.tasks || []).filter(
                   (task) => task.id !== action.payload.task_id
                 ),
               }
