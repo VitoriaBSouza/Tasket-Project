@@ -172,7 +172,7 @@ export const EditListButton = ({ list }) => {
                     id="recipient-name"
                     name="title"
                     required
-                    value={formData.title}
+                    value={formData.title || ""}
                     onChange={handleChange}
                   />
                 </div>
@@ -188,7 +188,7 @@ export const EditListButton = ({ list }) => {
                     className="form-control fs-5"
                     id="recipient-name"
                     name="description"
-                    value={formData.description}
+                    value={formData.description || ""}
                     onChange={handleChange}
                   />
                 </div>

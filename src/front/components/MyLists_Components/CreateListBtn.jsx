@@ -83,6 +83,7 @@ export const CreateListBtn = () => {
                     id: Date.now(),
                     ...formData,
                     status: "Pending",
+                    tasks: []
                 };
                 dispatch({ type: "add_list", payload: newList });
 

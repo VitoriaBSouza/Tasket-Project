@@ -41,11 +41,16 @@ export const ListsCards = ({ id, title, status, description }) => {
             <div className="card flex-fill d-flex flex-column p-2">
                 <div className="card-body">
                     <div className="d-flex my-2 align-items-center">
-                        <h5 className="card-title fw-bold card_lists_title">
-                            {title
-                                .toLowerCase()
-                                .replace(/(^\s*\w|\. \s*\w)/g, (match) => match.toUpperCase())}
-                        </h5>
+                        <div className="card-title fw-bold card_lists_title">
+                            <h5 className="card-title fw-bold card_lists_title">
+                                {title
+                                    ? title
+                                        .toLowerCase()
+                                        .replace(/(^\s*\w|\. \s*\w)/g, (match) => match.toUpperCase())
+                                    : ""}
+                            </h5>
+
+                        </div>
                         <div
                             className="btn-group ms-auto me-2"
                             role="group"
@@ -66,14 +71,19 @@ export const ListsCards = ({ id, title, status, description }) => {
                     </div>
 
                     {/* Will capitalize the first letter and after period. */}
-                    <p
+                    <div
                         className="card-text lh-sm card_lists_text"
                         onClick={() => navigate(`/list/${id}/tasks`)}
                     >
-                        {description
-                            .toLowerCase()
-                            .replace(/(^\s*\w|\. \s*\w)/g, (match) => match.toUpperCase())}
-                    </p>
+                        <h5 className="card-title fw-bold card_lists_title">
+                            {description
+                                ? description
+                                    .toLowerCase()
+                                    .replace(/(^\s*\w|\. \s*\w)/g, (match) => match.toUpperCase())
+                                : ""}
+                        </h5>
+
+                    </div>
                 </div>
             </div>
         </div>

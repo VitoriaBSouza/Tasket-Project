@@ -18,9 +18,10 @@ import { PopOver } from "../PopOver.jsx";
 export const AddTaskBtn = () => {
 
     const { id } = useParams();
+    const list_id = Number(id)
 
     const [taskData, setTaskData] = useState({
-        list_id: id || "",
+        list_id: list_id || "",
         comment: "",
         due_at: "",
         schedule_at: "",
@@ -31,7 +32,7 @@ export const AddTaskBtn = () => {
 
     const { store, dispatch } = useGlobalReducer();
 
-    const currentList = store.lists?.find(l => l.id === Number(id));
+    const currentList = store.lists?.find(l => l.id === list_id);
     const tasksCount = currentList?.tasks?.length || 0;
 
     // Will close the modal once we click on submit button
@@ -84,44 +85,51 @@ export const AddTaskBtn = () => {
                 showError(data.error || "Task could not be added, please try again.");
             }
         } else {
-            // Guest user: store task in sessionStorage
+
             const newTask = {
                 id: Date.now(),
-                list_id: Number(id),
+                list_id: list_id,
                 ...taskData,
                 status: "Pending",
             };
 
-            // Get current lists
+            // Will get sessionStorage lists or show empty array
             const listsFromLocal = JSON.parse(sessionStorage.getItem("lists")) || [];
 
-            // Check if list exists
+            // Check if the list exists in local storage
             const listExists = listsFromLocal.some(list => list.id === newTask.list_id);
 
             let updatedLists = [];
 
             if (listExists) {
+                // If exists will add the task to the list
                 updatedLists = listsFromLocal.map(list => {
                     if (list.id === newTask.list_id) {
                         return {
-                            ...list,          // keep title, description, status, etc.
-                            tasks: [...(list.tasks || []), newTask] // only update tasks
+                            ...list,
+                            tasks: [...(list.tasks || []), newTask]
                         };
                     }
                     return list;
                 });
-
-            } else {
-                updatedLists = [...listsFromLocal, { id: newTask.list_id, tasks: [newTask] }];
             }
 
-            // After updating localStorage
+            //Will save updated list to session storage
             sessionStorage.setItem("lists", JSON.stringify(updatedLists));
+            console.log(updatedLists);
 
             // Update store so UI reflects immediately
             dispatch({ type: "get_all_lists", payload: updatedLists });
             closeModal();
             showSuccess("Task added successfully (guest)");
+            setTaskData({
+                comment: "",
+                due_at: "",
+                schedule_at: "",
+                reminder_at: "",
+                location: "",
+                task: "",
+            });
         };
     }
 
